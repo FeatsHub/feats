@@ -1,4 +1,3 @@
-import user.filters as user_filter
 import user.models as user_models
 import user.serializers as user_serializers
 from django.contrib.auth import authenticate, login, logout
@@ -10,76 +9,34 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.schemas import SchemaGenerator
 from drf_spectacular.utils import extend_schema
 from utils.views import ModelViewSet
-from rest_framework.decorators import permission_classes, authentication_classes
-from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
+from rest_framework.permissions import AllowAny, IsAuthenticated, DjangoModelPermissions
 from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.exceptions import APIException
 
 
 class UserView(ModelViewSet):
-    queryset = user_models.User.objects.all().order_by('-date_joined')
+    queryset = user_models.User.objects.all()
     serializer_class = user_serializers.UserSerializer
 
-    filterset_class = user_filter.UserFilter
-    search_fields = ('first_name', 'last_name', 'email', 'is_active', 'department')
-    ordering_fields = ('first_name', 'last_name', 'date_joined')
-
     def get_permissions(self):
-        if self.action in ('register', 'login'):
+        no_permission_views = (
+            'create',
+            'login',
+            'logout',
+            'reset_password',
+            'change_password',
+            'reset_confirm_password',
+            'check_email',
+            'check_username'
+        )
+        if self.action in no_permission_views:
             return (AllowAny(), )
-        return self.permission_classes
-
-    @extend_schema(
-        request=user_serializers.UserSerializer,
-        responses={201: user_serializers.UserSerializer}
-    )
-    @action(detail=False, methods=['post'])
-    def register(self, request, *args, **kwargs):
-        """ User register view """
-        super().create(request, *args, **kwargs)
-
-    @extend_schema(
-        request=user_serializers.UserLoginSerializer,
-        responses={200: user_serializers.UserLoginSerializer}
-    )
-    @action(detail=False, methods=['post'])
-    def login(self, request, *args, **kwargs):
-        """ User login """
-        username = request.data.get('username', None)
-        password = request.data.get('password', None)
-        LOGIN_BLOCKED_MSG = "Login Blocked. Please contact the administrator for assistance"
-
-        # Check if the user has a password
-        user = user_models.User.objects.filter(username=username).first()
-        if user is None or user.password is None:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data=["Invalid credentials"])
-
-        user = authenticate(username=username, password=password)
-
-        if user is None or not user.is_active:
-            # Authentication fail and saving bad login attempt
-            try:
-                user = user_models.User.objects.get(username=username)
-                if user.has_login_blocked:
-                    return Response(status=status.HTTP_400_BAD_REQUEST, data=[LOGIN_BLOCKED_MSG])
-                user.login_attempts = user.login_attempts + 1
-                user.last_bad_login_attempt_datetime = timezone.now()
-                user.save()
-            except:
-                pass
-            return Response(status=status.HTTP_400_BAD_REQUEST, data=["Invalid credentials"])
-
-        if user.has_login_blocked:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data=[LOGIN_BLOCKED_MSG])
-
-        login(request=request, user=user)
-
-        # Reset login_attempts when user login correctly
-        if user.login_attempts >= 1:
-            user.login_attempts = 0
-            user.save()
-
-        return Response(status=status.HTTP_200_OK, data=user_serializers.UserLoginSerializer(user,context={"request": request}).data)
+        elif self.action in ['permissions']:
+            return (IsAuthenticated(), )
+        else:
+            return (DjangoModelPermissions(), )
 
     @extend_schema(
         request=user_serializers.UserLoginSerializer,
@@ -87,16 +44,78 @@ class UserView(ModelViewSet):
     )
     @action(detail=False, methods=['post'])
     def logout(self, request, *args, **kwargs):
-        """ User logout """
         logout(request=request)
         return Response(status=status.HTTP_200_OK)
 
-    @permission_classes([AllowAny])
+    @extend_schema(
+        request=user_serializers.CheckEmailSerializer,
+        responses={200: user_serializers.CheckUserResponse}
+    )
+    @action(detail=False, methods=['post'])
+    def check_email(self, request, *args, **kwargs):
+        email = request.data.get('email', None)
+        serializer = user_serializers.CheckUserResponse(data={
+            'exists': self.queryset.filter(email=email).exists()
+        })
+        serializer.is_valid(raise_exception=True)
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+    @extend_schema(
+        request=user_serializers.CheckUsernameSerializer,
+        responses={200: user_serializers.CheckUserResponse}
+    )
+    @action(detail=False, methods=['post'])
+    def check_username(self, request, *args, **kwargs):
+        username = request.data.get('username', None)
+        if username is not None:
+            serializer = user_serializers.CheckUserResponse(data={
+                'exists': self.queryset.filter(username=username).exists()
+            })
+            serializer.is_valid(raise_exception=True)
+            return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+    @extend_schema(
+        request=user_serializers.UserLoginSerializer,
+        responses={200: user_serializers.UserLoginSerializer}
+    )
+    @action(detail=False, methods=['post'])
+    def login(self, request, *args, **kwargs):
+        """ User login view """
+        email = request.data.get('email', None)
+        password = request.data.get('password', None)
+
+        user = authenticate(email=email, password=password)
+
+        if user is None:
+            # Invalid login
+            saved_user = user_models.User.objects.filter(email=email).first()
+            if saved_user is not None:
+
+                if saved_user.has_login_blocked or not saved_user.is_active:
+                    return Response(status=status.HTTP_400_BAD_REQUEST, data=["Login Blocked. Please contact the administrator for assistance"])
+
+                # User exists +1 login attempt
+                saved_user.login_attempts = saved_user.login_attempts + 1
+                saved_user.last_bad_login_attempt_datetime = timezone.now()
+                saved_user.save()
+
+            return Response(status=status.HTTP_400_BAD_REQUEST, data=["Invalid credentials"])
+        else:
+            if user.has_login_blocked or not user.is_active:
+                return Response(status=status.HTTP_400_BAD_REQUEST, data=["Login Blocked. Please contact the administrator for assistance"])
+
+            # Restore login attempts when login correctly
+            if user.login_attempts >= 1:
+                user.login_attempts = 0
+                user.save()
+
+        return Response(status=status.HTTP_200_OK, data=user_serializers.UserLoginSerializer(instance=user).data)
+
     @extend_schema(
         request=user_serializers.EmailSerializer,
     )
     @action(detail=False, methods=['post'])
-    def request_reset_password(self, request, *args, **kwargs):
+    def reset_password(self, request):
         """
         Reset password
         """

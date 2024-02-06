@@ -9,15 +9,16 @@ from user import models as user_models
 from utils.serializers import DynamicModelSerializer
 
 from drf_spectacular.utils import extend_schema_field
+from rest_framework.authtoken.models import Token
 
 
 class UserSerializer(DynamicModelSerializer):
-    has_login_blocked = serializers.BooleanField()
 
     class Meta:
         model = user_models.User
         fields = (
             'id',
+            'password',
             'username',
             'email',
             'first_name',
@@ -32,31 +33,41 @@ class UserSerializer(DynamicModelSerializer):
         )
         read_only_fields = (
             'id',
-            'username',
             'date_joined',
             'deactivation_datetime',
-            'login_attempts', # TODO: Administrator only can update login attempts
             'last_bad_login_attempt_datetime',
             'has_login_blocked',
         )
 
 
+class CheckUsernameSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+
+
+class CheckEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+
+
+class CheckUserResponse(serializers.Serializer):
+    exists = serializers.BooleanField()
+
+
 class UserLoginSerializer(serializers.ModelSerializer):
-    csrftoken = serializers.SerializerMethodField(read_only=True)
+    token = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = user_models.User
         fields = (
-            'username',
+            'email',
             'password',
-            'csrftoken'
+            'token'
         )
 
     @extend_schema_field(field=serializers.IntegerField)
-    def get_csrftoken(self, data):
-        request = self.context["request"]
-        csrftoken = csrf.get_token(request)
-        return csrftoken
+    def get_token(self, user):
+        print(type(user))
+        token, created = Token.objects.get_or_create(user=user)
+        return token.key
 
 
 class EmailSerializer(serializers.Serializer):

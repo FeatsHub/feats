@@ -31,9 +31,7 @@ SECRET_KEY = config(
 )
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-# ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS", cast=Csv(), default="*")
-ALLOWED_HOSTS = ['192.168.1.35', 'localhost', '127.0.0.1']
-
+ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS", cast=Csv(), default="*")
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
@@ -83,15 +81,17 @@ PASSWORD_HASHERS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'drf_yasg.middleware.SwaggerExceptionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -165,10 +165,10 @@ AUTH_PASSWORD_VALIDATORS = [
             'min_length': 8, 
         }
      },
-    {'NAME': 'user.validators.NumberValidator', },
-    {'NAME': 'user.validators.UppercaseValidator', },
-    {'NAME': 'user.validators.LowercaseValidator', },
-    {'NAME': 'user.validators.SymbolValidator', },
+    {'NAME': 'utils.validators.NumberValidator', },
+    {'NAME': 'utils.validators.UppercaseValidator', },
+    {'NAME': 'utils.validators.LowercaseValidator', },
+    {'NAME': 'utils.validators.SymbolValidator', },
     {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',},
 ]
 
@@ -202,18 +202,21 @@ SWAGGER_SETTINGS = {
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         
     ],
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
-    "PAGE_SIZE": 10,
-    "DEFAULT_FILTER_BACKENDS": [
-        "rest_framework.filters.SearchFilter",
-        "django_filters.rest_framework.DjangoFilterBackend",
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
     ],
-    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    "TEST_REQUEST_DEFAULT_FORMAT": "json",
+    'DEFAULT_FILTER_BACKENDS': [
+        'rest_framework.filters.SearchFilter',
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.OrderingFilter'
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 }
 
 MAX_LOGIN_ATTEMPTS = 5
