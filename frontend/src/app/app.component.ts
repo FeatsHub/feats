@@ -9,7 +9,7 @@ import { Router, NavigationEnd } from '@angular/router';
 export class AppComponent {
 
   pagesWithTabs = [
-    '/plates'
+    '/plates',
   ]
   showTabs = true
 
