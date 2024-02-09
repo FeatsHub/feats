@@ -7,9 +7,11 @@ import { RecipeRoutingModule } from './recipe-routing.module';
 import { RecipeFormPage } from './recipe-form/recipe-form.page';
 import { RecipeListPage } from './recipe-list/recipe-list.page';
 import { ImagePickerComponent } from 'src/app/components/image-picker/image-picker.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
+    RouterModule,
     IonicModule,
     CommonModule,
     FormsModule,

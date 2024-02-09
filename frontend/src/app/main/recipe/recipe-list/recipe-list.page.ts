@@ -15,6 +15,7 @@ export class RecipeListPage implements OnInit {
   selectedCategory: number | undefined = undefined
   search: string | undefined = undefined
   loaded = false
+  categoriesLoaded = false
 
   constructor(
     private _loadingCtrl: LoadingController,
@@ -33,6 +34,7 @@ export class RecipeListPage implements OnInit {
     this._recipeCategoryService.recipeCategoryList().subscribe({
       next: (recipeCategories) => {
         this.recipeCategories = recipeCategories.results!
+        this.categoriesLoaded = true
       },
       error: (e) => console.error(e),
       complete: () => {

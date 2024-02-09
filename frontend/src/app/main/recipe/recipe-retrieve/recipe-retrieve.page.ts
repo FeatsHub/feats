@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
-import { Subscription, expand } from 'rxjs';
+import { AlertController, LoadingController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { Recipe } from 'src/api/models';
 import { RecipeService } from 'src/api/services';
 
@@ -29,34 +29,12 @@ export class RecipeDetailPage implements OnInit {
     time: 0,
   }
 
-  public alertButtons = [
-    {
-      text: 'No',
-      role: 'cancel',
-      handler: () => {
-      },
-    },
-    {
-      text: 'Sí',
-      role: 'confirm',
-      handler: () => {
-        this._recipeService.recipeDestroy$Response({id: this.recipe.id}).subscribe({
-          next: (response) => {
-          },
-          error: (e) => console.error(e),
-          complete: () => {
-            this._router.navigate(['/plates']);
-          }
-        });
-      },
-    },
-  ];
-
   constructor(
     private _loadingCtrl: LoadingController,
     private _recipeService: RecipeService,
     private _route: ActivatedRoute,
     private _router: Router,
+    private _alertController: AlertController
   ) {}
 
   async ngOnInit() {
@@ -82,13 +60,35 @@ export class RecipeDetailPage implements OnInit {
     })
   }
 
-  ionViewWillEnter() {
-    // Oculta la barra de pestañas al entrar en la página 'About'
-    document.querySelector('ion-tab-bar')!.style.display = 'none';
+  async presentDeleteAlert() {
+    const _alert = await this._alertController.create({
+      header: 'Delete Alert',
+      message: 'Are you sure you want to delete?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+          },
+        },
+        {
+          text: 'Sí',
+          role: 'confirm',
+          handler: () => {
+            this._recipeService.recipeDestroy$Response({id: this.recipe.id}).subscribe({
+              next: (response) => {
+              },
+              error: (e) => console.error(e),
+              complete: () => {
+                this._router.navigate(['/plates']);
+              }
+            });
+          },
+        },
+      ]
+    });
+
+    await _alert.present();
   }
 
-  ionViewWillLeave() {
-    // Muestra la barra de pestañas al salir de la página 'About'
-    document.querySelector('ion-tab-bar')!.style.display = 'flex';
-  }
 }

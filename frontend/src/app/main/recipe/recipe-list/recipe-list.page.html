@@ -26,24 +26,26 @@
         {{category.name}}
       </ion-chip>
       <!-- Skeleton Categories chip -->
-      <ion-chip [outline]="true">
-        <ion-skeleton-text [animated]="true" style="width: 40px;"></ion-skeleton-text>
-      </ion-chip>
-      <ion-chip [outline]="true">
-        <ion-skeleton-text [animated]="true" style="width: 70px;"></ion-skeleton-text>
-      </ion-chip>
-      <ion-chip [outline]="true">
-        <ion-skeleton-text [animated]="true" style="width: 50px;"></ion-skeleton-text>
-      </ion-chip>
-      <ion-chip [outline]="true">
-        <ion-skeleton-text [animated]="true" style="width: 40px;"></ion-skeleton-text>
-      </ion-chip>
-      <ion-chip [outline]="true">
-        <ion-skeleton-text [animated]="true" style="width: 50px;"></ion-skeleton-text>
-      </ion-chip>
-      <ion-chip [outline]="true">
-        <ion-skeleton-text [animated]="true" style="width: 50;"></ion-skeleton-text>
-      </ion-chip>
+      <div *ngIf="!categoriesLoaded">
+        <ion-chip [outline]="true">
+          <ion-skeleton-text [animated]="true" style="width: 40px;"></ion-skeleton-text>
+        </ion-chip>
+        <ion-chip [outline]="true">
+          <ion-skeleton-text [animated]="true" style="width: 70px;"></ion-skeleton-text>
+        </ion-chip>
+        <ion-chip [outline]="true">
+          <ion-skeleton-text [animated]="true" style="width: 50px;"></ion-skeleton-text>
+        </ion-chip>
+        <ion-chip [outline]="true">
+          <ion-skeleton-text [animated]="true" style="width: 40px;"></ion-skeleton-text>
+        </ion-chip>
+        <ion-chip [outline]="true">
+          <ion-skeleton-text [animated]="true" style="width: 50px;"></ion-skeleton-text>
+        </ion-chip>
+        <ion-chip [outline]="true">
+          <ion-skeleton-text [animated]="true" style="width: 50;"></ion-skeleton-text>
+        </ion-chip>
+      </div>
     </div>
   </ion-toolbar>
 </ion-header>
