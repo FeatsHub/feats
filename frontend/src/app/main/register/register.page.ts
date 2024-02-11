@@ -82,7 +82,8 @@ export class RegisterPage implements OnInit {
           {
             email: this.userForm.get('email')!.value,
             password: this.userForm.get('password')!.value,
-            token: -1
+            token: -1,
+            id: -1
           }}).subscribe({
           next: (response) => {
           },

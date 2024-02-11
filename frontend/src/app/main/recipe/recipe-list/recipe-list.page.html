@@ -4,10 +4,8 @@
       Recetas
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button>
-        <a [routerLink]="['/recipes/new']" router-direction="forward">
-          <ion-icon style="font-size: 30px;" name="add-outline"></ion-icon>
-        </a>
+      <ion-button [routerLink]="['/recipes/new']">
+        <ion-icon style="font-size: 30px;" name="add-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -54,7 +52,7 @@
 
   <ion-list lines="none">
     <ion-item *ngFor="let recipe of recipes">
-      <ion-card [routerLink]="['/recipes/'+recipe.id]" class="plate-item">
+      <ion-card router-direction="forward" [routerLink]="['/recipes', recipe.id]" class="plate-item">
         <ion-ripple-effect></ion-ripple-effect>
         <div
           class="plate-image"
@@ -75,12 +73,21 @@
           <ion-grid>
             <ion-row>
               <ion-col>
-                <ion-icon name="bug"></ion-icon>
-                <ion-icon name="bug"></ion-icon>
-                <ion-icon name="bug"></ion-icon>
+                🍖 🌾 🥚 🦀
               </ion-col>
               <ion-col size="auto">
-                <ion-icon name="bookmark-outline"></ion-icon>
+                <ion-button fill="clear" (click)="saveRecipe(recipe.id)">
+                  <ion-icon
+                    *ngIf="!recipe.saved_by.includes(userId)"
+                    slot="icon-only"
+                    name="bookmark-outline">
+                  </ion-icon>
+                  <ion-icon
+                    *ngIf="recipe.saved_by.includes(userId)"
+                    slot="icon-only"
+                    name="bookmark">
+                  </ion-icon>
+                </ion-button>
               </ion-col>
             </ion-row>
           </ion-grid>

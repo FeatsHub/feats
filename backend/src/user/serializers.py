@@ -60,7 +60,11 @@ class UserLoginSerializer(serializers.ModelSerializer):
         fields = (
             'email',
             'password',
-            'token'
+            'token',
+            'id'
+        )
+        read_only_fields = (
+            'id',
         )
 
     @extend_schema_field(field=serializers.IntegerField)

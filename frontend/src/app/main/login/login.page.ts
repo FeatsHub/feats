@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import {UserService} from "../../../api/services/user.service";
 import { UserLogin } from 'src/api/models';
 import { LoadingController, ToastController } from '@ionic/angular';
-import { RegisterPage } from '../register/register.page';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,7 +13,6 @@ import { Router } from '@angular/router';
 export class LoginPage implements OnInit {
 
   loginForm: FormGroup
-  register = RegisterPage
   hasError = false
   errorMessage = ''
 
@@ -30,7 +28,7 @@ export class LoginPage implements OnInit {
         Validators.required,
         Validators.email
       ]),
-      password: new FormControl('', Validators.required)
+      password: new FormControl('', Validators.required),
     });
   }
 

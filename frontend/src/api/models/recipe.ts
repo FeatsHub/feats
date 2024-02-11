@@ -18,6 +18,9 @@ export interface Recipe {
   image?: null | number;
   image_data: RecipeImage;
   ingredients?: Array<number>;
+  is_public?: boolean;
   name: string;
+  owner: number;
+  saved_by: Array<number>;
   time: number;
 }

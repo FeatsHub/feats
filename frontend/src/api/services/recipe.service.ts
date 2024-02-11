@@ -29,6 +29,12 @@ import { recipePartialUpdate$XWwwFormUrlencoded } from '../fn/recipe/recipe-part
 import { RecipePartialUpdate$XWwwFormUrlencoded$Params } from '../fn/recipe/recipe-partial-update-x-www-form-urlencoded';
 import { recipeRetrieve } from '../fn/recipe/recipe-retrieve';
 import { RecipeRetrieve$Params } from '../fn/recipe/recipe-retrieve';
+import { recipeSaveCreate$FormData } from '../fn/recipe/recipe-save-create-form-data';
+import { RecipeSaveCreate$FormData$Params } from '../fn/recipe/recipe-save-create-form-data';
+import { recipeSaveCreate$Json } from '../fn/recipe/recipe-save-create-json';
+import { RecipeSaveCreate$Json$Params } from '../fn/recipe/recipe-save-create-json';
+import { recipeSaveCreate$XWwwFormUrlencoded } from '../fn/recipe/recipe-save-create-x-www-form-urlencoded';
+import { RecipeSaveCreate$XWwwFormUrlencoded$Params } from '../fn/recipe/recipe-save-create-x-www-form-urlencoded';
 import { recipeUpdate$FormData } from '../fn/recipe/recipe-update-form-data';
 import { RecipeUpdate$FormData$Params } from '../fn/recipe/recipe-update-form-data';
 import { recipeUpdate$Json } from '../fn/recipe/recipe-update-json';
@@ -320,6 +326,75 @@ export class RecipeService extends BaseService {
    */
   recipePartialUpdate$FormData(params: RecipePartialUpdate$FormData$Params, context?: HttpContext): Observable<Recipe> {
     return this.recipePartialUpdate$FormData$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Recipe>): Recipe => r.body)
+    );
+  }
+
+  /** Path part for operation `recipeSaveCreate()` */
+  static readonly RecipeSaveCreatePath = '/api/recipe/{id}/save/';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `recipeSaveCreate$Json()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  recipeSaveCreate$Json$Response(params: RecipeSaveCreate$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Recipe>> {
+    return recipeSaveCreate$Json(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `recipeSaveCreate$Json$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  recipeSaveCreate$Json(params: RecipeSaveCreate$Json$Params, context?: HttpContext): Observable<Recipe> {
+    return this.recipeSaveCreate$Json$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Recipe>): Recipe => r.body)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `recipeSaveCreate$XWwwFormUrlencoded()` instead.
+   *
+   * This method sends `application/x-www-form-urlencoded` and handles request body of type `application/x-www-form-urlencoded`.
+   */
+  recipeSaveCreate$XWwwFormUrlencoded$Response(params: RecipeSaveCreate$XWwwFormUrlencoded$Params, context?: HttpContext): Observable<StrictHttpResponse<Recipe>> {
+    return recipeSaveCreate$XWwwFormUrlencoded(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `recipeSaveCreate$XWwwFormUrlencoded$Response()` instead.
+   *
+   * This method sends `application/x-www-form-urlencoded` and handles request body of type `application/x-www-form-urlencoded`.
+   */
+  recipeSaveCreate$XWwwFormUrlencoded(params: RecipeSaveCreate$XWwwFormUrlencoded$Params, context?: HttpContext): Observable<Recipe> {
+    return this.recipeSaveCreate$XWwwFormUrlencoded$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Recipe>): Recipe => r.body)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `recipeSaveCreate$FormData()` instead.
+   *
+   * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
+   */
+  recipeSaveCreate$FormData$Response(params: RecipeSaveCreate$FormData$Params, context?: HttpContext): Observable<StrictHttpResponse<Recipe>> {
+    return recipeSaveCreate$FormData(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `recipeSaveCreate$FormData$Response()` instead.
+   *
+   * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
+   */
+  recipeSaveCreate$FormData(params: RecipeSaveCreate$FormData$Params, context?: HttpContext): Observable<Recipe> {
+    return this.recipeSaveCreate$FormData$Response(params, context).pipe(
       map((r: StrictHttpResponse<Recipe>): Recipe => r.body)
     );
   }

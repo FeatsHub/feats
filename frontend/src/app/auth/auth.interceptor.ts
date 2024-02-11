@@ -33,6 +33,8 @@ export class AuthInterceptor implements HttpInterceptor {
                         let userToken = response.body.token
                         if (userToken) {
                             localStorage.setItem('accessToken', `Token ${userToken}`)
+                            localStorage.setItem('userId', response.body.id)
+                            alert(response.body.id)
                         }
                     }
                 }
@@ -41,6 +43,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 // If response is Unauthorized redirect to login and remove token
                 if (error.status == 401){
                     localStorage.removeItem('accessToken')
+                    localStorage.removeItem('userId')
                     this._router.navigate(['/login'])
                 }
                 console.error(error.status)

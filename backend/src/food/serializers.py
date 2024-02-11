@@ -31,14 +31,22 @@ class RecipeSerializer(DynamicModelSerializer):
             'ingredients',
             'image',
             'image_data',
-            'category_data'
+            'category_data',
+            'is_public',
+            'owner',
+            'saved_by'
         )
         read_only_fields = (
             'id',
             'image_data',
-            'category_data'
+            'category_data',
+            'owner',
+            'saved_by'
         )
 
+    def create(self, validated_data):
+            validated_data['owner'] = self.context['request'].user
+            return super().create(validated_data)
 
 class RecipeIngredientSerializer(DynamicModelSerializer):
     class Meta:

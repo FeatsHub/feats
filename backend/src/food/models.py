@@ -1,5 +1,5 @@
 from django.db import models
-
+from user.models import User
 
 class RecipeImage(models.Model):
     image = models.FileField(
@@ -39,13 +39,31 @@ class Recipe(models.Model):
         blank=True
     )
 
+    owner = models.ForeignKey(
+        to=User,
+        related_name='created_recipes',
+        verbose_name = u'User recipe creator',
+        on_delete=models.CASCADE
+    )
+
+    is_public = models.BooleanField(
+        verbose_name = u'Recipe status',
+        default=True
+    )
+
+    saved_by = models.ManyToManyField(
+        to=User,
+        related_name='saved_recipes',
+        verbose_name=u'User saved recipes',
+        blank=True,
+    )
+
     image = models.ForeignKey(
         verbose_name=u'Recipe image',
         to=RecipeImage,
         null=True,
         on_delete=models.SET_NULL
     )
-
 
 
 class RecipeCategory(models.Model):

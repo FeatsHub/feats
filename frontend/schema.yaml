@@ -206,6 +206,43 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/recipe/{id}/save/:
+    post:
+      operationId: recipe_save_create
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe.
+        required: true
+      tags:
+      - recipe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Empty'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Empty'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Empty'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+          description: ''
   /api/recipe_category/:
     get:
       operationId: recipe_category_list
@@ -1391,6 +1428,20 @@ components:
           items:
             $ref: '#/components/schemas/RecipeCategory'
           readOnly: true
+        is_public:
+          type: boolean
+          title: Recipe status
+        owner:
+          type: integer
+          readOnly: true
+          title: User recipe creator
+        saved_by:
+          type: array
+          items:
+            type: integer
+            title: User saved recipes
+          readOnly: true
+          title: User saved recipes
     PatchedRecipeCategory:
       type: object
       description: |-
@@ -1441,7 +1492,7 @@ components:
           readOnly: true
         password:
           type: string
-          readOnly: true
+          maxLength: 128
         username:
           type: string
           pattern: ^[\w.@+-]+$
@@ -1556,6 +1607,20 @@ components:
           items:
             $ref: '#/components/schemas/RecipeCategory'
           readOnly: true
+        is_public:
+          type: boolean
+          title: Recipe status
+        owner:
+          type: integer
+          readOnly: true
+          title: User recipe creator
+        saved_by:
+          type: array
+          items:
+            type: integer
+            title: User saved recipes
+          readOnly: true
+          title: User saved recipes
       required:
       - category_data
       - description
@@ -1563,6 +1628,8 @@ components:
       - id
       - image_data
       - name
+      - owner
+      - saved_by
       - time
     RecipeCategory:
       type: object
@@ -1662,7 +1729,7 @@ components:
           readOnly: true
         password:
           type: string
-          readOnly: true
+          maxLength: 128
         username:
           type: string
           pattern: ^[\w.@+-]+$
@@ -1736,8 +1803,12 @@ components:
         token:
           type: integer
           readOnly: true
+        id:
+          type: integer
+          readOnly: true
       required:
       - email
+      - id
       - password
       - token
   securitySchemes:

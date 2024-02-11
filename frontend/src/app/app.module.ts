@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
+import { RouteReuseStrategy, RouterModule } from '@angular/router';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginPage } from "./main/login/login.page";
-import { RegisterPage } from "./main/register/register.page";
 import { ReactiveFormsModule } from '@angular/forms';
 import { ApiModule } from 'src/api/api.module';
-import { StepCheckEmailComponent } from './main/register/components/step-check-email/step-check-email.component';
-import { StepCheckUsernameComponent } from './main/register/components/step-check-username/step-check-username.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { Router } from '@angular/router'; 
 import { ProfilePage } from './main/profile/profile.page';
+import { RegisterPage } from './main/register/register.page';
+import { StepCheckEmailComponent } from './main/components/step-check-email/step-check-email.component';
+import { StepCheckUsernameComponent } from './main/components/step-check-username/step-check-username.component';
 
 
 @NgModule({
@@ -26,6 +26,7 @@ import { ProfilePage } from './main/profile/profile.page';
     ProfilePage,
   ],
   imports: [
+    RouterModule,
     ReactiveFormsModule,
     BrowserModule,
     IonicModule.forRoot(),

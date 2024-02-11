@@ -27,7 +27,11 @@ export class RecipeDetailPage implements OnInit {
     ingredients: [],
     name: '',
     time: 0,
+    owner: -1,
+    saved_by: []
   }
+
+  saved = false
 
   constructor(
     private _loadingCtrl: LoadingController,
@@ -50,6 +54,10 @@ export class RecipeDetailPage implements OnInit {
         this._recipeService.recipeRetrieve$Response({id: params['id'], expand: '~all'}).subscribe({
           next: (recipe) => {
             this.recipe = recipe.body;
+            let userId = localStorage.getItem('userId')
+            if (userId){
+              this.saved = this.recipe.saved_by.includes(Number(userId))
+            }
           },
           error: (e) => console.error(e),
           complete: () => {
@@ -89,6 +97,17 @@ export class RecipeDetailPage implements OnInit {
     });
 
     await _alert.present();
+  }
+
+  saveRecipe(recipe: number){
+    this._recipeService.recipeSaveCreate$Json$Response({id: recipe}).subscribe({
+      next: (response) => {
+        this.saved = response.body.saved_by.includes(1)
+      },
+      error: (e) => console.error(e),
+      complete: () => {
+      }
+    });
   }
 
 }

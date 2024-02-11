@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
 import { Recipe, RecipeCategory } from 'src/api/models';
 import { RecipeCategoryService, RecipeService } from 'src/api/services';
 
@@ -16,9 +15,9 @@ export class RecipeListPage implements OnInit {
   search: string | undefined = undefined
   loaded = false
   categoriesLoaded = false
+  userId = Number(localStorage.getItem('userId'))
 
   constructor(
-    private _loadingCtrl: LoadingController,
     private _recipeCategoryService: RecipeCategoryService,
     private _recipeService: RecipeService
   ) {}
@@ -45,7 +44,6 @@ export class RecipeListPage implements OnInit {
     selectedCategory: number[] | undefined = undefined,
     search: string | undefined = undefined
     ){
-    this.loaded = false;
     if (selectedCategory == this.selectedCategory){
       selectedCategory = undefined;
       this.selectedCategory = undefined;
@@ -81,6 +79,17 @@ export class RecipeListPage implements OnInit {
     }else{
       this.getRecipes([this.selectedCategory], query);
     }
+  }
+
+  saveRecipe(recipe: number){
+    this._recipeService.recipeSaveCreate$Json$Response({id: recipe}).subscribe({
+      next: (response) => {
+      },
+      error: (e) => console.error(e),
+      complete: () => {
+      }
+    });
+    this.getRecipes()
   }
 
 }
