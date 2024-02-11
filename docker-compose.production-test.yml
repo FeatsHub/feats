@@ -19,9 +19,9 @@ services:
       - DJANGO_SETTINGS_MODULE=main.settings.production
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
-      - POSTGRES_DB=newproj
-      - POSTGRES_USER=newproj
-      - POSTGRES_PASSWORD=newproj
+      - POSTGRES_DB=feats
+      - POSTGRES_USER=feats
+      - POSTGRES_PASSWORD=feats
     ports:
       - "8000:8000"
     command: uwsgi-api
@@ -51,9 +51,9 @@ services:
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
-      - POSTGRES_DB=newproj
-      - POSTGRES_USER=newproj
-      - POSTGRES_PASSWORD=newproj
+      - POSTGRES_DB=feats
+      - POSTGRES_USER=feats
+      - POSTGRES_PASSWORD=feats
     ports:
       - "5432:5432"
 

@@ -3,7 +3,7 @@ initial_values = [
         'name': 'Pasta'
     },
     {
-        'name': 'Hamburguesa'
+        'name': '🍔 Hamburguesa'
     },
     {
         'name': 'Pizza'

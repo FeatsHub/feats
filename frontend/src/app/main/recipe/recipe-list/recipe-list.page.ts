@@ -24,12 +24,6 @@ export class RecipeListPage implements OnInit {
   ) {}
 
   async ionViewWillEnter() {
-    // 🚩 Show loading
-    const loading = await this._loadingCtrl.create({
-      message: 'Loading...',
-      duration: 4000,
-    });
-    loading.present();
     // 🚩 Obtaining recipeCategory list
     this._recipeCategoryService.recipeCategoryList().subscribe({
       next: (recipeCategories) => {
@@ -38,7 +32,6 @@ export class RecipeListPage implements OnInit {
       },
       error: (e) => console.error(e),
       complete: () => {
-        loading.dismiss();
       }
     });
 
@@ -53,11 +46,6 @@ export class RecipeListPage implements OnInit {
     search: string | undefined = undefined
     ){
     this.loaded = false;
-    const loading = await this._loadingCtrl.create({
-      message: 'Loading...',
-      duration: 4000,
-    });
-    loading.present();
     if (selectedCategory == this.selectedCategory){
       selectedCategory = undefined;
       this.selectedCategory = undefined;
@@ -71,7 +59,6 @@ export class RecipeListPage implements OnInit {
       },
       error: (e) => console.error(e),
       complete: () => {
-        loading.dismiss();
         this.loaded = true;
       }
     });

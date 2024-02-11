@@ -4,6 +4,7 @@ export { CheckEmail } from './models/check-email';
 export { CheckUsername } from './models/check-username';
 export { CheckUserResponse } from './models/check-user-response';
 export { Email } from './models/email';
+export { Empty } from './models/empty';
 export { PaginatedRecipeCategoryList } from './models/paginated-recipe-category-list';
 export { PaginatedRecipeIngredientList } from './models/paginated-recipe-ingredient-list';
 export { PaginatedRecipeList } from './models/paginated-recipe-list';

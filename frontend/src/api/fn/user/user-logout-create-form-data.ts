@@ -6,8 +6,8 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { Empty } from '../../models/empty';
 import { User } from '../../models/user';
-import { UserLogin } from '../../models/user-login';
 
 export interface UserLogoutCreate$FormData$Params {
 
@@ -15,10 +15,10 @@ export interface UserLogoutCreate$FormData$Params {
  * List of nested objects
  */
   expand?: string;
-      body: UserLogin
+      body?: Empty
 }
 
-export function userLogoutCreate$FormData(http: HttpClient, rootUrl: string, params: UserLogoutCreate$FormData$Params, context?: HttpContext): Observable<StrictHttpResponse<User>> {
+export function userLogoutCreate$FormData(http: HttpClient, rootUrl: string, params?: UserLogoutCreate$FormData$Params, context?: HttpContext): Observable<StrictHttpResponse<User>> {
   const rb = new RequestBuilder(rootUrl, userLogoutCreate$FormData.PATH, 'post');
   if (params) {
     rb.query('expand', params.expand, {});

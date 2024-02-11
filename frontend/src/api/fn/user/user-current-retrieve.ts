@@ -6,23 +6,20 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Empty } from '../../models/empty';
 import { User } from '../../models/user';
 
-export interface UserLogoutCreate$XWwwFormUrlencoded$Params {
+export interface UserCurrentRetrieve$Params {
 
 /**
  * List of nested objects
  */
   expand?: string;
-      body?: Empty
 }
 
-export function userLogoutCreate$XWwwFormUrlencoded(http: HttpClient, rootUrl: string, params?: UserLogoutCreate$XWwwFormUrlencoded$Params, context?: HttpContext): Observable<StrictHttpResponse<User>> {
-  const rb = new RequestBuilder(rootUrl, userLogoutCreate$XWwwFormUrlencoded.PATH, 'post');
+export function userCurrentRetrieve(http: HttpClient, rootUrl: string, params?: UserCurrentRetrieve$Params, context?: HttpContext): Observable<StrictHttpResponse<User>> {
+  const rb = new RequestBuilder(rootUrl, userCurrentRetrieve.PATH, 'get');
   if (params) {
     rb.query('expand', params.expand, {});
-    rb.body(params.body, 'application/x-www-form-urlencoded');
   }
 
   return http.request(
@@ -35,4 +32,4 @@ export function userLogoutCreate$XWwwFormUrlencoded(http: HttpClient, rootUrl: s
   );
 }
 
-userLogoutCreate$XWwwFormUrlencoded.PATH = '/api/user/logout/';
+userCurrentRetrieve.PATH = '/api/user/current/';

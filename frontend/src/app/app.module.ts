@@ -13,6 +13,7 @@ import { StepCheckEmailComponent } from './main/register/components/step-check-e
 import { StepCheckUsernameComponent } from './main/register/components/step-check-username/step-check-username.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { Router } from '@angular/router'; 
+import { ProfilePage } from './main/profile/profile.page';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { Router } from '@angular/router';
     LoginPage,
     RegisterPage,
     StepCheckEmailComponent,
-    StepCheckUsernameComponent
+    StepCheckUsernameComponent,
+    ProfilePage,
   ],
   imports: [
     ReactiveFormsModule,

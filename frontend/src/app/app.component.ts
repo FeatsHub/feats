@@ -10,6 +10,7 @@ export class AppComponent {
 
   pagesWithTabs = [
     '/recipes',
+    '/profile'
   ]
   showTabs = true
 

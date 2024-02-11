@@ -42,8 +42,12 @@
         <ion-input
           formControlName="password"
           label="Password"
+          type="password"
           labelPlacement="floating"
           fill="solid">
+          <ion-button fill="clear" slot="end" aria-label="Show/hide">
+            <ion-icon slot="icon-only" name="eye" aria-hidden="true"></ion-icon>
+          </ion-button>
         </ion-input>
       </ion-item>
     </ion-list>

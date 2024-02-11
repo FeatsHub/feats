@@ -6,8 +6,8 @@ group := $(shell id -gn)
 
 PV := $(shell command -v pv || command -v pipebench || echo cat)
 DBDUMP := postgres-data.tar.bz2
-DOCKER_DEV := docker compose -p newproj-dev -f docker-compose.yml
-DOCKER_PROD := docker compose -p newproj-prod -f docker-compose.production-test.yml
+DOCKER_DEV := docker compose -p feats-dev -f docker-compose.yml
+DOCKER_PROD := docker compose -p feats-prod -f docker-compose.production-test.yml
 
 
 
@@ -115,7 +115,7 @@ front-build-prod: ## Compile frontend using gulp build
 	sudo chown -R $(runner):$(group) ./frontend/dist/
 
 front-npm-delete-cache: ## Delete npm package cache
-	docker volume rm -p newproj-dev_aspb-newproj_npm_cache
+	docker volume rm -p feats-dev_aspb-feats_npm_cache
 
 front-newapp: ## Create new frontend app, expects name argument.
 	mkdir ./frontend/src/app/main/$(name)/
@@ -161,7 +161,7 @@ node-modules-permissions: ## Change permissions to ./frontend/node_modules/
 
 postgres-dev-volume-backup: ## Backup development postgres volume to .tar.bz2 files
 	$(DOCKER_DEV) stop postgres
-	docker run -v newproj-dev_local_postgres_data:/volume --rm loomchild/volume-backup backup - | $(PV) > $(DBDUMP)
+	docker run -v feats-dev_local_postgres_data:/volume --rm loomchild/volume-backup backup - | $(PV) > $(DBDUMP)
 	$(DOCKER_DEV) up -d postgres
 	@echo "Backup saved into '$(DBDUMP)' file"
 
@@ -175,11 +175,11 @@ $(DBDUMP): # Show error if the database dump file does not exist in the current 
 	@echo "ERROR: $(DBDUMP) file not found in the current directory"
 	@exit 1
 
-wipe-dev-api-database: down ## Wipe local api database volumes (newproj_local_postgres_data, newproj_local_postgres_data_backups)
-	docker volume rm newproj-dev_local_postgres_data newproj-dev_local_postgres_data_backups
+wipe-dev-api-database: down ## Wipe local api database volumes (feats_local_postgres_data, feats_local_postgres_data_backups)
+	docker volume rm feats-dev_local_postgres_data feats-dev_local_postgres_data_backups
 
-wipe-production-test-api-database: down ## Wipe local api database volumes (newproj_local_postgres_data, newproj_local_postgres_data_backups)
-	docker volume rm newproj-prod_postgres_data newproj-prod_postgres_data_backups
+wipe-production-test-api-database: down ## Wipe local api database volumes (feats_local_postgres_data, feats_local_postgres_data_backups)
+	docker volume rm feats-prod_postgres_data feats-prod_postgres_data_backups
 
 
 
