@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, LoadingController } from '@ionic/angular';
@@ -38,7 +39,7 @@ export class RecipeDetailPage implements OnInit {
     private _recipeService: RecipeService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _alertController: AlertController
+    private _alertController: AlertController,
   ) {}
 
   async ngOnInit() {
@@ -102,10 +103,13 @@ export class RecipeDetailPage implements OnInit {
   saveRecipe(recipe: number){
     this._recipeService.recipeSaveCreate$Json$Response({id: recipe}).subscribe({
       next: (response) => {
-        this.saved = response.body.saved_by.includes(1)
       },
       error: (e) => console.error(e),
       complete: () => {
+        let userId = localStorage.getItem('userId')
+        if (userId){
+          this.saved = this.recipe.saved_by.includes(userId as unknown as number)
+        }
       }
     });
   }

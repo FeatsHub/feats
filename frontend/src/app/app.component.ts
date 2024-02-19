@@ -17,12 +17,13 @@ export class AppComponent {
   constructor(
     private _router: Router
   ) {
+    /*
     // Detect the current route to show tab bar or not
     this.showTabs = this.pagesWithTabs.includes(this._router.url)
     this._router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.showTabs = this.pagesWithTabs.includes(this._router.url);
       }
-    });
+    });*/
   }
 }

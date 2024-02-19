@@ -81,15 +81,19 @@ export class RecipeListPage implements OnInit {
     }
   }
 
-  saveRecipe(recipe: number){
-    this._recipeService.recipeSaveCreate$Json$Response({id: recipe}).subscribe({
+  saveRecipe(recipeId: number){
+    this._recipeService.recipeSaveCreate$Json$Response({id: recipeId, expand: '~all'}).subscribe({
       next: (response) => {
+        //Update selected recipe saved_by list
+        const updated_recipe = response.body
+        this.recipes = this.recipes.map((recipe) =>
+          recipe.id === recipeId ? { ...recipe, saved_by: updated_recipe.saved_by } : recipe
+        ) as Recipe[];
       },
       error: (e) => console.error(e),
       complete: () => {
       }
     });
-    this.getRecipes()
   }
 
 }

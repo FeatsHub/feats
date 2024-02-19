@@ -16,6 +16,7 @@ class RecipeView(ModelViewSet):
 
     @extend_schema(
         request=EmptySerializer,
+        responses={200: RecipeSerializer}
     )
     @action(detail=True, methods=['post'])
     def save(self, request, *args, **kwargs):
