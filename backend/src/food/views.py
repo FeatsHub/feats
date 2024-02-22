@@ -1,18 +1,21 @@
 from utils.views import ModelViewSet
-from food.models import Recipe, RecipeCategory, RecipeIngredient, RecipeImage
-from food.serializers import RecipeSerializer, RecipeCategorySerializer, RecipeIngredientSerializer, RecipeImageSerializer
+from food.models import Recipe, RecipeCategory, RecipeIngredient, RecipeImage, Product
+from food.serializers import RecipeSerializer, RecipeCategorySerializer, RecipeIngredientSerializer, RecipeImageSerializer, ProductSerializer
 from rest_framework import mixins, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from drf_spectacular.utils import extend_schema
 from utils.serializers import EmptySerializer
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
-# Create your views here.
 
 class RecipeView(ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
     filterset_fields = ('category', )
+    filter_backends = (SearchFilter, DjangoFilterBackend)
+    search_fields = ('name', )
 
     @extend_schema(
         request=EmptySerializer,
@@ -43,3 +46,28 @@ class RecipeCategoryView(ModelViewSet):
 class RecipeIngredientView(ModelViewSet):
     queryset = RecipeIngredient.objects.all()
     serializer_class = RecipeIngredientSerializer
+
+
+class ProductView(
+    viewsets.GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin
+):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = (SearchFilter, DjangoFilterBackend)
+    search_fields = ('name', )
+    filterset_fields = ('name', )
+
+    @action(methods=["post"], detail=False)
+    def get_or_create(self, request, *args, **kwargs):
+        """
+        Method to create a tag (if exist return tag selected)
+        """
+        try:
+            data = request.data
+            name = data.get("name", None)
+            tag = Product.objects.get(name__iexact=name)
+            return Response(self.serializer_class(tag).data)
+        except Product.DoesNotExist:
+            return super().create(request=request, *args, **kwargs)

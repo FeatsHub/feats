@@ -7,9 +7,7 @@
  * control which fields are displayed, and whether to replace simple values with
  * complex, nested serializations.
  */
-export interface PatchedRecipeIngredient {
+export interface Product {
   id?: number;
-  product?: number;
-  quantity?: number;
-  unit?: string;
+  name: string;
 }

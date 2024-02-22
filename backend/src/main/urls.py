@@ -68,6 +68,12 @@ router.register(
     basename='recipe_image'
 )
 
+router.register(
+    r'product',
+    food_views.ProductView,
+    basename='product'
+)
+
 
 urlpatterns += [
     re_path(r"^api/", include((router.urls, "current"), namespace="current")),

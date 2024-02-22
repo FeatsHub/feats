@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Recipe, RecipeCategory, RecipeImage } from 'src/api/models';
+import { Product, Recipe, RecipeCategory, RecipeImage } from 'src/api/models';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
-import { RecipeCategoryService, RecipeImageService, RecipeService } from 'src/api/services';
+import { ProductService, RecipeCategoryService, RecipeImageService, RecipeService } from 'src/api/services';
 import { LoadingController } from '@ionic/angular';
 
 @Component({
@@ -27,7 +27,8 @@ export class RecipeFormPage implements OnInit{
     private _router: Router,
     private _recipeService: RecipeService,
     private _recipeCategoryService: RecipeCategoryService,
-    private _recipeImageService: RecipeImageService
+    private _recipeImageService: RecipeImageService,
+    private _productService: ProductService
   ) {
     // 🚩 Iniciate forms
     this.recipeForm = this._formBuilder.group({
@@ -42,6 +43,10 @@ export class RecipeFormPage implements OnInit{
       image: [''],
     });
   }
+
+  searchedProducts: Product[] = []
+  products: Product[] = []
+  productName = ''
 
   async ngOnInit() {
     const loading = await this._loadingCtrl.create({
@@ -138,6 +143,50 @@ export class RecipeFormPage implements OnInit{
         }
       });
     }
+  }
+
+  handleSearch(event: any){
+    const query = event.target.value.toLowerCase()
+    this.productName = query
+    if (query.length == 0){
+      this.searchedProducts = []
+      return
+    }
+    this._productService.productList$Response({search: query, limit: 3}).subscribe({
+      next: (response) => {
+        console.log(response.body.results!)
+        this.searchedProducts = response.body.results!;
+      },
+      error: (e) => console.error(e),
+      complete: () => {
+      }
+    });
+  }
+
+  createProduct(productName: string){
+    this._productService.productCreate$Json$Response(
+      {
+        body: {
+          id: undefined,
+          name: productName
+        }
+      }
+    ).subscribe({
+      next: (response) => {
+        this.products.push(response.body)
+        this.searchedProducts = []
+        this.productName = ''
+      },
+      error: (e) => console.error(e),
+      complete: () => {
+      }
+    });
+  }
+
+  selectProduct(product: Product){
+    this.products.push(product)
+    this.searchedProducts = []
+    this.productName = ''
   }
 
 }

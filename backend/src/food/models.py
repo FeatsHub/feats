@@ -77,8 +77,9 @@ class RecipeCategory(models.Model):
 
 class RecipeIngredient(models.Model):
     """ Recipe ingredient """
-    name = models.CharField(
-        verbose_name=u'Ingredient name'
+    product = models.ForeignKey(
+        to='Product',
+        on_delete=models.CASCADE
     )
 
     quantity = models.PositiveIntegerField(
@@ -87,4 +88,11 @@ class RecipeIngredient(models.Model):
 
     unit = models.CharField(
         verbose_name=u'Measure unit',
+    )
+
+
+class Product(models.Model):
+    name = models.CharField(
+        verbose_name=u'Product name',
+        unique=True
     )

@@ -1,6 +1,5 @@
-from rest_framework import serializers
 from utils.serializers import DynamicModelSerializer
-from food.models import Recipe, RecipeCategory, RecipeIngredient, RecipeImage
+from food.models import Recipe, RecipeCategory, RecipeIngredient, RecipeImage, Product
 
 
 class RecipeCategorySerializer(DynamicModelSerializer):
@@ -52,3 +51,15 @@ class RecipeIngredientSerializer(DynamicModelSerializer):
     class Meta:
         model = RecipeIngredient
         fields = '__all__'
+
+
+class ProductSerializer(DynamicModelSerializer):
+    class Meta:
+        model = Product
+        fields = (
+            'id',
+            'name'
+        )
+        read_only_fields = (
+            'id',
+        )

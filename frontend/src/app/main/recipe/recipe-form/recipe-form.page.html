@@ -72,11 +72,63 @@
         </ion-item>
 
         <ion-item>
-          <ion-select labelPlacement="fixed" label="Ingredientes" [multiple]="true">
-            <ion-select-option value="apples">Apples</ion-select-option>
-            <ion-select-option value="oranges">Oranges</ion-select-option>
-            <ion-select-option value="bananas">Bananas</ion-select-option>
-          </ion-select>
+          <ion-grid style="margin-top: 10px;">
+            <ion-row>
+              <ion-col>
+                <ion-label>Ingredientes</ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-searchbar
+                (ionInput)="handleSearch($event)"
+                ></ion-searchbar>
+                <ion-list *ngIf="searchedProducts.length == 0">
+                  <ion-item
+                    (click)="createProduct(productName)">
+                    {{productName}}
+                  </ion-item>
+                </ion-list>
+                <ion-list *ngIf="searchedProducts.length != 0">
+                  <ion-item
+                  *ngFor="let searchedProduct of searchedProducts"
+                  (click)="selectProduct(searchedProduct)"
+                  >{{searchedProduct.name}}
+                  </ion-item>
+                </ion-list>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-list
+                *ngIf="products.length != 0">
+                  <ion-item
+                  *ngFor="let product of products">
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col>
+                          <ion-label style="margin-top: 9px;">{{product.name}}</ion-label>
+                        </ion-col>
+                        <ion-col>
+                          <ion-input
+                            style="margin-left: 5px;"
+                            placeholder="Cantidad"
+                            type="number"
+                          ></ion-input>
+                        </ion-col>
+                        <ion-col>
+                          <ion-input
+                          style="margin-left: 5px;"
+                          placeholder="Unidad"
+                          ></ion-input>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                  </ion-item>
+                </ion-list>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
         </ion-item>
       
       </ion-list>

@@ -9,7 +9,7 @@
  */
 export interface RecipeIngredient {
   id: number;
-  name: string;
+  product: number;
   quantity: number;
   unit: string;
 }

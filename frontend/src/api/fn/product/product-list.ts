@@ -6,20 +6,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { PaginatedRecipeList } from '../../models/paginated-recipe-list';
+import { PaginatedProductList } from '../../models/paginated-product-list';
 
-export interface RecipeList$Params {
-  category?: Array<number>;
-
-/**
- * List of nested objects
- */
-  expand?: string;
+export interface ProductList$Params {
 
 /**
  * Number of results to return per page.
  */
   limit?: number;
+  name?: string;
 
 /**
  * The initial index from which to return the results.
@@ -32,12 +27,11 @@ export interface RecipeList$Params {
   search?: string;
 }
 
-export function recipeList(http: HttpClient, rootUrl: string, params?: RecipeList$Params, context?: HttpContext): Observable<StrictHttpResponse<PaginatedRecipeList>> {
-  const rb = new RequestBuilder(rootUrl, recipeList.PATH, 'get');
+export function productList(http: HttpClient, rootUrl: string, params?: ProductList$Params, context?: HttpContext): Observable<StrictHttpResponse<PaginatedProductList>> {
+  const rb = new RequestBuilder(rootUrl, productList.PATH, 'get');
   if (params) {
-    rb.query('category', params.category, {"style":"form","explode":true});
-    rb.query('expand', params.expand, {});
     rb.query('limit', params.limit, {});
+    rb.query('name', params.name, {});
     rb.query('offset', params.offset, {});
     rb.query('search', params.search, {});
   }
@@ -47,9 +41,9 @@ export function recipeList(http: HttpClient, rootUrl: string, params?: RecipeLis
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<PaginatedRecipeList>;
+      return r as StrictHttpResponse<PaginatedProductList>;
     })
   );
 }
 
-recipeList.PATH = '/api/recipe/';
+productList.PATH = '/api/product/';

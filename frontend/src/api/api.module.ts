@@ -4,6 +4,7 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
+import { ProductService } from './services/product.service';
 import { RecipeService } from './services/recipe.service';
 import { RecipeCategoryService } from './services/recipe-category.service';
 import { RecipeImageService } from './services/recipe-image.service';
@@ -19,6 +20,7 @@ import { UserService } from './services/user.service';
   exports: [],
   declarations: [],
   providers: [
+    ProductService,
     RecipeService,
     RecipeCategoryService,
     RecipeImageService,
