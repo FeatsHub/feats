@@ -34,7 +34,6 @@ export class AuthInterceptor implements HttpInterceptor {
                         if (userToken) {
                             localStorage.setItem('accessToken', `Token ${userToken}`)
                             localStorage.setItem('userId', response.body.id)
-                            alert(response.body.id)
                         }
                     }
                 }

@@ -32,7 +32,11 @@ export class LoginPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if(localStorage.getItem('accessToken') != null){
+      this._router.navigate(['/recipes']);
+    }
+  }
 
   async onSubmit(userLogin: UserLogin){
     const loading = await this._loadingCtrl.create({

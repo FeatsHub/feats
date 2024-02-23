@@ -89,7 +89,7 @@ export class RecipeDetailPage implements OnInit {
               },
               error: (e) => console.error(e),
               complete: () => {
-                this._router.navigate(['/plates']);
+                this._router.navigate(['/recipes']);
               }
             });
           },
