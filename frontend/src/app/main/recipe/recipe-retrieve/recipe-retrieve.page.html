@@ -66,40 +66,21 @@
     </ion-segment>
 
     <ion-list lines="none">
-      <ion-item style="margin: 10px auto;">
+      <ion-item 
+      style="margin: 10px auto;"
+      *ngFor="let ingredient of recipe.ingredients"
+      >
         <ion-card style="width: 100%;margin: 0px">
             <ion-grid>
               <ion-row>
                 <ion-col size="auto">
-                  <div class="ingredient-image"
-                  style="background-image: url('https://sgfm.elcorteingles.es/SGFM/dctm/MEDIA03/202104/14/00118003501204____7__600x600.jpg');"
-                  ></div>
+                  <ion-icon style="margin-top: 9px;" size="large" color="primary" name="fast-food-outline"></ion-icon>
                 </ion-col>
                 <ion-col>
-                  <h4>Macarrones</h4>
+                  <h4>{{ingredient.product_name}}</h4>
                 </ion-col>
                 <ion-col size="auto">
-                  90 gr
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-        </ion-card>
-      </ion-item>
-
-      <ion-item>
-        <ion-card style="width: 100%;margin: 0px">
-            <ion-grid>
-              <ion-row>
-                <ion-col size="auto">
-                  <div class="ingredient-image"
-                  style="background-image: url('https://petramora.com/cdn/shop/products/W-10000166-picada-de-ternera.jpg?crop=center&height=2433&v=1660228714&width=1946');"
-                  ></div>
-                </ion-col>
-                <ion-col>
-                  <h4>Carne</h4>
-                </ion-col>
-                <ion-col size="auto">
-                  100 gr
+                  {{ingredient.quantity}} {{ingredient.unit}}
                 </ion-col>
               </ion-row>
             </ion-grid>
