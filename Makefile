@@ -135,9 +135,7 @@ translate: ## Run NPM extract (translate)
 front-compile-ios:
 	$(DOCKER_DEV) run --rm frontend ionic build
 	$(DOCKER_DEV) run --rm frontend ionic capacitor copy ios --verbose
-	pod deintegrate --project-directory=frontend/ios/App/App --verbose
-	pod install --project-directory=frontend/ios/App/ --verbose
-	ionic capacitor open ios
+	sh compile-ios.sh
 
 front-compile-android:
 	# sudo ionic capacitor add android
