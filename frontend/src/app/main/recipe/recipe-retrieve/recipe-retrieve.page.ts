@@ -103,13 +103,13 @@ export class RecipeDetailPage implements OnInit {
   saveRecipe(recipe: number){
     this._recipeService.recipeSaveCreate$Json$Response({id: recipe}).subscribe({
       next: (response) => {
+        let userId = localStorage.getItem('userId')
+        if (userId){
+          this.saved = response.body.saved_by.includes(Number(userId))
+        }
       },
       error: (e) => console.error(e),
       complete: () => {
-        let userId = localStorage.getItem('userId')
-        if (userId){
-          this.saved = this.recipe.saved_by.includes(userId as unknown as number)
-        }
       }
     });
   }
