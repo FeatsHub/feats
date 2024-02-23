@@ -10,6 +10,7 @@
 export interface PatchedRecipeIngredient {
   id?: number;
   product?: number;
+  product_name?: string;
   quantity?: number;
   unit?: string;
 }

@@ -1481,11 +1481,7 @@ components:
             $ref: '#/components/schemas/User'
     PatchedRecipe:
       type: object
-      description: |-
-        A ModelSerializer that takes additional arguments for
-        "fields" and "include" in order to
-        control which fields are displayed, and whether to replace simple values with
-        complex, nested serializations.
+      description: Adds nested create feature
       properties:
         id:
           type: integer
@@ -1515,9 +1511,7 @@ components:
         ingredients:
           type: array
           items:
-            type: integer
-            title: Food ingredients
-          title: Food ingredients
+            $ref: '#/components/schemas/RecipeIngredient'
         image:
           type: integer
           nullable: true
@@ -1570,6 +1564,10 @@ components:
       properties:
         id:
           type: integer
+          readOnly: true
+        product_name:
+          type: string
+          title: Product name
           readOnly: true
         quantity:
           type: integer
@@ -1676,11 +1674,7 @@ components:
       - name
     Recipe:
       type: object
-      description: |-
-        A ModelSerializer that takes additional arguments for
-        "fields" and "include" in order to
-        control which fields are displayed, and whether to replace simple values with
-        complex, nested serializations.
+      description: Adds nested create feature
       properties:
         id:
           type: integer
@@ -1710,9 +1704,7 @@ components:
         ingredients:
           type: array
           items:
-            type: integer
-            title: Food ingredients
-          title: Food ingredients
+            $ref: '#/components/schemas/RecipeIngredient'
         image:
           type: integer
           nullable: true
@@ -1746,6 +1738,7 @@ components:
       - diners
       - id
       - image_data
+      - ingredients
       - name
       - owner
       - saved_by
@@ -1797,6 +1790,10 @@ components:
         id:
           type: integer
           readOnly: true
+        product_name:
+          type: string
+          title: Product name
+          readOnly: true
         quantity:
           type: integer
           maximum: 2147483647
@@ -1810,6 +1807,7 @@ components:
       required:
       - id
       - product
+      - product_name
       - quantity
       - unit
     ResetPassword:

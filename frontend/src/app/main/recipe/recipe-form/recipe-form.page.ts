@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Product, Recipe, RecipeCategory, RecipeImage } from 'src/api/models';
+import { Product, Recipe, RecipeCategory, RecipeImage, RecipeIngredient } from 'src/api/models';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { ProductService, RecipeCategoryService, RecipeImageService, RecipeService } from 'src/api/services';
 import { LoadingController } from '@ionic/angular';
@@ -19,6 +19,8 @@ export class RecipeFormPage implements OnInit{
   selectedImage = ''
   recipeCategories: RecipeCategory[]
   recipeId = -1
+  searchedProducts: Product[] = []
+  productName = ''
 
   constructor(
     private _loadingCtrl: LoadingController,
@@ -30,6 +32,13 @@ export class RecipeFormPage implements OnInit{
     private _recipeImageService: RecipeImageService,
     private _productService: ProductService
   ) {
+  }
+
+  get ingredients(): FormArray {
+    return this.recipeForm.get('ingredients') as FormArray;
+  }
+
+  async ngOnInit() {
     // 🚩 Iniciate forms
     this.recipeForm = this._formBuilder.group({
       name: new FormControl('', Validators.required),
@@ -37,18 +46,12 @@ export class RecipeFormPage implements OnInit{
       diners: new FormControl('', Validators.min(1)),
       time: new FormControl('', Validators.min(1)),
       image: new FormControl(''),
-      category: new FormControl(new FormArray([]))
+      category: new FormControl(new FormArray([])),
+      ingredients: this._formBuilder.array<RecipeIngredient>([]),
     });
     this.recipeImageForm = this._formBuilder.group({
       image: [''],
     });
-  }
-
-  searchedProducts: Product[] = []
-  products: Product[] = []
-  productName = ''
-
-  async ngOnInit() {
     const loading = await this._loadingCtrl.create({
       message: 'Loading...',
       duration: 4000,
@@ -76,9 +79,20 @@ export class RecipeFormPage implements OnInit{
         this._recipeService.recipeRetrieve({id: params['id'], expand: '~all'}).subscribe({
             next: (recipe) => {
               this.recipeForm.patchValue(recipe);
+              recipe.ingredients.forEach( (item) => {
+                this.ingredients.push(this._formBuilder.group({
+                  product: [item.product],
+                  product_name: [item.product_name],
+                  quantity: [item.quantity],
+                  unit: [item.unit],
+                }));
+              })
               this.selectedImage = recipe.image_data.image!;
             },
-            error: (e) => console.error(e),
+            error: (e) => {
+              console.error(e)
+              loading.dismiss();
+            },
             complete: () => {
               loading.dismiss();
             }
@@ -167,13 +181,18 @@ export class RecipeFormPage implements OnInit{
     this._productService.productCreate$Json$Response(
       {
         body: {
-          id: undefined,
+          id: -1,
           name: productName
         }
       }
     ).subscribe({
       next: (response) => {
-        this.products.push(response.body)
+        this.ingredients.push(this._formBuilder.group({
+          product: [response.body.id!],
+          product_name: [response.body.name],
+          quantity: [0],
+          unit: [''],
+        }));
         this.searchedProducts = []
         this.productName = ''
       },
@@ -184,7 +203,12 @@ export class RecipeFormPage implements OnInit{
   }
 
   selectProduct(product: Product){
-    this.products.push(product)
+    this.ingredients.push(this._formBuilder.group({
+      product: [product.id],
+      product_name: [product.name],
+      quantity: [0],
+      unit: [''],
+    }));
     this.searchedProducts = []
     this.productName = ''
   }
