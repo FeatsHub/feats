@@ -87,43 +87,51 @@
           {{recipe.time}} min
         </ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col class="plate-description">
-          {{recipe.description}}
-        </ion-col>
-      </ion-row>
     </ion-grid>
 
-    <ion-segment color="dark" value="dark" class="plate-segment">
-      <ion-segment-button value="dark">
+
+    <ion-segment
+      (ionChange)="changeIngredientSegment($event)"
+      color="dark"
+      class="plate-segment"
+      value="ingredient"
+      style="margin: 20px 0px"
+    >
+      <ion-segment-button value="ingredient">
         <ion-label>Ingredientes</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="segment">
-        <ion-label>Pasos</ion-label>
+      <ion-segment-button value="description">
+        <ion-label>Descripcion</ion-label>
       </ion-segment-button>
     </ion-segment>
+    <div
+      *ngIf="!isIngredientSegment"
+      class="plate-description"
+    >
+      {{recipe.description}}
+    </div>
+    <div *ngIf="isIngredientSegment">
 
-    <ion-list lines="none">
-      <ion-item 
-        *ngFor="let ingredient of recipe.ingredients"
-      >
-        <ion-grid>
-          <ion-row>
-            <ion-col size="auto">
-              <ion-icon style="margin-top: 9px;" size="large" color="primary" name="fast-food-outline"></ion-icon>
-            </ion-col>
-            <ion-col style="padding: 20px 3px;">
-              {{ ingredient.product_name.charAt(0).toUpperCase() + ingredient.product_name.slice(1) }}
-            </ion-col>
-            <ion-col size="auto" style="color: grey;font-size: 13px;">
-              {{ingredient.quantity}} {{ingredient.unit}}
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-item>
-    </ion-list>
-
-    
+      <ion-list lines="none">
+        <ion-item 
+          *ngFor="let ingredient of recipe.ingredients"
+        >
+          <ion-grid>
+            <ion-row>
+              <ion-col size="auto">
+                <ion-icon style="margin-top: 9px;" size="large" color="primary" name="fast-food-outline"></ion-icon>
+              </ion-col>
+              <ion-col style="padding: 20px 3px;">
+                {{ ingredient.product_name.charAt(0).toUpperCase() + ingredient.product_name.slice(1) }}
+              </ion-col>
+              <ion-col size="auto" style="color: grey;font-size: 13px;">
+                {{ingredient.quantity}} {{ingredient.unit}}
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
+    </div>
   </div>
 
 </ion-content>

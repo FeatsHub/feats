@@ -33,7 +33,8 @@ export class RecipeDetailPage implements OnInit {
   }
 
   saved = false
-  is_public = false
+  isPublic = false
+  isIngredientSegment = true
 
   constructor(
     private _loadingCtrl: LoadingController,
@@ -129,6 +130,10 @@ export class RecipeDetailPage implements OnInit {
         complete: () => {
         }
     });
+  }
+
+  changeIngredientSegment(event: any){
+    this.isIngredientSegment = event.detail.value == 'ingredient'
   }
 
 }
