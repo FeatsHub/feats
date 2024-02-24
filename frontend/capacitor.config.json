@@ -1,1 +1,7 @@
-{}
+{
+    "cordova": {
+        "preferences": {
+            "NSPhotoLibraryAddUsageDescription": "Acceder a las fotos"
+        }
+    }
+}

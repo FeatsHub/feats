@@ -22,10 +22,16 @@ build-dev: ## Build developer containers for services (backend, frontend, ...)
 	$(DOCKER_DEV) pull
 	$(DOCKER_DEV) build
 
+build-production-test:
+	$(DOCKER_PROD) build
+
 up: up-dev ## Run developer containers (all services)
 
 up-dev: ## Run developer containers (all services)
 	$(DOCKER_DEV) up
+
+up-production-test:
+	$(DOCKER_PROD) up
 
 up-postgres-develop: ## Run developer NFGE postgresql service (in detached mode)
 	$(DOCKER_DEV) up -d postgres

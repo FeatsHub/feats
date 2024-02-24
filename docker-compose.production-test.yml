@@ -6,9 +6,8 @@ volumes:
 
 services:
   api: &django
-    build:
-      context: ./backend/
-      dockerfile: ./compose/production/Dockerfile
+    image:
+      public.ecr.aws/d0q7u4i1/feats-api:latest
     restart: always
     depends_on:
       - redis
@@ -28,14 +27,18 @@ services:
 
   celeryworker:
     <<: *django
+    image:
+      public.ecr.aws/d0q7u4i1/feats-api:latest
     depends_on:
       - redis
       - postgres
       - celerybeat
     ports: []
-    command: celery-worker-concurrent
+    command: celery-worker
 
   celerybeat:
+    image:
+      public.ecr.aws/d0q7u4i1/feats-api:latest
     <<: *django
     depends_on:
       - redis
@@ -59,14 +62,3 @@ services:
 
   redis:
     image: redis:7
-
-  frontend:
-    build:
-      context: ./frontend/
-      dockerfile: ./compose/production/Dockerfile
-#    environment:
-#      - API_SERVICE_HOSTNAME=api
-    ports:
-      - '80:80'
-    depends_on:
-      - api

@@ -96,4 +96,14 @@ export class RecipeListPage implements OnInit {
     });
   }
 
+  refresh(e: any){
+    this.loaded = false
+    this.recipes = []
+    setTimeout(() => {
+      // Any calls to load data go here
+      this.getRecipes();
+      e.target.complete();
+    }, 500);
+  }
+
 }
