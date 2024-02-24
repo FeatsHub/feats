@@ -29,6 +29,7 @@ class RecipeView(ModelViewSet):
             self.get_object().saved_by.add(request.user)
         return Response(self.serializer_class(self.get_object()).data)
 
+
 class RecipeImageView(
     viewsets.GenericViewSet,
     mixins.CreateModelMixin,

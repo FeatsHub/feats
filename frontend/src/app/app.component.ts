@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
@@ -14,16 +14,7 @@ export class AppComponent {
   ]
   showTabs = true
 
-  constructor(
-    private _router: Router
-  ) {
-    /*
-    // Detect the current route to show tab bar or not
-    this.showTabs = this.pagesWithTabs.includes(this._router.url)
-    this._router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.showTabs = this.pagesWithTabs.includes(this._router.url);
-      }
-    });*/
+  constructor() {
   }
+
 }

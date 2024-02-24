@@ -112,8 +112,14 @@
                           <ion-icon style="margin-top: 9px;" name="fast-food-outline"></ion-icon>
                         </ion-col>
                         <ion-col>
-                          <ion-label style="margin-top: 9px;">{{ingredient.value.product_name}}</ion-label>
+                          <ion-label style="margin-top: 9px;">
+                            <b>
+                              {{ ingredient.value.product_name.charAt(0).toUpperCase() + ingredient.value.product_name.slice(1) }}
+                            </b>
+                          </ion-label>
                         </ion-col>
+                      </ion-row>
+                      <ion-row style="margin-top: 10px">
                         <ion-col>
                           <ion-input
                             label="Cantidad"
@@ -133,7 +139,7 @@
                           formControlName="unit"
                           ></ion-input>
                         </ion-col>
-                        <ion-col>
+                        <ion-col style="text-align: right;">
                           <ion-button 
                           fill="outline" 
                           color="danger"

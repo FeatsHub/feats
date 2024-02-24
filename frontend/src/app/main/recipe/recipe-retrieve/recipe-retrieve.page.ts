@@ -33,6 +33,7 @@ export class RecipeDetailPage implements OnInit {
   }
 
   saved = false
+  is_public = false
 
   constructor(
     private _loadingCtrl: LoadingController,
@@ -111,6 +112,22 @@ export class RecipeDetailPage implements OnInit {
       error: (e) => console.error(e),
       complete: () => {
       }
+    });
+  }
+
+  get isOwner(){
+    return localStorage.getItem('userId') == String(this.recipe.owner)
+  }
+
+  togglePublic(){
+    this._recipeService.recipePartialUpdate$Json$Response(
+      {body: {is_public: !this.recipe.is_public}, id: this.recipe.id, expand: '~all'}).subscribe({
+        next: (recipe) => {
+          this.recipe = recipe.body;
+        },
+        error: (e) => console.error(e),
+        complete: () => {
+        }
     });
   }
 

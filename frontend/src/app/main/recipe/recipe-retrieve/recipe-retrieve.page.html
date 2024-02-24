@@ -6,13 +6,66 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/recipes" ></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button [routerLink]="['/recipes', recipe.id, 'edit']">Edit</ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
+  <ion-fab slot="fixed" vertical="top" horizontal="end">
+
+
+    <ion-fab-button
+      size="small"
+      color="light"
+      (click)="saveRecipe(recipe.id)"
+    >
+      <ion-icon
+        *ngIf="!saved"
+        name="bookmark-outline">
+      </ion-icon>
+      <ion-icon
+        *ngIf="saved"
+        name="bookmark">
+      </ion-icon>
+    </ion-fab-button>
+
+
+    <ion-fab-button
+      *ngIf="isOwner"
+      color="light"
+      size="small"
+      fill="clear"
+      (click)="togglePublic()"
+    >
+      <ion-icon 
+          name="eye-outline"
+          *ngIf="recipe.is_public"
+      ></ion-icon>
+      <ion-icon
+          name="eye-off-outline"
+          *ngIf="!recipe.is_public"
+      ></ion-icon>
+    </ion-fab-button>
+
+    <ion-fab-button
+        *ngIf="isOwner"
+        color="light"
+        size="small"
+        [routerLink]="['/recipes', recipe.id, 'edit']"
+    >
+      <ion-icon name="pencil-outline"></ion-icon>
+    </ion-fab-button>
+
+    <ion-fab-button
+        *ngIf="isOwner"
+        size="small"
+        (click)="presentDeleteAlert()"
+        color="danger"
+    >
+      <ion-icon name="trash-outline"></ion-icon>
+    </ion-fab-button>
+
+  </ion-fab>
 
   <div class="plate-detail-image"
     [ngStyle]="{'background-image': 'url(' + recipe.image_data.image + ')'}">
@@ -26,21 +79,6 @@
           <h2 class="plate-title">
             {{recipe.name}}
           </h2>
-          </ion-col>
-          <ion-col size="auto">
-            <ion-button fill="clear" (click)="saveRecipe(recipe.id)">
-              <ion-icon
-                *ngIf="!saved"
-                name="bookmark-outline">
-              </ion-icon>
-              <ion-icon
-                *ngIf="saved"
-                name="bookmark">
-              </ion-icon>
-            </ion-button>
-            <ion-button (click)="presentDeleteAlert()" fill="clear" color="danger">
-              <ion-icon name="trash-outline"></ion-icon>
-            </ion-button>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -67,24 +105,21 @@
 
     <ion-list lines="none">
       <ion-item 
-      style="margin: 10px auto;"
-      *ngFor="let ingredient of recipe.ingredients"
+        *ngFor="let ingredient of recipe.ingredients"
       >
-        <ion-card style="width: 100%;margin: 5px">
-            <ion-grid>
-              <ion-row>
-                <ion-col size="auto">
-                  <ion-icon style="margin-top: 9px;" size="large" color="primary" name="fast-food-outline"></ion-icon>
-                </ion-col>
-                <ion-col>
-                  <h4>{{ingredient.product_name}}</h4>
-                </ion-col>
-                <ion-col size="auto">
-                  {{ingredient.quantity}} {{ingredient.unit}}
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-        </ion-card>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="auto">
+              <ion-icon style="margin-top: 9px;" size="large" color="primary" name="fast-food-outline"></ion-icon>
+            </ion-col>
+            <ion-col style="padding: 20px 3px;">
+              {{ ingredient.product_name.charAt(0).toUpperCase() + ingredient.product_name.slice(1) }}
+            </ion-col>
+            <ion-col size="auto" style="color: grey;font-size: 13px;">
+              {{ingredient.quantity}} {{ingredient.unit}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-item>
     </ion-list>
 

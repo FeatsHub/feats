@@ -76,7 +76,7 @@
         </ion-card-header>
       
         <ion-card-content>
-          {{recipe.description}}
+          {{ recipe.description.length > 75 ? (recipe.description | slice:0:75) + '...' : recipe.description }}
           <br>
           <ion-grid>
             <ion-row>
