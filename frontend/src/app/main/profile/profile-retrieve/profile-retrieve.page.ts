@@ -5,10 +5,10 @@ import { UserService } from 'src/api/services';
 
 @Component({
   selector: 'app-profile',
-  templateUrl: 'profile.page.html',
-  styleUrls: ['profile.page.scss']
+  templateUrl: 'profile-retrieve.page.html',
+  styleUrls: ['profile-retrieve.page.scss']
 })
-export class ProfilePage implements OnInit {
+export class ProfileRetrievePage implements OnInit {
   imageUrl = undefined
   loaded = false
 
@@ -64,6 +64,8 @@ export class ProfilePage implements OnInit {
   profileMenuResult(event: any){
     if (event.detail.role == 'logout'){
       this.logOut()
+    } else if (event.detail.role == 'edit'){
+      this._router.navigate(['/profile/edit']);
     }
   }
 

@@ -10,7 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ApiModule } from 'src/api/api.module';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { Router } from '@angular/router'; 
-import { ProfilePage } from './main/profile/profile.page';
+import { ProfileModule } from './main/profile/profile.module';
 import { RegisterPage } from './main/register/register.page';
 import { StepCheckEmailComponent } from './main/register/components/step-check-email/step-check-email.component';
 import { StepCheckUsernameComponent } from './main/register/components/step-check-username/step-check-username.component';
@@ -23,7 +23,6 @@ import { StepCheckUsernameComponent } from './main/register/components/step-chec
     RegisterPage,
     StepCheckEmailComponent,
     StepCheckUsernameComponent,
-    ProfilePage,
   ],
   imports: [
     RouterModule,
