@@ -83,6 +83,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         null=True
     )
 
+    image = models.ForeignKey(
+        to='image_library.Image',
+        on_delete=models.SET_NULL,
+        null=True
+    )
+
     objects = UserManager()
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'

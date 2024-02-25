@@ -1,17 +1,12 @@
 from utils.serializers import DynamicModelSerializer
-from food.models import Recipe, RecipeCategory, RecipeIngredient, RecipeImage, Product
+from food.models import Recipe, RecipeCategory, RecipeIngredient, Product
 from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
+from image_library.serializers import ImageSerializer
 
 class RecipeCategorySerializer(DynamicModelSerializer):
     class Meta:
         model = RecipeCategory
-        fields = '__all__'
-
-
-class RecipeImageSerializer(DynamicModelSerializer):
-    class Meta:
-        model = RecipeImage
         fields = '__all__'
 
 
@@ -28,7 +23,7 @@ class RecipeIngredientSerializer(DynamicModelSerializer):
 
 
 class RecipeSerializer(WritableNestedModelSerializer, DynamicModelSerializer):
-    image_data = RecipeImageSerializer(read_only=True, source='image')
+    image_data = ImageSerializer(read_only=True, source='image')
     category_data = RecipeCategorySerializer(many=True, read_only=True, source='category')
     ingredients = RecipeIngredientSerializer(many=True)  # Writable
 

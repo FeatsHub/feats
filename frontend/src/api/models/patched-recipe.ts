@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
+import { Image } from '../models/image';
 import { RecipeCategory } from '../models/recipe-category';
-import { RecipeImage } from '../models/recipe-image';
 import { RecipeIngredient } from '../models/recipe-ingredient';
 
 /**
@@ -14,7 +14,7 @@ export interface PatchedRecipe {
   diners?: number;
   id?: number;
   image?: null | number;
-  image_data?: RecipeImage;
+  image_data?: Image;
   ingredients?: Array<RecipeIngredient>;
   is_public?: boolean;
   name?: string;

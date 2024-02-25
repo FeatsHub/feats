@@ -23,6 +23,7 @@ export class ProfileFormPage implements OnInit {
 
   ngOnInit() {
     this.userForm = this._formBuilder.group({
+      id: new FormControl(''),
       username: new FormControl('', Validators.required),
       email: new FormControl(''),
       first_name: new FormControl('', Validators.min(1)),
@@ -30,6 +31,16 @@ export class ProfileFormPage implements OnInit {
       phone: new FormControl(''),
       image: new FormControl(''),
     });
+    this._userService.userCurrentRetrieve$Response().subscribe({
+      next: (response) => {
+        this.userForm.patchValue(response.body);
+      },
+      error: (e) => {
+      },
+      complete: () => {
+      }
+    });
+    
   }
 
   async submit(){

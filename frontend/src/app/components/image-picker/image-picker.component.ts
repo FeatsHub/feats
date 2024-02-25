@@ -48,11 +48,9 @@ export class ImagePickerComponent  implements OnInit {
 
   async takePicture(e: any) {
     if (e.detail.data.action == 'camera') {
-      console.log('CAMARA')
       this.openGallery(CameraSource.Camera)
   
     }else if (e.detail.data.action == 'gallery') {
-      console.log('FOTOS')
       this.openGallery(CameraSource.Photos)
     }
   }

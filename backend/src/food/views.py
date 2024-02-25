@@ -1,6 +1,6 @@
 from utils.views import ModelViewSet
-from food.models import Recipe, RecipeCategory, RecipeIngredient, RecipeImage, Product
-from food.serializers import RecipeSerializer, RecipeCategorySerializer, RecipeIngredientSerializer, RecipeImageSerializer, ProductSerializer
+from food.models import Recipe, RecipeCategory, RecipeIngredient, Product
+from food.serializers import RecipeSerializer, RecipeCategorySerializer, RecipeIngredientSerializer, ProductSerializer
 from rest_framework import mixins, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -28,15 +28,6 @@ class RecipeView(ModelViewSet):
         else:
             self.get_object().saved_by.add(request.user)
         return Response(self.serializer_class(self.get_object()).data)
-
-
-class RecipeImageView(
-    viewsets.GenericViewSet,
-    mixins.CreateModelMixin,
-    mixins.DestroyModelMixin
-):
-    queryset = RecipeImage.objects.all()
-    serializer_class = RecipeImageSerializer
 
 
 class RecipeCategoryView(ModelViewSet):

@@ -34,10 +34,8 @@ class UserView(ModelViewSet):
         )
         if self.action in no_permission_views:
             return (AllowAny(), )
-        elif self.action in ['permissions']:
-            return (IsAuthenticated(), )
         else:
-            return (DjangoModelPermissions(), )
+            return (IsAuthenticated(), )
 
     @extend_schema(
         request=EmptySerializer,

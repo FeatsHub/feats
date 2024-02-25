@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Product, Recipe, RecipeCategory, RecipeImage, RecipeIngredient } from 'src/api/models';
+import { Product, Recipe, RecipeCategory, RecipeIngredient } from 'src/api/models';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
-import { ProductService, RecipeCategoryService, RecipeImageService, RecipeService } from 'src/api/services';
+import { ProductService, RecipeCategoryService, RecipeService } from 'src/api/services';
+import { Image } from 'src/api/models';
+import { ImageLibraryService } from 'src/api/services';
 import { LoadingController } from '@ionic/angular';
 
 @Component({
@@ -29,7 +31,7 @@ export class RecipeFormPage implements OnInit{
     private _router: Router,
     private _recipeService: RecipeService,
     private _recipeCategoryService: RecipeCategoryService,
-    private _recipeImageService: RecipeImageService,
+    private _imageLibraryService: ImageLibraryService,
     private _productService: ProductService
   ) {
   }
@@ -107,8 +109,8 @@ export class RecipeFormPage implements OnInit{
     this.recipeImageForm.patchValue({
       image: image
     });
-    this._recipeImageService.recipeImageCreate$FormData$Response({
-        body: this.recipeImageForm.value as RecipeImage
+    this._imageLibraryService.imageLibraryCreate$Response({
+        body: this.recipeImageForm.value as Image
       }).subscribe({
         next: (response) => {
           this.recipeForm.patchValue({

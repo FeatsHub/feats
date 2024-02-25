@@ -24,6 +24,7 @@ from rest_framework import permissions, routers
 from user import views as user_views
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 from food import views as food_views
+from image_library import views as image_library_views
 
 
 # To register all the urls, add one for each view created
@@ -35,6 +36,13 @@ urlpatterns = [
     re_path('api/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     re_path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
+
+# Image Library views
+router.register(
+    r'image_library',
+    image_library_views.ImageView,
+    basename='image_library'
+)
 
 # User views
 router.register(
@@ -60,12 +68,6 @@ router.register(
     r'recipe_ingredient',
     food_views.RecipeIngredientView,
     basename='recipe_ingredient'
-)
-
-router.register(
-    r'recipe_image',
-    food_views.RecipeImageView,
-    basename='recipe_image'
 )
 
 router.register(

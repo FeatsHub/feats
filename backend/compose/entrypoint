@@ -18,6 +18,10 @@ django_compilemessages() {
     python manage.py makemessages -l es | tail -1
 }
 
+django_initial_populate(){
+  python manage.py populate
+}
+
 django_collectstatic() {
     echo "*** Running collectstatic"
     python manage.py collectstatic --link --no-input | tail -1
@@ -77,6 +81,7 @@ dev-webserver-api)
   loop_postgres_ready
   django_migrate
   django_compilemessages
+  django_initial_populate
   echo "Run development webserver"
   python manage.py runserver 0.0.0.0:8000
   ;;
@@ -91,6 +96,7 @@ uwsgi-api)
   fi
   set -u
   django_compilemessages
+  django_initial_populate
   echo "*** Launching uWSGI application server"
   uwsgi --ini /etc/uwsgi/uwsgi.ini
   ;;

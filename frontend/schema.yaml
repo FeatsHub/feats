@@ -3,6 +3,181 @@ info:
   title: ''
   version: 0.0.0
 paths:
+  /api/image_library/:
+    get:
+      operationId: image_library_list
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - image_library
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedImageList'
+          description: ''
+    post:
+      operationId: image_library_create
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - image_library
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Image'
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+          description: ''
+  /api/image_library/{id}/:
+    get:
+      operationId: image_library_retrieve
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this image.
+        required: true
+      tags:
+      - image_library
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+          description: ''
+    put:
+      operationId: image_library_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this image.
+        required: true
+      tags:
+      - image_library
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Image'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+          description: ''
+    patch:
+      operationId: image_library_partial_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this image.
+        required: true
+      tags:
+      - image_library
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedImage'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+          description: ''
+    delete:
+      operationId: image_library_destroy
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this image.
+        required: true
+      tags:
+      - image_library
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/product/:
     get:
       operationId: product_list
@@ -516,48 +691,6 @@ paths:
         required: true
       tags:
       - recipe_category
-      security:
-      - tokenAuth: []
-      responses:
-        '204':
-          description: No response body
-  /api/recipe_image/:
-    post:
-      operationId: recipe_image_create
-      tags:
-      - recipe_image
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RecipeImage'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/RecipeImage'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/RecipeImage'
-      security:
-      - tokenAuth: []
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RecipeImage'
-          description: ''
-  /api/recipe_image/{id}/:
-    delete:
-      operationId: recipe_image_destroy
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this recipe image.
-        required: true
-      tags:
-      - recipe_image
       security:
       - tokenAuth: []
       responses:
@@ -1379,6 +1512,44 @@ components:
           readOnly: true
       required:
       - empty_data
+    Image:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        image:
+          type: string
+          format: uri
+          nullable: true
+          title: Recipe image
+      required:
+      - id
+    PaginatedImageList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
     PaginatedProductList:
       type: object
       properties:
@@ -1479,6 +1650,22 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/User'
+    PatchedImage:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        image:
+          type: string
+          format: uri
+          nullable: true
+          title: Recipe image
     PatchedRecipe:
       type: object
       description: Adds nested create feature
@@ -1515,10 +1702,9 @@ components:
         image:
           type: integer
           nullable: true
-          title: Recipe image
         image_data:
           allOf:
-          - $ref: '#/components/schemas/RecipeImage'
+          - $ref: '#/components/schemas/Image'
           readOnly: true
         category_data:
           type: array
@@ -1708,10 +1894,9 @@ components:
         image:
           type: integer
           nullable: true
-          title: Recipe image
         image_data:
           allOf:
-          - $ref: '#/components/schemas/RecipeImage'
+          - $ref: '#/components/schemas/Image'
           readOnly: true
         category_data:
           type: array
@@ -1761,24 +1946,6 @@ components:
       required:
       - id
       - name
-    RecipeImage:
-      type: object
-      description: |-
-        A ModelSerializer that takes additional arguments for
-        "fields" and "include" in order to
-        control which fields are displayed, and whether to replace simple values with
-        complex, nested serializations.
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        image:
-          type: string
-          format: uri
-          nullable: true
-          title: Recipe image
-      required:
-      - id
     RecipeIngredient:
       type: object
       description: |-

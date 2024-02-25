@@ -1,13 +1,6 @@
 from django.db import models
 from user.models import User
 
-class RecipeImage(models.Model):
-    image = models.FileField(
-        verbose_name=u'Recipe image',
-        upload_to='repice/',
-        null=True
-    )
-
 
 class Recipe(models.Model):
     """ Recipe, Plate, Meal """
@@ -59,10 +52,9 @@ class Recipe(models.Model):
     )
 
     image = models.ForeignKey(
-        verbose_name=u'Recipe image',
-        to=RecipeImage,
-        null=True,
-        on_delete=models.SET_NULL
+        to='image_library.Image',
+        on_delete=models.SET_NULL,
+        null=True
     )
 
 
