@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfileRetrievePage } from './profile-retrieve/profile-retrieve.page';
-import { ProfileEditPage } from './profile-edit/profile-edit.page';
+import { ProfileFormPage } from './profile-form/profile-form.page';
 
 const routes: Routes = [
   {
@@ -10,7 +10,7 @@ const routes: Routes = [
   },
   {
       path: 'edit',
-      component: ProfileEditPage,
+      component: ProfileFormPage,
   },
 ];
 
