@@ -4,13 +4,13 @@
       Recetas
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button [routerLink]="['/recipes/new']">
-        <ion-icon style="font-size: 30px;" name="add-outline"></ion-icon>
+      <ion-button>
+        <ion-icon slot="icon-only" name="filter-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar 
+    <ion-searchbar
       show-cancel-button="focus" 
       placeholder="Search" 
       (ionInput)="handleSearch($event)">
@@ -49,13 +49,29 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
+  <ion-menu contentId="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu Content</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">This is the menu content.</ion-content>
+  </ion-menu>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button [routerLink]="['/recipes/new']">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+
   <ion-list lines="none">
     <ion-item *ngFor="let recipe of recipes">
       <ion-card class="plate-item">
-        
         <div
           router-direction="forward" 
           [routerLink]="['/recipes', recipe.id]"

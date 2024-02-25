@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { ActionSheetController } from '@ionic/angular';
 import { base64toBlob } from 'src/app/utils/functions';
 
 @Component({
@@ -13,7 +14,31 @@ export class ImagePickerComponent  implements OnInit {
   @Input() imageUrl: string | undefined = undefined;
   @Output() selectImage = new EventEmitter<Blob>();
 
-  constructor() { }
+  public actionSheetButtons = [
+    {
+      text: 'Usar cámara',
+      data: {
+        action: 'camera',
+      },
+    },
+    {
+      text: 'Subir foto',
+      data: {
+        action: 'gallery',
+      },
+    },
+    {
+      text: 'Cancel',
+      role: 'cancel',
+      data: {
+        action: 'cancel',
+      },
+    },
+  ];
+
+  constructor(
+    private actionSheetCtrl: ActionSheetController
+  ) { }
 
   ngOnInit() {}
 
@@ -21,14 +46,24 @@ export class ImagePickerComponent  implements OnInit {
     this.selectImage.emit(image);
   }
 
-  async takePicture() {
-    try{
+  async takePicture(e: any) {
+    if (e.detail.data.action == 'camera') {
+      console.log('CAMARA')
+      this.openGallery(CameraSource.Camera)
+  
+    }else if (e.detail.data.action == 'gallery') {
+      console.log('FOTOS')
+      this.openGallery(CameraSource.Photos)
+    }
+  }
 
+  async openGallery(type: CameraSource){
+    try{
       const image = await Camera.getPhoto({
         quality: 90,
         allowEditing: true,
         resultType: CameraResultType.DataUrl,
-        source: CameraSource.Photos
+        source: type
       });
 
       this.selectNewImage(
@@ -37,6 +72,7 @@ export class ImagePickerComponent  implements OnInit {
 
     }catch {
       console.error('Error picking image');
+      Camera.requestPermissions()
     }
   }
 

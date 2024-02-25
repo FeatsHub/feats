@@ -15,7 +15,7 @@ class RecipeView(ModelViewSet):
     serializer_class = RecipeSerializer
     filterset_fields = ('category', )
     filter_backends = (SearchFilter, DjangoFilterBackend)
-    search_fields = ('name', )
+    search_fields = ('name', 'ingredients__product__name')
 
     @extend_schema(
         request=EmptySerializer,

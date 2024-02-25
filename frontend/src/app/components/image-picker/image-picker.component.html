@@ -1,6 +1,6 @@
 <div
   class="image"
-  (click)="takePicture()"
+  id="open-action-sheet"
   [ngStyle]="
     {
       'background-image':
@@ -8,3 +8,8 @@
     }
   ">
 </div>
+<ion-action-sheet
+  trigger="open-action-sheet"
+  [buttons]="actionSheetButtons"
+  (didDismiss)="takePicture($event)"
+></ion-action-sheet>
