@@ -16,7 +16,7 @@ services:
       - celeryworker
     environment:
       - DJANGO_DEBUG=False
-      - DJANGO_SETTINGS_MODULE=main.settings.production
+      # - DJANGO_SETTINGS_MODULE=main.settings.production
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
       - POSTGRES_DB=feats
