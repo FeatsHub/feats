@@ -34,3 +34,5 @@ SECURE_CONTENT_TYPE_NOSNIFF = config(
 SECURE_BROWSER_XSS_FILTER = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#x-frame-options
 X_FRAME_OPTIONS = "DENY"
+
+ALLOWED_HOSTS = ['*']
