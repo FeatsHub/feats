@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RoleEnum, User } from 'src/api/models';
-import { UserService } from 'src/api/services';
+import { ImageLibraryService, UserService } from 'src/api/services';
 
 @Component({
   selector: 'app-profile',
@@ -12,12 +12,14 @@ import { UserService } from 'src/api/services';
 export class ProfileFormPage implements OnInit {
 
   userForm: FormGroup
-  profileImage: ''
+  userImageForm: FormGroup
+  profileImage = ''
 
   constructor (
     private _userService: UserService,
     private _router: Router,
     private _formBuilder: FormBuilder,
+    private _imageLibraryService: ImageLibraryService
   ) {
   }
 
@@ -31,9 +33,14 @@ export class ProfileFormPage implements OnInit {
       phone: new FormControl(''),
       image: new FormControl(''),
     });
-    this._userService.userCurrentRetrieve$Response().subscribe({
+
+    this.userImageForm = this._formBuilder.group({
+      image: [''],
+    });
+    this._userService.userCurrentRetrieve$Response({expand: '~all'}).subscribe({
       next: (response) => {
         this.userForm.patchValue(response.body);
+        this.profileImage = response.body.image_data.image!
       },
       error: (e) => {
       },
@@ -57,23 +64,24 @@ export class ProfileFormPage implements OnInit {
   }
 
   imageSelected(image: any){
-    /*this.recipeImageForm.patchValue({
+    this.userImageForm.patchValue({
       image: image
     });
-    this._recipeImageService.recipeImageCreate$FormData$Response({
-        body: this.recipeImageForm.value as RecipeImage
-      }).subscribe({
-        next: (response) => {
-          this.recipeForm.patchValue({
-            image: response.body.id
-          });
-          this.selectedImage = response.body.image!
-        },
-        error: (e) =>
-        console.error(e),
-        complete: () => {
-        }
-      });*/
+    this._imageLibraryService.imageLibraryCreate$Response({
+      body: this.userImageForm.value
+    }).subscribe({
+      next: (response) => {
+        this.userForm.patchValue({
+          image: response.body.id
+        });
+        this.profileImage = response.body.image!
+        console.log(this.profileImage)
+      },
+      error: (e) =>
+      console.error(e),
+      complete: () => {
+      }
+    })
   }
 
 }

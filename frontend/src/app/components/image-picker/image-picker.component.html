@@ -1,12 +1,12 @@
 <div
   class="image"
   id="open-action-sheet"
-  [ngStyle]="
-    {
-      'background-image':
-      'url(' + (imageUrl ? imageUrl : 'https://ionicframework.com/docs/img/demos/card-media.png') + ')'
-    }
-  ">
+  [ngStyle]="{
+    'background-image': 'url(' + (imageUrl ? imageUrl : 'https://ionicframework.com/docs/img/demos/card-media.png') + ')',
+    'height': height,
+    'width': width,
+    'border-radius': borderRadius
+  }">
 </div>
 <ion-action-sheet
   trigger="open-action-sheet"

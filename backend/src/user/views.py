@@ -112,7 +112,8 @@ class UserView(ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def current(self, request, *args, **kwargs):
-        return Response(self.serializer_class(request.user).data)
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data)
 
     @extend_schema(
         request=user_serializers.EmailSerializer,

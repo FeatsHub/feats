@@ -9,7 +9,7 @@ import { UserService } from 'src/api/services';
   styleUrls: ['profile-retrieve.page.scss']
 })
 export class ProfileRetrievePage implements OnInit {
-  imageUrl = undefined
+  imageUrl: string | undefined = undefined
   loaded = false
 
   menuButtons = [
@@ -36,7 +36,11 @@ export class ProfileRetrievePage implements OnInit {
     phone: null,
     role: RoleEnum['User'],
     username: '',
-    has_login_blocked: 'false'
+    has_login_blocked: 'false',
+    image_data: {
+      id: -1,
+      image: undefined
+    }
   }
 
   constructor (
@@ -49,10 +53,11 @@ export class ProfileRetrievePage implements OnInit {
   }
 
   ionViewWillEnter(){
-    this._userService.userCurrentRetrieve$Response().subscribe({
+    this._userService.userCurrentRetrieve$Response({expand: '~all'}).subscribe({
       next: (response) => {
         this.user = response.body
         this.loaded = true
+        this.imageUrl = this.user.image_data.image!
       },
       error: (e) => {
       },

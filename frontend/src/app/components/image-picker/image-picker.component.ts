@@ -10,9 +10,12 @@ import { base64toBlob } from 'src/app/utils/functions';
 })
 export class ImagePickerComponent  implements OnInit {
 
-  
   @Input() imageUrl: string | undefined = undefined;
   @Output() selectImage = new EventEmitter<Blob>();
+
+  @Input() width: string
+  @Input() height: string
+  @Input() borderRadius: string
 
   public actionSheetButtons = [
     {

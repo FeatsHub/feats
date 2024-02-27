@@ -10,9 +10,11 @@ from utils.serializers import DynamicModelSerializer
 
 from drf_spectacular.utils import extend_schema_field
 from rest_framework.authtoken.models import Token
+from image_library.serializers import ImageSerializer
 
 
 class UserSerializer(DynamicModelSerializer):
+    image_data = ImageSerializer(read_only=True, source='image')
 
     class Meta:
         model = user_models.User
@@ -30,6 +32,8 @@ class UserSerializer(DynamicModelSerializer):
             'login_attempts',
             'last_bad_login_attempt_datetime',
             'has_login_blocked',
+            'image',
+            'image_data',
         )
         read_only_fields = (
             'id',
@@ -37,6 +41,7 @@ class UserSerializer(DynamicModelSerializer):
             'deactivation_datetime',
             'last_bad_login_attempt_datetime',
             'has_login_blocked',
+            'image_data',
         )
 
 

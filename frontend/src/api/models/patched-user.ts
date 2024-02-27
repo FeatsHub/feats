@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+import { Image } from '../models/image';
 import { RoleEnum } from '../models/role-enum';
 
 /**
@@ -14,6 +15,8 @@ export interface PatchedUser {
   first_name?: null | string;
   has_login_blocked?: string;
   id?: number;
+  image?: null | number;
+  image_data?: Image;
   is_active?: null | boolean;
   last_bad_login_attempt_datetime?: null | string;
   last_name?: null | string;

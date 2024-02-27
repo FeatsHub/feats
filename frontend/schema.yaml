@@ -1830,6 +1830,13 @@ components:
         has_login_blocked:
           type: string
           readOnly: true
+        image:
+          type: integer
+          nullable: true
+        image_data:
+          allOf:
+          - $ref: '#/components/schemas/Image'
+          readOnly: true
     Permission:
       type: object
       description: Serialize pydrfpermissions
@@ -2064,11 +2071,19 @@ components:
         has_login_blocked:
           type: string
           readOnly: true
+        image:
+          type: integer
+          nullable: true
+        image_data:
+          allOf:
+          - $ref: '#/components/schemas/Image'
+          readOnly: true
       required:
       - deactivation_datetime
       - email
       - has_login_blocked
       - id
+      - image_data
       - last_bad_login_attempt_datetime
       - password
       - username
