@@ -16,6 +16,8 @@ export class AuthInterceptor implements HttpInterceptor {
 
         let _req = req
 
+        console.log(req)
+
         // If token exists it add Authorization header
         if (userToken != null){
             _req = req.clone({

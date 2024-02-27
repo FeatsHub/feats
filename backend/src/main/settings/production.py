@@ -30,8 +30,6 @@ SECURE_HSTS_PRELOAD = config("DJANGO_SECURE_HSTS_PRELOAD", cast=bool, default=Tr
 SECURE_CONTENT_TYPE_NOSNIFF = config(
     "DJANGO_SECURE_CONTENT_TYPE_NOSNIFF", cast=bool, default=True
 )
-# https://docs.djangoproject.com/en/dev/ref/settings/#secure-browser-xss-filter
-SECURE_BROWSER_XSS_FILTER = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#x-frame-options
 X_FRAME_OPTIONS = "DENY"
 
