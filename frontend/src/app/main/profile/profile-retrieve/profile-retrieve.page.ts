@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RoleEnum, User } from 'src/api/models';
-import { UserService } from 'src/api/services';
+import { RecipeListService, UserService } from 'src/api/services';
+import { RecipeList } from 'src/api/models';
 
 @Component({
   selector: 'app-profile',
@@ -43,9 +44,12 @@ export class ProfileRetrievePage implements OnInit {
     }
   }
 
+  recipeLists: RecipeList[]
+
   constructor (
     private _userService: UserService,
-    private _router: Router
+    private _router: Router,
+    private _recipeList: RecipeListService
   ) {
   }
 
@@ -62,8 +66,20 @@ export class ProfileRetrievePage implements OnInit {
       error: (e) => {
       },
       complete: () => {
+        this._recipeList.recipeListList$Response(
+          {owner: this.user.id}
+          ).subscribe({
+          next: (response) => {
+            this.recipeLists = response.body.results!
+          },
+          error: (e) => {
+          },
+          complete: () => {
+          }
+        });
       }
     });
+
   }
 
   profileMenuResult(event: any){

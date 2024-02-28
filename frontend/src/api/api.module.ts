@@ -9,6 +9,7 @@ import { ProductService } from './services/product.service';
 import { RecipeService } from './services/recipe.service';
 import { RecipeCategoryService } from './services/recipe-category.service';
 import { RecipeIngredientService } from './services/recipe-ingredient.service';
+import { RecipeListService } from './services/recipe-list.service';
 import { SchemaService } from './services/schema.service';
 import { UserService } from './services/user.service';
 
@@ -25,6 +26,7 @@ import { UserService } from './services/user.service';
     RecipeService,
     RecipeCategoryService,
     RecipeIngredientService,
+    RecipeListService,
     SchemaService,
     UserService,
     ApiConfiguration

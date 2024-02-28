@@ -16,3 +16,24 @@ ion-list {
 ion-item {
   --ion-item-background: transparent!important;
 }
+
+.login-app-logo{
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 90%;
+  height: 200px;
+  margin: 20px 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .login-app-logo{
+    background-image: url('/assets/feats-text-white.png');
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .login-app-logo{
+    background-image: url('/assets/feats-text-black.png');
+  }
+}

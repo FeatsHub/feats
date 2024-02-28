@@ -891,6 +891,205 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/recipe_list/:
+    get:
+      operationId: recipe_list_list
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - in: query
+        name: owner
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - recipe_list
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRecipeListList'
+          description: ''
+    post:
+      operationId: recipe_list_create
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - recipe_list
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeList'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RecipeList'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecipeList'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeList'
+          description: ''
+  /api/recipe_list/{id}/:
+    get:
+      operationId: recipe_list_retrieve
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe list.
+        required: true
+      tags:
+      - recipe_list
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeList'
+          description: ''
+    put:
+      operationId: recipe_list_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe list.
+        required: true
+      tags:
+      - recipe_list
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeList'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RecipeList'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecipeList'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeList'
+          description: ''
+    patch:
+      operationId: recipe_list_partial_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe list.
+        required: true
+      tags:
+      - recipe_list
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipeList'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipeList'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipeList'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeList'
+          description: ''
+    delete:
+      operationId: recipe_list_destroy
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe list.
+        required: true
+      tags:
+      - recipe_list
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/schema/:
     get:
       operationId: schema_retrieve
@@ -1630,6 +1829,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Recipe'
+    PaginatedRecipeListList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeList'
     PaginatedUserList:
       type: object
       properties:
@@ -1765,6 +1984,26 @@ components:
           title: Measure unit
         product:
           type: integer
+    PatchedRecipeList:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: List name
+        owner:
+          type: integer
+        recipes:
+          type: array
+          items:
+            type: integer
     PatchedUser:
       type: object
       description: |-
@@ -1984,6 +2223,30 @@ components:
       - product_name
       - quantity
       - unit
+    RecipeList:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: List name
+        owner:
+          type: integer
+        recipes:
+          type: array
+          items:
+            type: integer
+      required:
+      - id
+      - name
+      - owner
     ResetPassword:
       type: object
       description: Validate the contact email

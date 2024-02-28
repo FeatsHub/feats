@@ -1,5 +1,5 @@
 from utils.serializers import DynamicModelSerializer
-from food.models import Recipe, RecipeCategory, RecipeIngredient, Product
+from food.models import Recipe, RecipeCategory, RecipeIngredient, Product, RecipeList
 from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
 from image_library.serializers import ImageSerializer
@@ -63,6 +63,20 @@ class ProductSerializer(DynamicModelSerializer):
         fields = (
             'id',
             'name'
+        )
+        read_only_fields = (
+            'id',
+        )
+
+
+class RecipeListSerializer(DynamicModelSerializer):
+    class Meta:
+        model = RecipeList
+        fields = (
+            'id',
+            'name',
+            'owner',
+            'recipes'
         )
         read_only_fields = (
             'id',

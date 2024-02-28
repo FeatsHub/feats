@@ -71,6 +71,12 @@ router.register(
 )
 
 router.register(
+    r'recipe_list',
+    food_views.RecipeListView,
+    basename='recipe_list'
+)
+
+router.register(
     r'product',
     food_views.ProductView,
     basename='product'

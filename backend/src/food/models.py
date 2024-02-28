@@ -58,6 +58,27 @@ class Recipe(models.Model):
     )
 
 
+class RecipeList(models.Model):
+    is_default_list = models.BooleanField(
+        default=False,
+    )
+
+    name = models.CharField(
+        verbose_name=u'List name'
+    )
+
+    owner = models.ForeignKey(
+        to=User,
+        related_name='recipe_lists',
+        on_delete=models.CASCADE
+    )
+
+    recipes = models.ManyToManyField(
+        to=Recipe,
+        blank=True
+    )
+
+
 class RecipeCategory(models.Model):
     """ Recipe category """
     name = models.CharField(

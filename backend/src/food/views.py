@@ -1,6 +1,6 @@
 from utils.views import ModelViewSet
-from food.models import Recipe, RecipeCategory, RecipeIngredient, Product
-from food.serializers import RecipeSerializer, RecipeCategorySerializer, RecipeIngredientSerializer, ProductSerializer
+from food.models import Recipe, RecipeCategory, RecipeIngredient, Product, RecipeList
+from food.serializers import RecipeSerializer, RecipeCategorySerializer, RecipeIngredientSerializer, ProductSerializer, RecipeListSerializer
 from rest_framework import mixins, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -63,3 +63,11 @@ class ProductView(
             return Response(self.serializer_class(tag).data)
         except Product.DoesNotExist:
             return super().create(request=request, *args, **kwargs)
+
+
+class RecipeListView(ModelViewSet):
+    queryset = RecipeList.objects.all()
+    serializer_class = RecipeListSerializer
+    filterset_fields = (
+        'owner',
+    )
