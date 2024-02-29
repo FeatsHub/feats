@@ -14,6 +14,11 @@ export interface UserCreate$XWwwFormUrlencoded$Params {
  * List of nested objects
  */
   expand?: string;
+
+/**
+ * List of nested objects
+ */
+  fields?: string;
       body: User
 }
 
@@ -21,6 +26,7 @@ export function userCreate$XWwwFormUrlencoded(http: HttpClient, rootUrl: string,
   const rb = new RequestBuilder(rootUrl, userCreate$XWwwFormUrlencoded.PATH, 'post');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.body(params.body, 'application/x-www-form-urlencoded');
   }
 

@@ -16,6 +16,11 @@ export interface RecipeIngredientUpdate$XWwwFormUrlencoded$Params {
   expand?: string;
 
 /**
+ * List of nested objects
+ */
+  fields?: string;
+
+/**
  * A unique integer value identifying this recipe ingredient.
  */
   id: number;
@@ -26,6 +31,7 @@ export function recipeIngredientUpdate$XWwwFormUrlencoded(http: HttpClient, root
   const rb = new RequestBuilder(rootUrl, recipeIngredientUpdate$XWwwFormUrlencoded.PATH, 'put');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.path('id', params.id, {});
     rb.body(params.body, 'application/x-www-form-urlencoded');
   }

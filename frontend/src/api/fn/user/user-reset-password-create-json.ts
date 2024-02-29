@@ -15,6 +15,11 @@ export interface UserResetPasswordCreate$Json$Params {
  * List of nested objects
  */
   expand?: string;
+
+/**
+ * List of nested objects
+ */
+  fields?: string;
       body: Email
 }
 
@@ -22,6 +27,7 @@ export function userResetPasswordCreate$Json(http: HttpClient, rootUrl: string, 
   const rb = new RequestBuilder(rootUrl, userResetPasswordCreate$Json.PATH, 'post');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.body(params.body, 'application/json');
   }
 

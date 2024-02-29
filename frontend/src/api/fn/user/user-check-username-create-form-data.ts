@@ -15,6 +15,11 @@ export interface UserCheckUsernameCreate$FormData$Params {
  * List of nested objects
  */
   expand?: string;
+
+/**
+ * List of nested objects
+ */
+  fields?: string;
       body: CheckUsername
 }
 
@@ -22,6 +27,7 @@ export function userCheckUsernameCreate$FormData(http: HttpClient, rootUrl: stri
   const rb = new RequestBuilder(rootUrl, userCheckUsernameCreate$FormData.PATH, 'post');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.body(params.body, 'multipart/form-data');
   }
 

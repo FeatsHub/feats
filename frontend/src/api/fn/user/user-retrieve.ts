@@ -16,6 +16,11 @@ export interface UserRetrieve$Params {
   expand?: string;
 
 /**
+ * List of nested objects
+ */
+  fields?: string;
+
+/**
  * A unique integer value identifying this user.
  */
   id: number;
@@ -25,6 +30,7 @@ export function userRetrieve(http: HttpClient, rootUrl: string, params: UserRetr
   const rb = new RequestBuilder(rootUrl, userRetrieve.PATH, 'get');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.path('id', params.id, {});
   }
 

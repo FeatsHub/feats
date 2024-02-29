@@ -70,14 +70,19 @@ class ProductSerializer(DynamicModelSerializer):
 
 
 class RecipeListSerializer(DynamicModelSerializer):
+    recipes_data = RecipeSerializer(many=True, source='recipes', read_only=True)
+
     class Meta:
         model = RecipeList
         fields = (
             'id',
             'name',
             'owner',
-            'recipes'
+            'recipes',
+            'is_default_list',
+            'recipes_data'
         )
         read_only_fields = (
             'id',
+            'recipes_data'
         )

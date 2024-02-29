@@ -16,6 +16,11 @@ export interface RecipeCategoryList$Params {
   expand?: string;
 
 /**
+ * List of nested objects
+ */
+  fields?: string;
+
+/**
  * Number of results to return per page.
  */
   limit?: number;
@@ -40,6 +45,7 @@ export function recipeCategoryList(http: HttpClient, rootUrl: string, params?: R
   const rb = new RequestBuilder(rootUrl, recipeCategoryList.PATH, 'get');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.query('limit', params.limit, {});
     rb.query('offset', params.offset, {});
     rb.query('ordering', params.ordering, {});

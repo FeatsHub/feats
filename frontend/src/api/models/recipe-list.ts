@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+import { Recipe } from '../models/recipe';
 
 /**
  * A ModelSerializer that takes additional arguments for
@@ -9,7 +10,9 @@
  */
 export interface RecipeList {
   id: number;
+  is_default_list?: boolean;
   name: string;
   owner: number;
   recipes?: Array<number>;
+  recipes_data: Array<Recipe>;
 }

@@ -14,6 +14,11 @@ export interface RecipeIngredientCreate$Json$Params {
  * List of nested objects
  */
   expand?: string;
+
+/**
+ * List of nested objects
+ */
+  fields?: string;
       body: RecipeIngredient
 }
 
@@ -21,6 +26,7 @@ export function recipeIngredientCreate$Json(http: HttpClient, rootUrl: string, p
   const rb = new RequestBuilder(rootUrl, recipeIngredientCreate$Json.PATH, 'post');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.body(params.body, 'application/json');
   }
 

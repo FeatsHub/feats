@@ -17,6 +17,11 @@ export interface RecipeList$Params {
   expand?: string;
 
 /**
+ * List of nested objects
+ */
+  fields?: string;
+
+/**
  * Number of results to return per page.
  */
   limit?: number;
@@ -37,6 +42,7 @@ export function recipeList(http: HttpClient, rootUrl: string, params?: RecipeLis
   if (params) {
     rb.query('category', params.category, {"style":"form","explode":true});
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.query('limit', params.limit, {});
     rb.query('offset', params.offset, {});
     rb.query('search', params.search, {});

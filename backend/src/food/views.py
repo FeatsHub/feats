@@ -25,8 +25,10 @@ class RecipeView(ModelViewSet):
     def save(self, request, *args, **kwargs):
         if self.get_object().saved_by.filter(id=request.user.id).exists():
             self.get_object().saved_by.remove(request.user)
+            request.user.recipe_lists.remove(self.get_object())
         else:
             self.get_object().saved_by.add(request.user)
+            request.user.recipe_lists.add(self.get_object())
         return Response(self.serializer_class(self.get_object()).data)
 
 

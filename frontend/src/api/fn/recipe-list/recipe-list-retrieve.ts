@@ -16,6 +16,11 @@ export interface RecipeListRetrieve$Params {
   expand?: string;
 
 /**
+ * List of nested objects
+ */
+  fields?: string;
+
+/**
  * A unique integer value identifying this recipe list.
  */
   id: number;
@@ -25,6 +30,7 @@ export function recipeListRetrieve(http: HttpClient, rootUrl: string, params: Re
   const rb = new RequestBuilder(rootUrl, recipeListRetrieve.PATH, 'get');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.path('id', params.id, {});
   }
 

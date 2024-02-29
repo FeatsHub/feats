@@ -17,6 +17,11 @@ export interface RecipeListPartialUpdate$FormData$Params {
   expand?: string;
 
 /**
+ * List of nested objects
+ */
+  fields?: string;
+
+/**
  * A unique integer value identifying this recipe list.
  */
   id: number;
@@ -27,6 +32,7 @@ export function recipeListPartialUpdate$FormData(http: HttpClient, rootUrl: stri
   const rb = new RequestBuilder(rootUrl, recipeListPartialUpdate$FormData.PATH, 'patch');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.path('id', params.id, {});
     rb.body(params.body, 'multipart/form-data');
   }

@@ -16,6 +16,11 @@ export interface UserUpdate$FormData$Params {
   expand?: string;
 
 /**
+ * List of nested objects
+ */
+  fields?: string;
+
+/**
  * A unique integer value identifying this user.
  */
   id: number;
@@ -26,6 +31,7 @@ export function userUpdate$FormData(http: HttpClient, rootUrl: string, params: U
   const rb = new RequestBuilder(rootUrl, userUpdate$FormData.PATH, 'put');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.path('id', params.id, {});
     rb.body(params.body, 'multipart/form-data');
   }

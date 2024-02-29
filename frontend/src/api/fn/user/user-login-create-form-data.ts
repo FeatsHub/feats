@@ -14,6 +14,11 @@ export interface UserLoginCreate$FormData$Params {
  * List of nested objects
  */
   expand?: string;
+
+/**
+ * List of nested objects
+ */
+  fields?: string;
       body: UserLogin
 }
 
@@ -21,6 +26,7 @@ export function userLoginCreate$FormData(http: HttpClient, rootUrl: string, para
   const rb = new RequestBuilder(rootUrl, userLoginCreate$FormData.PATH, 'post');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.body(params.body, 'multipart/form-data');
   }
 

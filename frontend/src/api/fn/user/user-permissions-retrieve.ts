@@ -14,12 +14,18 @@ export interface UserPermissionsRetrieve$Params {
  * List of nested objects
  */
   expand?: string;
+
+/**
+ * List of nested objects
+ */
+  fields?: string;
 }
 
 export function userPermissionsRetrieve(http: HttpClient, rootUrl: string, params?: UserPermissionsRetrieve$Params, context?: HttpContext): Observable<StrictHttpResponse<Permission>> {
   const rb = new RequestBuilder(rootUrl, userPermissionsRetrieve.PATH, 'get');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
   }
 
   return http.request(

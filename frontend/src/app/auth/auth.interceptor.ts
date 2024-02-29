@@ -16,6 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
         let _req = req
 
+        console.log(userToken)
         console.log(req)
 
         // If token exists it add Authorization header

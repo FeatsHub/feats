@@ -17,6 +17,11 @@ export interface UserPartialUpdate$Json$Params {
   expand?: string;
 
 /**
+ * List of nested objects
+ */
+  fields?: string;
+
+/**
  * A unique integer value identifying this user.
  */
   id: number;
@@ -27,6 +32,7 @@ export function userPartialUpdate$Json(http: HttpClient, rootUrl: string, params
   const rb = new RequestBuilder(rootUrl, userPartialUpdate$Json.PATH, 'patch');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.path('id', params.id, {});
     rb.body(params.body, 'application/json');
   }

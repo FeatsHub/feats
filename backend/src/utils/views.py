@@ -14,6 +14,16 @@ from drf_spectacular.types import OpenApiTypes
         )
     ]
 )
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            name='fields',
+            description='List of nested objects',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+        )
+    ]
+)
 class ModelViewSet(
     viewsets.GenericViewSet,
     mixins.CreateModelMixin,

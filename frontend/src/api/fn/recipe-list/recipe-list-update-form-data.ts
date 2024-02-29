@@ -16,6 +16,11 @@ export interface RecipeListUpdate$FormData$Params {
   expand?: string;
 
 /**
+ * List of nested objects
+ */
+  fields?: string;
+
+/**
  * A unique integer value identifying this recipe list.
  */
   id: number;
@@ -26,6 +31,7 @@ export function recipeListUpdate$FormData(http: HttpClient, rootUrl: string, par
   const rb = new RequestBuilder(rootUrl, recipeListUpdate$FormData.PATH, 'put');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.path('id', params.id, {});
     rb.body(params.body, 'multipart/form-data');
   }

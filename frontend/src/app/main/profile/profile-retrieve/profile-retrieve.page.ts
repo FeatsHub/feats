@@ -13,6 +13,13 @@ export class ProfileRetrievePage implements OnInit {
   imageUrl: string | undefined = undefined
   loaded = false
 
+  public alertButtons = ['Save'];
+  public alertInputs = [
+    {
+      placeholder: 'Nombre',
+    },
+  ];
+
   menuButtons = [
     {
       text: 'Log out',
@@ -67,7 +74,11 @@ export class ProfileRetrievePage implements OnInit {
       },
       complete: () => {
         this._recipeList.recipeListList$Response(
-          {owner: this.user.id}
+          {
+            expand: '~~all,recipes_data.~all',
+            fields: 'id,name,is_default_list,recipes_data.image_data.image',
+            owner: this.user.id
+          }
           ).subscribe({
           next: (response) => {
             this.recipeLists = response.body.results!
@@ -101,6 +112,30 @@ export class ProfileRetrievePage implements OnInit {
         this._router.navigate(['/recipes']);
       }
     });
+  }
+
+  setResult(ev: any) {
+    const listName = ev.detail.data.values['0']
+
+    this._recipeList.recipeListCreate$Json$Response(
+      {
+        body: {
+          id: -1,
+          name: listName,
+          owner: this.user.id,
+          recipes: [],
+          recipes_data: []
+        }
+      }
+    ).subscribe({
+        next: (response) => {
+          this.recipeLists.push(response.body)
+        },
+        error: (e) => {
+        },
+        complete: () => {
+        }
+      });
   }
 
 }

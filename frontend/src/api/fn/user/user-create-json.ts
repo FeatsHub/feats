@@ -14,6 +14,11 @@ export interface UserCreate$Json$Params {
  * List of nested objects
  */
   expand?: string;
+
+/**
+ * List of nested objects
+ */
+  fields?: string;
       body: User
 }
 
@@ -21,6 +26,7 @@ export function userCreate$Json(http: HttpClient, rootUrl: string, params: UserC
   const rb = new RequestBuilder(rootUrl, userCreate$Json.PATH, 'post');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.body(params.body, 'application/json');
   }
 

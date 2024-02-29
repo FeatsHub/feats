@@ -15,6 +15,11 @@ export interface UserDestroy$Params {
   expand?: string;
 
 /**
+ * List of nested objects
+ */
+  fields?: string;
+
+/**
  * A unique integer value identifying this user.
  */
   id: number;
@@ -24,6 +29,7 @@ export function userDestroy(http: HttpClient, rootUrl: string, params: UserDestr
   const rb = new RequestBuilder(rootUrl, userDestroy.PATH, 'delete');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.path('id', params.id, {});
   }
 

@@ -14,6 +14,11 @@ export interface RecipeIngredientCreate$FormData$Params {
  * List of nested objects
  */
   expand?: string;
+
+/**
+ * List of nested objects
+ */
+  fields?: string;
       body: RecipeIngredient
 }
 
@@ -21,6 +26,7 @@ export function recipeIngredientCreate$FormData(http: HttpClient, rootUrl: strin
   const rb = new RequestBuilder(rootUrl, recipeIngredientCreate$FormData.PATH, 'post');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.body(params.body, 'multipart/form-data');
   }
 

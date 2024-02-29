@@ -16,6 +16,11 @@ export interface ImageLibraryUpdate$Params {
   expand?: string;
 
 /**
+ * List of nested objects
+ */
+  fields?: string;
+
+/**
  * A unique integer value identifying this image.
  */
   id: number;
@@ -26,6 +31,7 @@ export function imageLibraryUpdate(http: HttpClient, rootUrl: string, params: Im
   const rb = new RequestBuilder(rootUrl, imageLibraryUpdate.PATH, 'put');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.path('id', params.id, {});
     rb.body(params.body, 'multipart/form-data');
   }

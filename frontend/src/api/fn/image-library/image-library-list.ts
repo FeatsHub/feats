@@ -16,6 +16,11 @@ export interface ImageLibraryList$Params {
   expand?: string;
 
 /**
+ * List of nested objects
+ */
+  fields?: string;
+
+/**
  * Number of results to return per page.
  */
   limit?: number;
@@ -40,6 +45,7 @@ export function imageLibraryList(http: HttpClient, rootUrl: string, params?: Ima
   const rb = new RequestBuilder(rootUrl, imageLibraryList.PATH, 'get');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.query('limit', params.limit, {});
     rb.query('offset', params.offset, {});
     rb.query('ordering', params.ordering, {});

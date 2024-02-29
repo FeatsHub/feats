@@ -14,12 +14,18 @@ export interface UserCurrentRetrieve$Params {
  * List of nested objects
  */
   expand?: string;
+
+/**
+ * List of nested objects
+ */
+  fields?: string;
 }
 
 export function userCurrentRetrieve(http: HttpClient, rootUrl: string, params?: UserCurrentRetrieve$Params, context?: HttpContext): Observable<StrictHttpResponse<User>> {
   const rb = new RequestBuilder(rootUrl, userCurrentRetrieve.PATH, 'get');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
   }
 
   return http.request(

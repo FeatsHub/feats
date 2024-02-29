@@ -15,6 +15,11 @@ export interface UserResetPasswordCreate$FormData$Params {
  * List of nested objects
  */
   expand?: string;
+
+/**
+ * List of nested objects
+ */
+  fields?: string;
       body: Email
 }
 
@@ -22,6 +27,7 @@ export function userResetPasswordCreate$FormData(http: HttpClient, rootUrl: stri
   const rb = new RequestBuilder(rootUrl, userResetPasswordCreate$FormData.PATH, 'post');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.body(params.body, 'multipart/form-data');
   }
 

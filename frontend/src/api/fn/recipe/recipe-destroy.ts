@@ -15,6 +15,11 @@ export interface RecipeDestroy$Params {
   expand?: string;
 
 /**
+ * List of nested objects
+ */
+  fields?: string;
+
+/**
  * A unique integer value identifying this recipe.
  */
   id: number;
@@ -24,6 +29,7 @@ export function recipeDestroy(http: HttpClient, rootUrl: string, params: RecipeD
   const rb = new RequestBuilder(rootUrl, recipeDestroy.PATH, 'delete');
   if (params) {
     rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
     rb.path('id', params.id, {});
   }
 

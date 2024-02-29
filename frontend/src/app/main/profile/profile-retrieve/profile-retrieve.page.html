@@ -11,6 +11,13 @@
     </ion-toolbar>
   </ion-header>
 <ion-content [fullscreen]="true">
+    <ion-alert
+        trigger="present-alert"
+        header="Crea una lista"
+        [buttons]="alertButtons"
+        [inputs]="alertInputs"
+        (didDismiss)="setResult($event)"
+    ></ion-alert>
     <ion-action-sheet 
         translucent="true"
         trigger="profile-menu"
@@ -47,24 +54,49 @@
 
     <ion-grid>
         <ion-row>
-            <ion-col *ngFor="let recipeList of recipeLists">
+            <ion-col size="6" *ngFor="let recipeList of recipeLists">
                 <ion-card>
                     <ion-grid class="four-recipes">
                         <ion-row>
-                            <ion-col class="recipe-detail image1" style="border-top-left-radius: 10px"
+                            <ion-col
+                                class="recipe-detail"
+                                style="border-top-left-radius: 10px"
+                                [ngStyle]="{
+                                    'background-image': 'url(' + recipeList.recipes_data[0]?.image_data?.image || '' + ')',
+                                }"
                             ></ion-col>
-                            <ion-col class="recipe-detail image2" style="border-top-right-radius: 10px"></ion-col>
+                            <ion-col
+                                class="recipe-detail"
+                                style="border-top-right-radius: 10px"
+                                [ngStyle]="{
+                                    'background-image': 'url(' + recipeList.recipes_data[1]?.image_data?.image + ')',
+                                }"
+                            ></ion-col>
                         </ion-row>
                         <ion-row>
-                            <ion-col class="recipe-detail image3" style="border-bottom-left-radius: 10px"></ion-col>
-                            <ion-col class="recipe-detail" style="border-bottom-right-radius: 10px"></ion-col>
+                            <ion-col
+                                class="recipe-detail"
+                                style="border-bottom-left-radius: 10px"
+                                [ngStyle]="{
+                                    'background-image': 'url(' + recipeList.recipes_data[3]?.image_data?.image + ')',
+                                }"
+                            ></ion-col>
+                            <ion-col
+                                class="recipe-detail"
+                                style="border-bottom-right-radius: 10px"
+                                [ngStyle]="{
+                                    'background-image': 'url(' + recipeList.recipes_data[4]?.image_data?.image + ')',
+                                }"
+                            ></ion-col>
                         </ion-row>
                     </ion-grid>
-                    <h3 style="padding: 5px 10px;">{{recipeList.name}} <ion-icon name="bookmark"></ion-icon></h3>
+                    <h3 style="padding: 5px 10px;">{{recipeList.name}}
+                        <ion-icon style="position: relative;top:4px" name="bookmark" *ngIf="recipeList.is_default_list"></ion-icon>
+                    </h3>
                 </ion-card>
             </ion-col>
-            <ion-col>
-                <ion-card>
+            <ion-col size="6">
+                <ion-card id="present-alert">
                     <ion-grid class="four-recipes">
                         <ion-row>
                             <ion-col class="recipe-detail-big" style="font-size: 60px;">
