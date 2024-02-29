@@ -106,7 +106,9 @@
                   <ion-icon
                     *ngIf="!recipe.saved_by.includes(userId)"
                     slot="icon-only"
-                    name="bookmark-outline">
+                    name="bookmark-outline"
+                    (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)"
+                    >
                   </ion-icon>
                   <ion-icon
                     *ngIf="recipe.saved_by.includes(userId)"
