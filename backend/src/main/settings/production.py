@@ -35,6 +35,6 @@ X_FRAME_OPTIONS = "DENY"
 
 ALLOWED_HOSTS = ['*']
 
-CORS_ALLOWED_ORIGINS = [
+CORS_ORIGIN_WHITELIST = [
     'http://api.feats-app.com'
 ]
