@@ -25,6 +25,11 @@ export interface RecipeSaveCreate$XWwwFormUrlencoded$Params {
  * A unique integer value identifying this recipe.
  */
   id: number;
+
+/**
+ * List ID
+ */
+  list_id?: string;
       body?: Empty
 }
 
@@ -34,6 +39,7 @@ export function recipeSaveCreate$XWwwFormUrlencoded(http: HttpClient, rootUrl: s
     rb.query('expand', params.expand, {});
     rb.query('fields', params.fields, {});
     rb.path('id', params.id, {});
+    rb.query('list_id', params.list_id, {});
     rb.body(params.body, 'application/x-www-form-urlencoded');
   }
 

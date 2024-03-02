@@ -544,6 +544,11 @@ paths:
           type: integer
         description: A unique integer value identifying this recipe.
         required: true
+      - in: query
+        name: list_id
+        schema:
+          type: string
+        description: List ID
       tags:
       - recipe
       requestBody:

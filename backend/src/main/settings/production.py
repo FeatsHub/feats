@@ -36,5 +36,6 @@ X_FRAME_OPTIONS = "DENY"
 ALLOWED_HOSTS = ['*']
 
 CORS_ORIGIN_WHITELIST = [
-    'http://api.feats-app.com'
+    'http://api.feats-app.com',
+    'capacitor://localhost'
 ]

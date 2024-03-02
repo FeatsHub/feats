@@ -25,6 +25,11 @@ export interface RecipeSaveCreate$FormData$Params {
  * A unique integer value identifying this recipe.
  */
   id: number;
+
+/**
+ * List ID
+ */
+  list_id?: string;
       body?: Empty
 }
 
@@ -34,6 +39,7 @@ export function recipeSaveCreate$FormData(http: HttpClient, rootUrl: string, par
     rb.query('expand', params.expand, {});
     rb.query('fields', params.fields, {});
     rb.path('id', params.id, {});
+    rb.query('list_id', params.list_id, {});
     rb.body(params.body, 'multipart/form-data');
   }
 
