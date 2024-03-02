@@ -34,3 +34,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = config(
 X_FRAME_OPTIONS = "DENY"
 
 ALLOWED_HOSTS = ['*']
+
+CORS_ALLOWED_ORIGINS = [
+    'http://api.feats-app.com'
+]
