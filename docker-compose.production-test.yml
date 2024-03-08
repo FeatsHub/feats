@@ -22,6 +22,9 @@ services:
       - POSTGRES_DB=feats
       - POSTGRES_USER=feats
       - POSTGRES_PASSWORD=feats
+    volumes:
+      - /var/www/static/:/var/www/static/
+      - /var/certbot/conf:/etc/letsencrypt/:ro
     ports:
       - "8000:8000"
     command: uwsgi-api
