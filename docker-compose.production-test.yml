@@ -59,3 +59,23 @@ services:
 
   redis:
     image: redis:7
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/www/static/:/var/www/static/
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - api
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - /var/certbot/conf:/etc/letsencrypt/:rw
+      - /var/certbot/www/:/var/www/certbot/:rw
+    depends_on:
+      - nginx
