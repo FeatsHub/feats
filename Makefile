@@ -36,7 +36,7 @@ up-production-test:
 up-postgres-develop: ## Run developer NFGE postgresql service (in detached mode)
 	$(DOCKER_DEV) up -d postgres
 
-down: down-dev down-production-test  ## Stop and remove all containers
+down: down-dev  ## Stop and remove all containers
 
 down-dev: ## Stop and remove all developer service containers
 	$(DOCKER_DEV) down --remove-orphans
@@ -196,4 +196,4 @@ docker_rm_all_containers: docker_stop_all_containers ## Stop and remove all dock
 	docker container rm $(shell docker container ls -aq)
 
 obtain-ssl-production-cert:
-	$(DOCKER_PROD) run --rm certbot certonly --webroot --webroot-path=/var/www/certbot --email manuelvalverde.dev@gmail.com --agree-tos --no-eff-email -d api.feats-app.com
+	$(DOCKER_PROD) run --rm certbot certonly --webroot --webroot-path /var/www/certbot --email manuelvalverde.dev@gmail.com --agree-tos --no-eff-email -d api.feats-app.com -v
