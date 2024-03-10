@@ -74,6 +74,7 @@ RUN chmod +x /entrypoint
 WORKDIR /app
 COPY ./compose/production/uwsgi.ini /etc/uwsgi/uwsgi.ini
 COPY src/ /app/
+COPY ./gunicorn_cofig.py /app/gunicorn_cofig.py
 
 ## Run compilemessages
 #RUN python manage.py compilemessages -l es
