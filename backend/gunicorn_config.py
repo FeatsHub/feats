@@ -25,5 +25,5 @@ timeout = 600
 ignore_sigpipe = True
 post_buffering = 4096
 
-certfile = "/etc/letsencrypt/live/api.feats-api.com/fullchain.pem"
-keyfile = "/etc/letsencrypt/live/api.feats-api.com/privkey.pem"
+#certfile = "/etc/letsencrypt/live/api.feats-api.com/fullchain.pem"
+#keyfile = "/etc/letsencrypt/live/api.feats-api.com/privkey.pem"

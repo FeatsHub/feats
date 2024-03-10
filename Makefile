@@ -193,4 +193,4 @@ docker_rm_all_containers: docker_stop_all_containers ## Stop and remove all dock
 	docker container rm $(shell docker container ls -aq)
 
 obtain-ssl-production-cert: ## Only for use in production environment
-	$(DOCKER_PROD) run --rm certbot certonly --webroot --webroot-path /var/www/certbot --email manuelvalverde.dev@gmail.com --agree-tos --no-eff-email -d api.feats-app.com -v
+	$(DOCKER_PROD) run --rm certbot certonly --webroot --webroot-path /var/www/certbot --email manuelvalverde.dev@gmail.com --agree-tos --no-eff-email -d api.feats-app.com
