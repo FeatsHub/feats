@@ -130,9 +130,6 @@ front-newapp: ## Create new frontend app, expects name argument.
 	mkdir ./frontend/src/app/main/$(name)/$(name)-retrieve/
 
 front-newcomponent: ## Create new frontend component, expects 'name' argument
-	$(DOCKER_DEV) run --rm frontend ionic generate component register/components/$(name)
-
-front-newcomponent: ## Create new frontend component, expects 'name' argument
 	$(DOCKER_DEV) run --rm frontend ionic generate component components/$(name)
 
 translate: ## Run NPM extract (translate)
@@ -195,5 +192,5 @@ docker_stop_all_containers: ## Stop all docker running containers
 docker_rm_all_containers: docker_stop_all_containers ## Stop and remove all docker running containers
 	docker container rm $(shell docker container ls -aq)
 
-obtain-ssl-production-cert:
+obtain-ssl-production-cert: ## Only for use in production environment
 	$(DOCKER_PROD) run --rm certbot certonly --webroot --webroot-path /var/www/certbot --email manuelvalverde.dev@gmail.com --agree-tos --no-eff-email -d api.feats-app.com -v
