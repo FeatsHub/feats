@@ -25,8 +25,11 @@ services:
     volumes:
       - /var/www/static/:/var/www/static/
       - /var/certbot/conf:/etc/letsencrypt/:ro
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.django.rule=Host(`django.localhost`)"
     command: uwsgi-api
 
   celeryworker:
@@ -63,22 +66,11 @@ services:
   redis:
     image: redis:7
 
-  nginx:
-    image: nginx:alpine
-    restart: unless-stopped
+  traefik: # new
+    image: traefik:v2.9.6
     ports:
-      - "80:80"
-      - "443:443"
+      - "8008:80"
+      - "8081:8080"
     volumes:
-      - /var/www/static/:/var/www/static/
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
-    depends_on:
-      - api
-
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - /var/certbot/conf:/etc/letsencrypt/:rw
-      - /var/certbot/www/:/var/www/certbot/:rw
-    depends_on:
-      - nginx
+      - ./traefik.dev.toml:/etc/traefik/traefik.toml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
