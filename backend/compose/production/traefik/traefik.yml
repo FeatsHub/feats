@@ -25,3 +25,44 @@ certificatesResolvers:
       storage: /certificates/acme.json
       httpChallenge:
         entryPoint: api
+
+http:
+
+  routers:
+    api-router:
+      rule: Host(`api.feats-app.com`)
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+      service: api-service
+
+    dashboard-router:
+      rule: Host(`dashboard.feats-app.com`)
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+      service: dashboard-service
+      middlewares:
+        - name: dashboard-auth
+          namespace: default
+
+
+  services:
+    api-service:
+      loadBalancer:
+        servers:
+          - url: "http://api:8000"
+
+    dashboard-service:
+      loadBalancer:
+        servers:
+          - url: "http://traefik"
+
+
+  middlewares:
+    dashboard-auth:
+      basicAuth:
+        users:
+          - "admin:$$apr1$$NalSfSDx$$41GFXjoxYOI4xi9qAph2a/"

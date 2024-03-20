@@ -27,15 +27,6 @@ services:
       - /var/certbot/conf:/etc/letsencrypt/:ro
     expose:
       - 8000
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=Host(`api.feats-app.com`)"
-      - "traefik.http.routers.api.tls=true"
-      - "traefik.http.routers.api.tls.certresolver=letsencrypt"
-      - "traefik.http.services.api.loadbalancer.server.port=8000"
-      - traefik.port=80
-
-
     command: uwsgi-api
 
   celeryworker:
@@ -73,20 +64,13 @@ services:
     image: redis:7
 
   traefik:
-    build:
-      context: ./backend/
-      dockerfile: ./compose/production/traefik/Dockerfile
+    image: traefik:v2.9.6
     ports:
       - "80:80"
       - "443:443"
+    command:
+      - "--providers.file.filename=/etc/traefik/traefik.yml"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./backend/compose/production/traefik/:/etc/traefik/:ro"
       - "./traefik-public-certificates:/certificates"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.dashboard.rule=Host(`dashboard.feats-app.com`)"
-      - "traefik.http.routers.dashboard.tls=true"
-      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.dashboard.service=api@internal"
-      - "traefik.http.routers.dashboard.middlewares=auth"
-      - "traefik.http.middlewares.auth.basicauth.users=admin:$$apr1$$NalSfSDx$$41GFXjoxYOI4xi9qAph2a/"
