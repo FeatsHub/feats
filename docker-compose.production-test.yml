@@ -68,8 +68,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    command:
-      - "--providers.file.filename=/etc/traefik/traefik.yml"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./backend/compose/production/traefik/:/etc/traefik/:ro"
