@@ -57,38 +57,22 @@
             <ion-col size="6" *ngFor="let recipeList of recipeLists">
                 <ion-card (click)="goList(recipeList.id)">
                     <ion-grid class="four-recipes">
-                        <ion-row>
-                            <ion-col
-                                class="recipe-detail"
-                                style="border-top-left-radius: 10px"
-                                [ngStyle]="{
-                                    'background-image': 'url(' + recipeList.recipes_data[0]?.image_data?.image || '' + ')',
-                                }"
-                            ></ion-col>
-                            <ion-col
-                                class="recipe-detail"
-                                style="border-top-right-radius: 10px"
-                                [ngStyle]="{
-                                    'background-image': 'url(' + recipeList.recipes_data[1]?.image_data?.image + ')',
-                                }"
-                            ></ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col
-                                class="recipe-detail"
-                                style="border-bottom-left-radius: 10px"
-                                [ngStyle]="{
-                                    'background-image': 'url(' + recipeList.recipes_data[3]?.image_data?.image + ')',
-                                }"
-                            ></ion-col>
-                            <ion-col
-                                class="recipe-detail"
-                                style="border-bottom-right-radius: 10px"
-                                [ngStyle]="{
-                                    'background-image': 'url(' + recipeList.recipes_data[4]?.image_data?.image + ')',
-                                }"
-                            ></ion-col>
-                        </ion-row>
+                        <ng-container *ngFor="let row of [0, 2]">
+                            <ion-row>
+                                <ng-container *ngFor="let col of [0, 1]">
+                                    <ion-col
+                                        class="recipe-detail"
+                                        [ngStyle]="{
+                                            'border-top-left-radius': row === 0 && col === 0 ? '10px' : '0',
+                                            'border-top-right-radius': row === 0 && col === 1 ? '10px' : '0',
+                                            'border-bottom-left-radius': row === 1 && col === 0 ? '10px' : '0',
+                                            'border-bottom-right-radius': row === 1 && col === 1 ? '10px' : '0',
+                                            'background-image': 'url(' + ((recipeList.recipes_data[row * 2 + col] && recipeList.recipes_data[row * 2 + col].image_data) ? recipeList.recipes_data[row * 2 + col].image_data.image : '') + ')'
+                                        }"
+                                    ></ion-col>
+                                </ng-container>
+                            </ion-row>
+                        </ng-container>
                     </ion-grid>
                     <h3 style="padding: 5px 10px;">{{recipeList.name}}
                         <ion-icon style="position: relative;top:4px" name="bookmark" *ngIf="recipeList.is_default_list"></ion-icon>

@@ -107,23 +107,4 @@ export class RecipeListPage implements OnInit {
     }, 500);
   }
 
-  @HostListener('mousedown', ['$event'])
-  onMouseDown(event: MouseEvent) {
-    //alert('a')
-    this.clickTimer = setTimeout(() => {
-      this.realizarClicLargo();
-    }, 50); // Ajusta el tiempo según tus necesidades
-  }
-
-  @HostListener('mouseup', ['$event'])
-  onMouseUp(event: MouseEvent) {
-    //alert('b')
-    clearTimeout(this.clickTimer);
-  }
-
-  realizarClicLargo() {
-    //alert('c')
-    console.log('Clic largo detectado');
-    // Aquí puedes realizar las acciones que deseas para el clic largo
-  }
 }

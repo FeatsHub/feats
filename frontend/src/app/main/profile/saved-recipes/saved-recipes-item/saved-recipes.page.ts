@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Recipe, RecipeCategory, RecipeList } from 'src/api/models';
 import { RecipeCategoryService, RecipeListService, RecipeService } from 'src/api/services';
@@ -15,10 +16,13 @@ export class SavedRecipesPage implements OnInit {
   routeSub: Subscription
   recipeListId: number
   listName: string
+  isDefaultList = false
 
   constructor(
     private _recipeListService: RecipeListService,
     private _route: ActivatedRoute,
+    private _alertController: AlertController,
+    private _router: Router
   ) {}
 
   async ionViewWillEnter() {
@@ -37,6 +41,7 @@ export class SavedRecipesPage implements OnInit {
   async getRecipeList(){
     this._recipeListService.recipeListRetrieve$Response({id: this.recipeListId, expand: '~all,recipes_data.~all'}).subscribe({
       next: (recipeList) => {
+        this.isDefaultList = recipeList.body.is_default_list!
         this.listName = recipeList.body.name
         this.recipes = recipeList.body.recipes_data!
       },
@@ -54,5 +59,36 @@ export class SavedRecipesPage implements OnInit {
       this.getRecipeList();
       e.target.complete();
     }, 500);
+  }
+
+  async presentDeleteAlert() {
+    const _alert = await this._alertController.create({
+      header: 'Delete Alert',
+      message: 'Are you sure you want to delete?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+          },
+        },
+        {
+          text: 'Sí',
+          role: 'confirm',
+          handler: () => {
+            this._recipeListService.recipeListDestroy$Response({id: this.recipeListId}).subscribe({
+              next: (response) => {
+              },
+              error: (e) => console.error(e),
+              complete: () => {
+                this._router.navigate(['/profile']);
+              }
+            });
+          },
+        },
+      ]
+    });
+
+    await _alert.present();
   }
 }

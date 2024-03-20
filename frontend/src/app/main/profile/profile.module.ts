@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { ProfileRetrievePage } from './profile-retrieve/profile-retrieve.page';
 import { ProfileFormPage } from './profile-form/profile-form.page';
 import { ImagePickerModule } from 'src/app/components/image-picker/image-picker.module';
-import { SavedRecipesPage } from './saved-recipes/saved-recipes.page';
+import { SavedRecipesPage } from './saved-recipes/saved-recipes-list/saved-recipes.page';
 import { RecipeTableModule } from '../recipe/recipe-table/recipe-table.module';
 
 @NgModule({
