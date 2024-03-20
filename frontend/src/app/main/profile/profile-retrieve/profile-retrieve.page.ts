@@ -22,13 +22,17 @@ export class ProfileRetrievePage implements OnInit {
 
   menuButtons = [
     {
-      text: 'Log out',
-      role: 'logout',
+      text: 'Settings',
+      role: 'settings',
     },
     {
       text: 'Edit profile',
       role: 'edit',
     },
+    {
+      text: 'Log out',
+      role: 'logout',
+    }
   ];
 
   user: User = {
@@ -98,6 +102,8 @@ export class ProfileRetrievePage implements OnInit {
       this.logOut()
     } else if (event.detail.role == 'edit'){
       this._router.navigate(['/profile/edit']);
+    } else if (event.detail.role == 'settings'){
+      this._router.navigate(['/settings']);
     }
   }
 
