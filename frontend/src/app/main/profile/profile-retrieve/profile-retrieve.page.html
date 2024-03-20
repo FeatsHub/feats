@@ -55,7 +55,7 @@
     <ion-grid>
         <ion-row>
             <ion-col size="6" *ngFor="let recipeList of recipeLists">
-                <ion-card>
+                <ion-card (click)="goList(recipeList.id)">
                     <ion-grid class="four-recipes">
                         <ion-row>
                             <ion-col

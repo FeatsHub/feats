@@ -144,4 +144,9 @@ export class ProfileRetrievePage implements OnInit {
       });
   }
 
+  goList(id: number){
+    this._router.navigate(['/profile/recipes/' + id]);
+  }
+
+
 }
