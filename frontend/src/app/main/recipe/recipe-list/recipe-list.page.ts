@@ -16,7 +16,8 @@ export class RecipeListPage implements OnInit {
   loaded = false
   categoriesLoaded = false
   userId = Number(localStorage.getItem('userId'))
-  private clickTimer: any;
+  searchedText: string | undefined = undefined
+
 
   constructor(
     private _recipeCategoryService: RecipeCategoryService,
@@ -74,11 +75,11 @@ export class RecipeListPage implements OnInit {
   }
 
   handleSearch(event: any){
-    const query = event.target.value.toLowerCase();
+    this.searchedText = event.target.value.toLowerCase();
     if (this.selectedCategory == undefined){
-      this.getRecipes(undefined, query);
+      this.getRecipes(undefined, this.searchedText);
     }else{
-      this.getRecipes([this.selectedCategory], query);
+      this.getRecipes([this.selectedCategory], this.searchedText);
     }
   }
 
@@ -103,6 +104,7 @@ export class RecipeListPage implements OnInit {
     setTimeout(() => {
       // Any calls to load data go here
       this.getRecipes();
+      //this.getRecipes(undefined, this.searchedText);
       e.target.complete();
     }, 500);
   }
