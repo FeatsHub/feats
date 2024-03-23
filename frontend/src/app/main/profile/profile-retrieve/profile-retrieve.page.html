@@ -11,13 +11,6 @@
     </ion-toolbar>
   </ion-header>
 <ion-content [fullscreen]="true">
-    <ion-alert
-        trigger="present-alert"
-        header="Crea una lista"
-        [buttons]="alertButtons"
-        [inputs]="alertInputs"
-        (didDismiss)="setResult($event)"
-    ></ion-alert>
     <ion-action-sheet 
         translucent="true"
         trigger="profile-menu"
@@ -65,7 +58,14 @@
         <app-recipe-table [loaded]="recipesLoaded" [recipes]="myRecipes"></app-recipe-table>
     </div>
 
-    <ion-grid  *ngIf="isTabSelected('saved')">
+    <ion-grid *ngIf="isTabSelected('saved')">
+        <ion-alert
+            trigger="present-alert"
+            header="Crea una lista"
+            [buttons]="alertButtons"
+            [inputs]="alertInputs"
+            (didDismiss)="setResult($event)"
+        ></ion-alert>
         <ion-row>
             <ion-col size="6" *ngFor="let recipeList of recipeLists">
                 <ion-card style="max-height: 197px ;" (click)="goList(recipeList.id)">
