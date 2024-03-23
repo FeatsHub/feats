@@ -1,12 +1,14 @@
 http:
   routers:
     api-router:
-      rule: Host(`api.feats-app.com`)
+      rule: "Host(`api.feats-app.com`) && Method(`GET`, `POST`, `PUT`, `DELETE`, `PATCH`)"
       entryPoints:
         - websecure
       tls:
         certResolver: letsencrypt
       service: api-service
+      middlewares:
+        - corsHeader
 
     dashboard-router:
       rule: Host(`dashboard.feats-app.com`)
@@ -17,6 +19,7 @@ http:
       service: dashboard-service
       middlewares:
         - dashboard-auth
+        - testHeader
 
 
   services:
@@ -36,3 +39,19 @@ http:
       basicAuth:
         users:
           - "admin:$$apr1$$laLZLYtc$$/v2XNK/nXb/9dT7qet7P5/"
+
+    corsHeader:
+      headers:
+        accessControlAllowMethods:
+          - GET
+          - PATCH
+          - PUT
+          - POST
+          - OPTIONS
+        accessControlAllowHeaders: "*"
+        accessControlAllowOriginList:
+          - https://api.feats-app.com
+          - http://api.feats-app.com
+          - http://localhost:8100
+        accessControlMaxAge: 100
+        addVaryHeader: true

@@ -98,8 +98,8 @@ uwsgi-api)
   django_compilemessages
   django_initial_populate
   echo "*** Launching uWSGI application server"
-  # uwsgi --ini /etc/uwsgi/uwsgi.ini
-  gunicorn --config gunicorn_config.py main.wsgi:application
+  uwsgi --ini /etc/uwsgi/uwsgi.ini
+  # gunicorn --config gunicorn_config.py main.wsgi:application
   ;;
 
 celery-worker)
