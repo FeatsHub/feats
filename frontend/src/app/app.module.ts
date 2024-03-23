@@ -15,6 +15,7 @@ import { StepCheckEmailComponent } from './main/register/components/step-check-e
 import { StepCheckUsernameComponent } from './main/register/components/step-check-username/step-check-username.component';
 import { SettingsPage } from './main/settings/settings.page';
 import { AdminPage } from './admin/admin.page';
+import { ProductTableComponent } from './main/recipe/product-table/product-table.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { AdminPage } from './admin/admin.page';
     AdminPage,
     StepCheckEmailComponent,
     StepCheckUsernameComponent,
+    ProductTableComponent
   ],
   imports: [
     RouterModule,

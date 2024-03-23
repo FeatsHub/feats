@@ -96,7 +96,7 @@ export class ProfileRetrievePage implements OnInit {
         this.user = response.body
         this.loaded = true
         this.imageUrl = this.user.image_data.image!
-        if (this.user.role == RoleEnum.Superadmin){
+        if (this.user.role == RoleEnum.Superadmin && this.menuButtons.find(item => item.role === 'admin') == undefined){
           this.menuButtons.unshift({
             text: 'Admin',
             role: 'admin',
