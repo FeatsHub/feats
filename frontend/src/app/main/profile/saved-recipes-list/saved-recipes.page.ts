@@ -17,6 +17,7 @@ export class SavedRecipesPage implements OnInit {
   recipeListId: number
   listName: string
   isDefaultList = false
+  loaded = false
 
   constructor(
     private _recipeListService: RecipeListService,
@@ -44,6 +45,7 @@ export class SavedRecipesPage implements OnInit {
         this.isDefaultList = recipeList.body.is_default_list!
         this.listName = recipeList.body.name
         this.recipes = recipeList.body.recipes_data!
+        this.loaded = true
       },
       error: (e) => {
       },
@@ -54,6 +56,7 @@ export class SavedRecipesPage implements OnInit {
 
   refresh(e: any){
     this.recipes = []
+    this.loaded = false
     setTimeout(() => {
       // Any calls to load data go here
       this.getRecipeList();

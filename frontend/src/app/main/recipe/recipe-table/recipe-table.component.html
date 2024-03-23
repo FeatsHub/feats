@@ -37,7 +37,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-list *ngIf="!recipes" lines="none">
+  <ion-list *ngIf="!loaded" lines="none">
     <ion-item *ngFor="let dummy of ' '.repeat(3).split(''), let x = index">
       <ion-grid>
         <ion-row>
@@ -69,7 +69,7 @@
     </ion-item>
   </ion-list>
   <p
-    *ngIf="recipes && recipes.length == 0"
+    *ngIf="loaded && recipes.length == 0"
     style="text-align: center;color: #979191;">
       Todavía no hay recetas, ¡añade alguna!
   </p>

@@ -10,6 +10,7 @@ import { RecipeCategoryService, RecipeService } from 'src/api/services';
 export class RecipeTablePage implements OnInit {
 
   @Input() recipes: Recipe[] = []
+  @Input() loaded = false
 
   constructor() {}
 
