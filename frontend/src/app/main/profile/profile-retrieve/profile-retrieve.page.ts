@@ -96,6 +96,12 @@ export class ProfileRetrievePage implements OnInit {
         this.user = response.body
         this.loaded = true
         this.imageUrl = this.user.image_data.image!
+        if (this.user.role == RoleEnum.Superadmin){
+          this.menuButtons.unshift({
+            text: 'Admin',
+            role: 'admin',
+          })
+        }
       },
       error: (e) => {
       },
@@ -138,6 +144,9 @@ export class ProfileRetrievePage implements OnInit {
       this._router.navigate(['/profile/edit']);
     } else if (event.detail.role == 'settings'){
       this._router.navigate(['/settings']);
+    }
+    else if (event.detail.role == 'admin'){
+      this._router.navigate(['/admin']);
     }
   }
 
@@ -196,7 +205,5 @@ export class ProfileRetrievePage implements OnInit {
   isTabSelected(tabName: string): boolean {
     return this.tabs.find(tab => tab.tab === tabName)?.selected ?? false;
   }
-
-
 
 }

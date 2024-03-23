@@ -3,6 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LoginPage } from "./main/login/login.page";
 import { RegisterPage } from './main/register/register.page';
 import { SettingsPage } from './main/settings/settings.page';
+import { AdminPage } from './admin/admin.page';
 
 const routes: Routes = [
   {
@@ -29,6 +30,10 @@ const routes: Routes = [
   {
     path: 'settings',
     component: SettingsPage
+  },
+  {
+    path: 'admin',
+    component: AdminPage
   }
 ];
 
