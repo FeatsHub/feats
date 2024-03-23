@@ -65,3 +65,13 @@ ion-grid {
         background-repeat: no-repeat;
     }
 }
+
+.profile-tab {
+    text-align: center;
+    padding: 14px 10px 10px 10px;
+    font-size: x-large;
+}
+
+.profile-tab.selected {
+    border-bottom: 2px solid black;
+}

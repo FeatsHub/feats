@@ -4,6 +4,12 @@ import { RoleEnum, User } from 'src/api/models';
 import { RecipeListService, UserService } from 'src/api/services';
 import { RecipeList } from 'src/api/models';
 
+interface Tab {
+    icon: string,
+    tab: string,
+    selected: boolean
+}
+
 @Component({
   selector: 'app-profile',
   templateUrl: 'profile-retrieve.page.html',
@@ -12,6 +18,19 @@ import { RecipeList } from 'src/api/models';
 export class ProfileRetrievePage implements OnInit {
   imageUrl: string | undefined = undefined
   loaded = false
+
+  tabs: Tab[] = [
+    {
+      icon: 'list',
+      tab: 'recipes',
+      selected: true
+    },
+    {
+      icon: 'bookmark',
+      tab: 'saved',
+      selected: false
+    },
+  ] 
 
   public alertButtons = ['Save'];
   public alertInputs = [
@@ -148,6 +167,21 @@ export class ProfileRetrievePage implements OnInit {
   goList(id: number){
     this._router.navigate(['/profile/recipes/' + id]);
   }
+
+  selectTab(selectedTab: Tab): void {
+    this.tabs.forEach(tab => {
+        if (tab === selectedTab) {
+            tab.selected = true;
+        } else {
+            tab.selected = false;
+        }
+    });
+  }
+  
+  isTabSelected(tabName: string): boolean {
+    return this.tabs.find(tab => tab.tab === tabName)?.selected ?? false;
+  }
+
 
 
 }
