@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { RoleEnum, User } from 'src/api/models';
-import { RecipeListService, UserService } from 'src/api/services';
+import { Recipe, RoleEnum, User } from 'src/api/models';
+import { RecipeListService, RecipeService, UserService } from 'src/api/services';
 import { RecipeList } from 'src/api/models';
 
 interface Tab {
@@ -18,6 +18,8 @@ interface Tab {
 export class ProfileRetrievePage implements OnInit {
   imageUrl: string | undefined = undefined
   loaded = false
+  recipesLoaded = false
+  recipesListLoaded = false
 
   tabs: Tab[] = [
     {
@@ -74,12 +76,14 @@ export class ProfileRetrievePage implements OnInit {
     }
   }
 
+  myRecipes: Recipe[]
   recipeLists: RecipeList[]
 
   constructor (
     private _userService: UserService,
     private _router: Router,
-    private _recipeList: RecipeListService
+    private _recipeListService: RecipeListService,
+    private _recipeService: RecipeService
   ) {
   }
 
@@ -96,7 +100,18 @@ export class ProfileRetrievePage implements OnInit {
       error: (e) => {
       },
       complete: () => {
-        this._recipeList.recipeListList$Response(
+        this._recipeService.recipeList$Response({expand: '~all', owner: this.user.id}).subscribe({
+          next: (response) => {
+            this.myRecipes = response.body.results!
+            this.recipesLoaded = true
+          },
+          error: (e) => {
+          },
+          complete: () => {
+          }
+        });
+
+        this._recipeListService.recipeListList$Response(
           {
             expand: '~~all,recipes_data.~all',
             fields: 'id,name,is_default_list,recipes_data.image_data.image',
@@ -105,6 +120,7 @@ export class ProfileRetrievePage implements OnInit {
           ).subscribe({
           next: (response) => {
             this.recipeLists = response.body.results!
+            this.recipesListLoaded = true
           },
           error: (e) => {
           },
@@ -113,7 +129,6 @@ export class ProfileRetrievePage implements OnInit {
         });
       }
     });
-
   }
 
   profileMenuResult(event: any){
@@ -142,7 +157,7 @@ export class ProfileRetrievePage implements OnInit {
   setResult(ev: any) {
     const listName = ev.detail.data.values['0']
 
-    this._recipeList.recipeListCreate$Json$Response(
+    this._recipeListService.recipeListCreate$Json$Response(
       {
         body: {
           id: -1,

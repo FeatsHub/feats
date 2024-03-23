@@ -60,6 +60,10 @@
         </ion-row>
     </ion-grid>
 
+    <div *ngIf="isTabSelected('recipes')">
+        <app-recipe-table [loaded]="recipesLoaded" [recipes]="myRecipes"></app-recipe-table>
+    </div>
+
     <ion-grid  *ngIf="isTabSelected('saved')">
         <ion-row>
             <ion-col size="6" *ngFor="let recipeList of recipeLists">
