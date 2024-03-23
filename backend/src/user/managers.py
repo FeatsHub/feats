@@ -15,7 +15,7 @@ class UserManager(BaseUserManager):
         # Create default list
         RecipeList.objects.create(**{
             'is_default_list': True,
-            'owner': user.id,
+            'owner': user,
             'name': 'Saved',
         })
 

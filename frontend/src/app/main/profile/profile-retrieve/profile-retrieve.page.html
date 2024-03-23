@@ -71,7 +71,7 @@
                 <ion-card style="max-height: 197px ;" (click)="goList(recipeList.id)">
                     <ion-icon class="saved-icon saved-icon-bg" name="bookmark" *ngIf="recipeList.is_default_list"></ion-icon>
                     <ion-grid [ngClass]="{'four-recipes-default': recipeList.is_default_list}" class="four-recipes">
-                        <ng-container *ngFor="let row of [0, 2]">
+                        <ng-container *ngFor="let row of [0, 1]">
                             <ion-row>
                                 <ng-container *ngFor="let col of [0, 1]">
                                     <ion-col

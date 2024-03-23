@@ -36,8 +36,8 @@ import { ProductTableComponent } from './main/recipe/product-table/product-table
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    //ApiModule.forRoot({ rootUrl: 'http://localhost:8000' })
-    ApiModule.forRoot({ rootUrl: 'https://api.feats-app.com' })
+    ApiModule.forRoot({ rootUrl: 'http://192.168.1.21:8000' })
+    //ApiModule.forRoot({ rootUrl: 'https://api.feats-app.com' })
   ],
   providers: [
     Router,
