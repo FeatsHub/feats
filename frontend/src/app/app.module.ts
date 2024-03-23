@@ -16,6 +16,7 @@ import { StepCheckUsernameComponent } from './main/register/components/step-chec
 import { SettingsPage } from './main/settings/settings.page';
 import { AdminPage } from './admin/admin.page';
 import { ProductTableComponent } from './main/recipe/product-table/product-table.component';
+import { AdminModule } from './admin/admin.module';
 
 
 @NgModule({
@@ -24,7 +25,6 @@ import { ProductTableComponent } from './main/recipe/product-table/product-table
     LoginPage,
     RegisterPage,
     SettingsPage,
-    AdminPage,
     StepCheckEmailComponent,
     StepCheckUsernameComponent,
     ProductTableComponent
@@ -36,7 +36,8 @@ import { ProductTableComponent } from './main/recipe/product-table/product-table
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    ApiModule.forRoot({ rootUrl: 'http://192.168.1.21:8000' })
+    ApiModule.forRoot({ rootUrl: 'http://192.168.1.21:8000' }),
+    AdminModule
     //ApiModule.forRoot({ rootUrl: 'https://api.feats-app.com' })
   ],
   providers: [
