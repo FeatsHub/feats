@@ -27,7 +27,16 @@ ion-grid {
 }
 
 .four-recipes{
-    margin: 10px
+    margin: 10px;
+}
+
+.four-recipes-default{
+    position: relative;
+    top: -40px;
+}
+
+.list-name{
+    padding: 5px 20px;
 }
 
 .recipe-detail-big{
@@ -47,6 +56,34 @@ ion-grid {
     background-repeat: no-repeat;
 }
 
+
+.profile-tab {
+    text-align: center;
+    padding: 14px 10px 10px 10px;
+    font-size: x-large;
+}
+
+.profile-tab.selected {
+    border-bottom: 2px solid black;
+}
+
+.saved-icon{
+    border-radius: 100%;
+    z-index: 1;
+    position: relative;
+    padding: 10px;
+    font-size: large;
+}
+
+.saved-icon-bg{
+    background-color: white;
+}
+
+.default-name{
+    position: relative;
+    top: -40px;
+}
+
 @media (prefers-color-scheme: dark) {
     .recipe-detail-big{
         background-color: #555555;
@@ -63,5 +100,13 @@ ion-grid {
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+    }
+
+    .saved-icon-bg{
+        background-color: #1c1c1d;
+    }
+
+    .profile-tab.selected {
+        border-bottom: 2px solid white;
     }
 }

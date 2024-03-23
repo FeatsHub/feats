@@ -30,6 +30,7 @@ export interface RecipeList$Params {
  * The initial index from which to return the results.
  */
   offset?: number;
+  owner?: number;
 
 /**
  * A search term.
@@ -45,6 +46,7 @@ export function recipeList(http: HttpClient, rootUrl: string, params?: RecipeLis
     rb.query('fields', params.fields, {});
     rb.query('limit', params.limit, {});
     rb.query('offset', params.offset, {});
+    rb.query('owner', params.owner, {});
     rb.query('search', params.search, {});
   }
 

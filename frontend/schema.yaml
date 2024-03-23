@@ -331,6 +331,10 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
+      - in: query
+        name: owner
+        schema:
+          type: integer
       - name: search
         required: false
         in: query

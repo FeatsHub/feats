@@ -13,6 +13,9 @@ import { Router } from '@angular/router';
 import { RegisterPage } from './main/register/register.page';
 import { StepCheckEmailComponent } from './main/register/components/step-check-email/step-check-email.component';
 import { StepCheckUsernameComponent } from './main/register/components/step-check-username/step-check-username.component';
+import { SettingsPage } from './main/settings/settings.page';
+import { AdminPage } from './admin/admin.page';
+import { ProductTableComponent } from './main/recipe/product-table/product-table.component';
 
 
 @NgModule({
@@ -20,8 +23,11 @@ import { StepCheckUsernameComponent } from './main/register/components/step-chec
     AppComponent,
     LoginPage,
     RegisterPage,
+    SettingsPage,
+    AdminPage,
     StepCheckEmailComponent,
     StepCheckUsernameComponent,
+    ProductTableComponent
   ],
   imports: [
     RouterModule,
@@ -30,7 +36,8 @@ import { StepCheckUsernameComponent } from './main/register/components/step-chec
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    ApiModule.forRoot({ rootUrl: 'http://api.feats-app.com:8000' })
+    //ApiModule.forRoot({ rootUrl: 'http://localhost:8000' })
+    ApiModule.forRoot({ rootUrl: 'https://api.feats-app.com' })
   ],
   providers: [
     Router,

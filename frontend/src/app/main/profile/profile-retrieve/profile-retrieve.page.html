@@ -54,45 +54,43 @@
 
     <ion-grid>
         <ion-row>
+            <ion-col  [ngClass]="{'selected': tab.selected}" (click)="selectTab(tab)" class="profile-tab" *ngFor="let tab of tabs">
+                <ion-icon [name]="!tab.selected ? tab.icon + '-outline' : tab.icon"></ion-icon>
+                <ion-ripple-effect></ion-ripple-effect>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <div *ngIf="isTabSelected('recipes')">
+        <app-recipe-table [loaded]="recipesLoaded" [recipes]="myRecipes"></app-recipe-table>
+    </div>
+
+    <ion-grid  *ngIf="isTabSelected('saved')">
+        <ion-row>
             <ion-col size="6" *ngFor="let recipeList of recipeLists">
-                <ion-card>
-                    <ion-grid class="four-recipes">
-                        <ion-row>
-                            <ion-col
-                                class="recipe-detail"
-                                style="border-top-left-radius: 10px"
-                                [ngStyle]="{
-                                    'background-image': 'url(' + recipeList.recipes_data[0]?.image_data?.image || '' + ')',
-                                }"
-                            ></ion-col>
-                            <ion-col
-                                class="recipe-detail"
-                                style="border-top-right-radius: 10px"
-                                [ngStyle]="{
-                                    'background-image': 'url(' + recipeList.recipes_data[1]?.image_data?.image + ')',
-                                }"
-                            ></ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col
-                                class="recipe-detail"
-                                style="border-bottom-left-radius: 10px"
-                                [ngStyle]="{
-                                    'background-image': 'url(' + recipeList.recipes_data[3]?.image_data?.image + ')',
-                                }"
-                            ></ion-col>
-                            <ion-col
-                                class="recipe-detail"
-                                style="border-bottom-right-radius: 10px"
-                                [ngStyle]="{
-                                    'background-image': 'url(' + recipeList.recipes_data[4]?.image_data?.image + ')',
-                                }"
-                            ></ion-col>
-                        </ion-row>
+                <ion-card style="max-height: 197px ;" (click)="goList(recipeList.id)">
+                    <ion-icon class="saved-icon saved-icon-bg" name="bookmark" *ngIf="recipeList.is_default_list"></ion-icon>
+                    <ion-grid [ngClass]="{'four-recipes-default': recipeList.is_default_list}" class="four-recipes">
+                        <ng-container *ngFor="let row of [0, 2]">
+                            <ion-row>
+                                <ng-container *ngFor="let col of [0, 1]">
+                                    <ion-col
+                                        class="recipe-detail"
+                                        [ngStyle]="{
+                                            'border-top-left-radius': row === 0 && col === 0 ? '10px' : '0',
+                                            'border-top-right-radius': row === 0 && col === 1 ? '10px' : '0',
+                                            'border-bottom-left-radius': row === 1 && col === 0 ? '10px' : '0',
+                                            'border-bottom-right-radius': row === 1 && col === 1 ? '10px' : '0',
+                                            'background-image': 'url(' + ((recipeList.recipes_data[row * 2 + col] && recipeList.recipes_data[row * 2 + col].image_data) ? recipeList.recipes_data[row * 2 + col].image_data.image : '') + ')'
+                                        }"
+                                    ></ion-col>
+                                </ng-container>
+                            </ion-row>
+                        </ng-container>
                     </ion-grid>
-                    <h3 style="padding: 5px 10px;">{{recipeList.name}}
-                        <ion-icon style="position: relative;top:4px" name="bookmark" *ngIf="recipeList.is_default_list"></ion-icon>
-                    </h3>
+                    <h5 [ngClass]="{'default-name': recipeList.is_default_list}" class="list-name">
+                        {{recipeList.name}}
+                    </h5>
                 </ion-card>
             </ion-col>
             <ion-col size="6">
@@ -104,7 +102,7 @@
                             </ion-col>
                         </ion-row>
                     </ion-grid>
-                    <h3 style="padding: 5px 10px;">Nueva lista</h3>
+                    <h5 style="padding: 5px 10px;">Nueva lista</h5>
                 </ion-card>
             </ion-col>
         </ion-row>

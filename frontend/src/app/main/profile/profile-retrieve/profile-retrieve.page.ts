@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { RoleEnum, User } from 'src/api/models';
-import { RecipeListService, UserService } from 'src/api/services';
+import { Recipe, RoleEnum, User } from 'src/api/models';
+import { RecipeListService, RecipeService, UserService } from 'src/api/services';
 import { RecipeList } from 'src/api/models';
+
+interface Tab {
+    icon: string,
+    tab: string,
+    selected: boolean
+}
 
 @Component({
   selector: 'app-profile',
@@ -12,6 +18,21 @@ import { RecipeList } from 'src/api/models';
 export class ProfileRetrievePage implements OnInit {
   imageUrl: string | undefined = undefined
   loaded = false
+  recipesLoaded = false
+  recipesListLoaded = false
+
+  tabs: Tab[] = [
+    {
+      icon: 'list',
+      tab: 'recipes',
+      selected: true
+    },
+    {
+      icon: 'bookmark',
+      tab: 'saved',
+      selected: false
+    },
+  ] 
 
   public alertButtons = ['Save'];
   public alertInputs = [
@@ -22,13 +43,17 @@ export class ProfileRetrievePage implements OnInit {
 
   menuButtons = [
     {
-      text: 'Log out',
-      role: 'logout',
+      text: 'Settings',
+      role: 'settings',
     },
     {
       text: 'Edit profile',
       role: 'edit',
     },
+    {
+      text: 'Log out',
+      role: 'logout',
+    }
   ];
 
   user: User = {
@@ -51,12 +76,14 @@ export class ProfileRetrievePage implements OnInit {
     }
   }
 
+  myRecipes: Recipe[]
   recipeLists: RecipeList[]
 
   constructor (
     private _userService: UserService,
     private _router: Router,
-    private _recipeList: RecipeListService
+    private _recipeListService: RecipeListService,
+    private _recipeService: RecipeService
   ) {
   }
 
@@ -69,11 +96,28 @@ export class ProfileRetrievePage implements OnInit {
         this.user = response.body
         this.loaded = true
         this.imageUrl = this.user.image_data.image!
+        if (this.user.role == RoleEnum.Superadmin && this.menuButtons.find(item => item.role === 'admin') == undefined){
+          this.menuButtons.unshift({
+            text: 'Admin',
+            role: 'admin',
+          })
+        }
       },
       error: (e) => {
       },
       complete: () => {
-        this._recipeList.recipeListList$Response(
+        this._recipeService.recipeList$Response({expand: '~all', owner: this.user.id}).subscribe({
+          next: (response) => {
+            this.myRecipes = response.body.results!
+            this.recipesLoaded = true
+          },
+          error: (e) => {
+          },
+          complete: () => {
+          }
+        });
+
+        this._recipeListService.recipeListList$Response(
           {
             expand: '~~all,recipes_data.~all',
             fields: 'id,name,is_default_list,recipes_data.image_data.image',
@@ -82,6 +126,7 @@ export class ProfileRetrievePage implements OnInit {
           ).subscribe({
           next: (response) => {
             this.recipeLists = response.body.results!
+            this.recipesListLoaded = true
           },
           error: (e) => {
           },
@@ -90,7 +135,6 @@ export class ProfileRetrievePage implements OnInit {
         });
       }
     });
-
   }
 
   profileMenuResult(event: any){
@@ -98,6 +142,11 @@ export class ProfileRetrievePage implements OnInit {
       this.logOut()
     } else if (event.detail.role == 'edit'){
       this._router.navigate(['/profile/edit']);
+    } else if (event.detail.role == 'settings'){
+      this._router.navigate(['/settings']);
+    }
+    else if (event.detail.role == 'admin'){
+      this._router.navigate(['/admin']);
     }
   }
 
@@ -117,7 +166,7 @@ export class ProfileRetrievePage implements OnInit {
   setResult(ev: any) {
     const listName = ev.detail.data.values['0']
 
-    this._recipeList.recipeListCreate$Json$Response(
+    this._recipeListService.recipeListCreate$Json$Response(
       {
         body: {
           id: -1,
@@ -130,12 +179,31 @@ export class ProfileRetrievePage implements OnInit {
     ).subscribe({
         next: (response) => {
           this.recipeLists.push(response.body)
+          console.log(this.recipeLists)
         },
         error: (e) => {
         },
         complete: () => {
         }
       });
+  }
+
+  goList(id: number){
+    this._router.navigate(['/profile/recipes/' + id]);
+  }
+
+  selectTab(selectedTab: Tab): void {
+    this.tabs.forEach(tab => {
+        if (tab === selectedTab) {
+            tab.selected = true;
+        } else {
+            tab.selected = false;
+        }
+    });
+  }
+  
+  isTabSelected(tabName: string): boolean {
+    return this.tabs.find(tab => tab.tab === tabName)?.selected ?? false;
   }
 
 }
