@@ -51,6 +51,7 @@
             </ion-col>
         </ion-row>
     </ion-grid>
+
     <ion-grid>
         <ion-row>
             <ion-col  [ngClass]="{'selected': tab.selected}" (click)="selectTab(tab)" class="profile-tab" *ngFor="let tab of tabs">
@@ -67,8 +68,9 @@
     <ion-grid  *ngIf="isTabSelected('saved')">
         <ion-row>
             <ion-col size="6" *ngFor="let recipeList of recipeLists">
-                <ion-card (click)="goList(recipeList.id)">
-                    <ion-grid class="four-recipes">
+                <ion-card style="max-height: 197px ;" (click)="goList(recipeList.id)">
+                    <ion-icon class="saved-icon saved-icon-bg" name="bookmark" *ngIf="recipeList.is_default_list"></ion-icon>
+                    <ion-grid [ngClass]="{'four-recipes-default': recipeList.is_default_list}" class="four-recipes">
                         <ng-container *ngFor="let row of [0, 2]">
                             <ion-row>
                                 <ng-container *ngFor="let col of [0, 1]">
@@ -86,8 +88,7 @@
                             </ion-row>
                         </ng-container>
                     </ion-grid>
-                    <h5 style="padding: 5px 20px;">
-                        <ion-icon style="position: relative;top:4px" name="bookmark" *ngIf="recipeList.is_default_list"></ion-icon>
+                    <h5 [ngClass]="{'default-name': recipeList.is_default_list}" class="list-name">
                         {{recipeList.name}}
                     </h5>
                 </ion-card>
