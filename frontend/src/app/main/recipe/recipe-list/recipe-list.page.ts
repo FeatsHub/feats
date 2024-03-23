@@ -1,4 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { Recipe, RecipeCategory } from 'src/api/models';
 import { RecipeCategoryService, RecipeService } from 'src/api/services';
 
@@ -17,6 +18,7 @@ export class RecipeListPage implements OnInit {
   categoriesLoaded = false
   userId = Number(localStorage.getItem('userId'))
   searchedText: string | undefined = undefined
+  offset = 0
 
 
   constructor(
@@ -44,17 +46,34 @@ export class RecipeListPage implements OnInit {
 
   async getRecipes(
     selectedCategory: number[] | undefined = undefined,
-    search: string | undefined = undefined
+    search: string | undefined = undefined,
+    more: boolean = false
     ){
     if (selectedCategory == this.selectedCategory){
       selectedCategory = undefined;
       this.selectedCategory = undefined;
     }
+    if (more){
+      this.offset = this.offset + 10
+    }
 
-    this._recipeService.recipeList({expand: '~all', category: selectedCategory, search: search}).subscribe({
+    this._recipeService.recipeList(
+      {
+        expand: '~all',
+        category: selectedCategory,
+        search: search,
+        limit: 10,
+        offset: this.offset
+      }
+    ).subscribe({
       next: (recipes) => {
         if (recipes.results != undefined){
-          this.recipes = recipes.results;
+          if (more){
+            this.recipes = this.recipes.concat(recipes.results!);
+          }else{
+            this.recipes = recipes.results;
+          }
+          
         }
       },
       error: (e) => console.error(e),
@@ -71,7 +90,6 @@ export class RecipeListPage implements OnInit {
         this.selectedCategory = selectedCategory![0];
       }
     }
-
   }
 
   handleSearch(event: any){
@@ -100,12 +118,20 @@ export class RecipeListPage implements OnInit {
 
   refresh(e: any){
     this.loaded = false
+    this.offset = 0
     this.recipes = []
     setTimeout(() => {
       // Any calls to load data go here
       this.getRecipes();
       //this.getRecipes(undefined, this.searchedText);
       e.target.complete();
+    }, 500);
+  }
+
+  onIonInfinite(e: any){
+    this.getRecipes(undefined, undefined, true);
+    setTimeout(() => {
+      (e as InfiniteScrollCustomEvent).target.complete();
     }, 500);
   }
 

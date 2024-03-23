@@ -3,16 +3,27 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LoginPage } from "./main/login/login.page";
 import { RegisterPage } from './main/register/register.page';
 import { SettingsPage } from './main/settings/settings.page';
+import { TabsComponent } from './tabs/tabs.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
-  },
-  {
-    path: 'profile',
-    loadChildren: () => import('./main/profile/profile.module').then(m => m.ProfileModule)
+    component: TabsComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'recipes',
+        pathMatch: 'full'
+      },
+      {
+        path: 'recipes',
+        loadChildren: () => import('./main/recipe/recipe-list/recipe-list.page').then((m) => m.RecipeListPage),
+      },
+      {
+        path: 'profile',
+        loadChildren: () => import('./main/profile/profile-retrieve/profile-retrieve.page').then((m) => m.ProfileRetrievePage),
+      },
+    ]
   },
   {
     path: 'login',
@@ -21,10 +32,6 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterPage
-  },
-  {
-    path: 'recipes',
-    loadChildren: () => import('./main/recipe/recipe.module').then(m => m.RecipeModule)
   },
   {
     path: 'settings',

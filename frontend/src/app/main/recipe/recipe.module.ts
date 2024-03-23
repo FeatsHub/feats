@@ -25,6 +25,7 @@ import { RecipeTableModule } from './recipe-table/recipe-table.module';
     RecipeDetailPage,
     RecipeFormPage,
     RecipeListPage,
+    RecipeTableModule
   ]
 })
 export class RecipeModule {}
