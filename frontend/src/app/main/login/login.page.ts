@@ -63,7 +63,7 @@ export class LoginPage implements OnInit {
       complete: () => {
         loading.dismiss()
         // NAVIGATE TO THE APP
-        this._router.navigate(['/recipes']);
+        this._router.navigate(['/tabs/recipes']);
       }
     });
   }

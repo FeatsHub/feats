@@ -17,6 +17,7 @@ import { SettingsPage } from './main/settings/settings.page';
 import { AdminPage } from './admin/admin.page';
 import { ProductTableComponent } from './main/recipe/product-table/product-table.component';
 import { AdminModule } from './admin/admin.module';
+import { TabsComponent } from './main/tabs/tabs.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { AdminModule } from './admin/admin.module';
     SettingsPage,
     StepCheckEmailComponent,
     StepCheckUsernameComponent,
-    ProductTableComponent
+    ProductTableComponent,
+    TabsComponent
   ],
   imports: [
     RouterModule,

@@ -3,7 +3,10 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LoginPage } from "./main/login/login.page";
 import { RegisterPage } from './main/register/register.page';
 import { SettingsPage } from './main/settings/settings.page';
-import { AdminPage } from './admin/admin.page';
+import { RecipeListPage } from './main/recipe/recipe-list/recipe-list.page';
+import { ProfileRetrievePage } from './main/profile/profile-retrieve/profile-retrieve.page';
+import { RecipeModule } from './main/recipe/recipe.module';
+import { TabsComponent } from './main/tabs/tabs.component';
 
 const routes: Routes = [
   {
@@ -12,8 +15,22 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'profile',
-    loadChildren: () => import('./main/profile/profile.module').then(m => m.ProfileModule)
+    path: 'tabs',
+    component: TabsComponent,
+    children: [
+      {
+        path: '',
+        component: RecipeListPage
+      },
+      {
+        path: 'recipes',
+        component: RecipeListPage
+      },
+      {
+        path: 'profile',
+        component: ProfileRetrievePage
+      },
+    ]
   },
   {
     path: 'login',
@@ -34,7 +51,11 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
-  }
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./main/profile/profile.module').then(m => m.ProfileModule)
+  },
 ];
 
 @NgModule({
