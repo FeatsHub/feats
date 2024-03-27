@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="light" [fullscreen]="true" *ngIf="user && user.role == 'superadmin'">
+<ion-content [fullscreen]="true" *ngIf="user && user.role == 'superadmin'">
   <ion-list [inset]="true">
     <ion-item>
       <ion-label routerLink="/admin/options/products">
