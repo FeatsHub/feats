@@ -38,7 +38,7 @@ import { TabsComponent } from './main/tabs/tabs.component';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    ApiModule.forRoot({ rootUrl: 'http://localhost:8000' }),
+    ApiModule.forRoot({ rootUrl: 'http://192.168.0.38:8000' }),
     AdminModule
     //ApiModule.forRoot({ rootUrl: 'https://api.feats-app.com' })
   ],

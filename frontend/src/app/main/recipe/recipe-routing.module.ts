@@ -7,21 +7,21 @@ import { RecipeDetailPage } from './recipe-retrieve/recipe-retrieve.page';
 const routes: Routes = [
   {
     path: '',
-    component: RecipeListPage,
-},
-{
+    redirectTo: '/tabs/recipes',
+    pathMatch: 'full'
+  },
+  {
     path: 'new',
     component: RecipeFormPage,
-},
-{
+  },
+  {
     path: ':id/edit',
     component: RecipeFormPage,
-},
-{
+  },
+  {
     path: ':id',
     component: RecipeDetailPage,
-},
-
+  },
 ];
 
 @NgModule({

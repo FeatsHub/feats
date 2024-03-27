@@ -7,7 +7,8 @@ import { SavedRecipesPage } from './saved-recipes-list/saved-recipes.page';
 const routes: Routes = [
   {
     path: '',
-    component: ProfileRetrievePage,
+    redirectTo: '/tabs/profile',
+    pathMatch: 'full'
   },
   {
       path: 'edit',
