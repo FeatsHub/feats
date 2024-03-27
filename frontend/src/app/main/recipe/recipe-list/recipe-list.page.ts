@@ -10,7 +10,7 @@ import { RecipeCategoryService, RecipeService } from 'src/api/services';
 export class RecipeListPage implements OnInit {
 
   recipeCategories: RecipeCategory[] = []
-  recipes: Recipe[]
+  recipes: Recipe[] = []
   selectedCategory: number | undefined = undefined
   search: string | undefined = undefined
   loaded = false
@@ -46,26 +46,17 @@ export class RecipeListPage implements OnInit {
 
   async getRecipes(
     selectedCategory: number[] | undefined = undefined,
-    search: string | undefined = undefined,
+    search: string | undefined = undefined
     ){
     if (selectedCategory == this.selectedCategory){
       selectedCategory = undefined;
       this.selectedCategory = undefined;
     }
 
-    this._recipeService.recipeList(
-      {
-        expand: '~all',
-        category: selectedCategory,
-        search: search,
-        limit: this.limit,
-        offset: this.offset
-      }).subscribe({
+    this._recipeService.recipeList({expand: '~all', category: selectedCategory, search: search}).subscribe({
       next: (recipes) => {
-        if (this.recipes){
-          this.recipes = this.recipes.concat(recipes.results!)
-        }else{
-          this.recipes = recipes.results!
+        if (recipes.results != undefined){
+          this.recipes = recipes.results;
         }
       },
       error: (e) => console.error(e),
@@ -122,7 +113,7 @@ export class RecipeListPage implements OnInit {
 
   handleInfiniteScroll(event: any){
     this.offset = this.offset + 10
-    this.getRecipes(undefined, undefined);
+    //this.getOwnRecipes();
   }
 
 }
