@@ -11,7 +11,8 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: StatsPage
+        redirectTo: 'stats',
+        pathMatch: 'full'
       },
       {
         path: 'stats',
