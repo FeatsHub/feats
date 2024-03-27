@@ -14,8 +14,6 @@ import { RegisterPage } from './main/register/register.page';
 import { StepCheckEmailComponent } from './main/register/components/step-check-email/step-check-email.component';
 import { StepCheckUsernameComponent } from './main/register/components/step-check-username/step-check-username.component';
 import { SettingsPage } from './main/settings/settings.page';
-import { ProductTableComponent } from './main/recipe/product-table/product-table.component';
-import { AdminModule } from './admin/admin.module';
 import { TabsComponent } from './main/tabs/tabs.component';
 
 
@@ -27,7 +25,6 @@ import { TabsComponent } from './main/tabs/tabs.component';
     SettingsPage,
     StepCheckEmailComponent,
     StepCheckUsernameComponent,
-    ProductTableComponent,
     TabsComponent
   ],
   imports: [
@@ -38,7 +35,6 @@ import { TabsComponent } from './main/tabs/tabs.component';
     AppRoutingModule,
     HttpClientModule,
     ApiModule.forRoot({ rootUrl: 'http://192.168.0.38:8000' }),
-    AdminModule
     //ApiModule.forRoot({ rootUrl: 'https://api.feats-app.com' })
   ],
   providers: [

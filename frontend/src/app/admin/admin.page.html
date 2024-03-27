@@ -9,5 +9,24 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" *ngIf="user && user.role == 'superadmin'">
+<ion-content color="light" [fullscreen]="true" *ngIf="user && user.role == 'superadmin'">
+  <ion-list [inset]="true">
+    <ion-item>
+      <ion-label routerLink="/admin/options/products">
+        Products
+      </ion-label>
+      <ion-button slot="end" expand="block" fill="clear">
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+
+    <ion-item>
+      <ion-label routerLink="/admin/options/allergens">
+        Allergens
+      </ion-label>
+      <ion-button slot="end" expand="block" fill="clear">
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
 </ion-content>

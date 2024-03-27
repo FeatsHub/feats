@@ -3,11 +3,11 @@ import { Product } from 'src/api/models';
 import { ProductService } from 'src/api/services';
 
 @Component({
-  selector: 'app-product-table',
-  templateUrl: 'product-table.component.html',
-  styleUrls: ['product-table.component.scss']
+  selector: 'app-product-list',
+  templateUrl: 'product-list.component.html',
+  styleUrls: ['product-list.component.scss']
 })
-export class ProductTableComponent implements OnInit {
+export class ProductListComponent implements OnInit {
 
   @Input() products: Product[] = []
   @Input() loaded = false

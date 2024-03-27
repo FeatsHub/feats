@@ -6,8 +6,8 @@ import { RouterModule } from '@angular/router';
 import { AdminPage } from './admin.page';
 import { StatsPage } from './stats/stats.page';
 import { AdminRoutingModule } from './admin.routing-module';
-import { ProductTableComponent } from '../main/recipe/product-table/product-table.component';
 import { AdminTabsComponent } from './admin-tabs/admin-tabs.component';
+import { ProductListComponent } from './product-list/product-list.component';
 @NgModule({
   imports: [
     RouterModule,
@@ -20,7 +20,8 @@ import { AdminTabsComponent } from './admin-tabs/admin-tabs.component';
   declarations: [
     AdminPage,
     StatsPage,
-    AdminTabsComponent
+    AdminTabsComponent,
+    ProductListComponent
   ]
 })
 export class AdminModule {}

@@ -7,7 +7,8 @@ class ProductSerializer(DynamicModelSerializer):
         model = Product
         fields = (
             'id',
-            'name'
+            'name',
+            'allergens'
         )
         read_only_fields = (
             'id',
