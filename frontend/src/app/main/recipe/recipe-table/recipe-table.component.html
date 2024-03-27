@@ -69,12 +69,12 @@
     </ion-item>
   </ion-list>
 
-  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
-
   <p
     *ngIf="loaded && recipes.length == 0"
     style="text-align: center;color: #979191;">
       Todavía no hay recetas, ¡añade alguna!
   </p>
+
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>

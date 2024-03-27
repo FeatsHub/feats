@@ -25,6 +25,7 @@ from user import views as user_views
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 from food import views as food_views
 from image_library import views as image_library_views
+from product import views as product_views
 
 
 # To register all the urls, add one for each view created
@@ -78,10 +79,15 @@ router.register(
 
 router.register(
     r'product',
-    food_views.ProductView,
+    product_views.ProductView,
     basename='product'
 )
 
+router.register(
+    r'product_allergen',
+    product_views.ProductAllergenView,
+    basename='product_allergen'
+)
 
 urlpatterns += [
     re_path(r"^api/", include((router.urls, "current"), namespace="current")),

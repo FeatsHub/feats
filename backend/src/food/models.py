@@ -91,7 +91,7 @@ class RecipeCategory(models.Model):
 class RecipeIngredient(models.Model):
     """ Recipe ingredient """
     product = models.ForeignKey(
-        to='Product',
+        to='product.Product',
         on_delete=models.CASCADE
     )
 
@@ -101,11 +101,4 @@ class RecipeIngredient(models.Model):
 
     unit = models.CharField(
         verbose_name=u'Measure unit',
-    )
-
-
-class Product(models.Model):
-    name = models.CharField(
-        verbose_name=u'Product name',
-        unique=True
     )

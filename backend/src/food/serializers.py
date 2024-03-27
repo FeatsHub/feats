@@ -1,5 +1,5 @@
 from utils.serializers import DynamicModelSerializer
-from food.models import Recipe, RecipeCategory, RecipeIngredient, Product, RecipeList
+from food.models import Recipe, RecipeCategory, RecipeIngredient, RecipeList
 from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
 from image_library.serializers import ImageSerializer
@@ -55,19 +55,6 @@ class RecipeSerializer(WritableNestedModelSerializer, DynamicModelSerializer):
     def create(self, validated_data):
         validated_data['owner'] = self.context['request'].user
         return super().create(validated_data)
-
-
-class ProductSerializer(DynamicModelSerializer):
-    class Meta:
-        model = Product
-        fields = (
-            'id',
-            'name'
-        )
-        read_only_fields = (
-            'id',
-        )
-
 
 class RecipeListSerializer(DynamicModelSerializer):
     recipes_data = RecipeSerializer(many=True, source='recipes', read_only=True)

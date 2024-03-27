@@ -17,7 +17,7 @@ interface Tab {
   styleUrls: ['profile-retrieve.page.scss']
 })
 export class ProfileRetrievePage implements OnInit {
-  imageUrl: string | undefined = undefined
+  imageUrl: string | null = null
   loaded = false
   recipesLoaded = false
   recipesListLoaded = false
@@ -98,7 +98,11 @@ export class ProfileRetrievePage implements OnInit {
       next: (response) => {
         this.user = response.body
         this.loaded = true
-        this.imageUrl = this.user.image_data.image!
+
+        if (this.user.image_data){
+          this.imageUrl = this.user.image_data.image!
+        }
+
         if (this.user.role == RoleEnum.Superadmin && this.menuButtons.find(item => item.role === 'admin') == undefined){
           this.menuButtons.unshift({
             text: 'Admin',
