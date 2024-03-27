@@ -36,7 +36,7 @@ import { AdminModule } from './admin/admin.module';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    ApiModule.forRoot({ rootUrl: 'http://192.168.1.21:8000' }),
+    ApiModule.forRoot({ rootUrl: 'http://localhost:8000' }),
     AdminModule
     //ApiModule.forRoot({ rootUrl: 'https://api.feats-app.com' })
   ],

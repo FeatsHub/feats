@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Recipe, RoleEnum, User } from 'src/api/models';
 import { RecipeListService, RecipeService, UserService } from 'src/api/services';
 import { RecipeList } from 'src/api/models';
+import { InfiniteScrollCustomEvent } from '@ionic/angular';
 
 interface Tab {
     icon: string,
@@ -20,6 +21,8 @@ export class ProfileRetrievePage implements OnInit {
   loaded = false
   recipesLoaded = false
   recipesListLoaded = false
+  limit = 5
+  offset = 0
 
   tabs: Tab[] = [
     {
@@ -106,16 +109,7 @@ export class ProfileRetrievePage implements OnInit {
       error: (e) => {
       },
       complete: () => {
-        this._recipeService.recipeList$Response({expand: '~all', owner: this.user.id}).subscribe({
-          next: (response) => {
-            this.myRecipes = response.body.results!
-            this.recipesLoaded = true
-          },
-          error: (e) => {
-          },
-          complete: () => {
-          }
-        });
+        this.getOwnRecipes(this.limit, this.offset)
 
         this._recipeListService.recipeListList$Response(
           {
@@ -135,6 +129,31 @@ export class ProfileRetrievePage implements OnInit {
         });
       }
     });
+  }
+
+  getOwnRecipes(limit: number, offset: number){
+    this._recipeService.recipeList$Response(
+      {
+        expand: '~all',
+        owner: this.user.id,
+        limit: limit,
+        offset: offset
+      }
+    ).subscribe(
+      {
+        next: (response) => {
+          if (this.myRecipes){
+            this.myRecipes = this.myRecipes.concat(response.body.results!)
+          }else{
+            this.myRecipes = response.body.results!
+          }
+          
+          this.recipesLoaded = true
+          },
+        error: (e) => {},
+        complete: () => {}
+      }
+    );
   }
 
   profileMenuResult(event: any){
@@ -201,9 +220,14 @@ export class ProfileRetrievePage implements OnInit {
         }
     });
   }
-  
+
   isTabSelected(tabName: string): boolean {
     return this.tabs.find(tab => tab.tab === tabName)?.selected ?? false;
+  }
+
+  handleInfiniteScroll(event: any){
+    this.offset = this.offset + 10
+    this.getOwnRecipes(this.limit, this.offset);
   }
 
 }

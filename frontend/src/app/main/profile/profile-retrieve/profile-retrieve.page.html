@@ -55,7 +55,11 @@
     </ion-grid>
 
     <div *ngIf="isTabSelected('recipes')">
-        <app-recipe-table [loaded]="recipesLoaded" [recipes]="myRecipes"></app-recipe-table>
+        <app-recipe-table
+            [loaded]="recipesLoaded"
+            [recipes]="myRecipes"
+            (infiniteScroll)="handleInfiniteScroll($event)"
+        ></app-recipe-table>
     </div>
 
     <ion-grid *ngIf="isTabSelected('saved')">
