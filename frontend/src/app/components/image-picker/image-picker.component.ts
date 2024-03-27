@@ -16,6 +16,7 @@ export class ImagePickerComponent  implements OnInit {
   @Input() width: string
   @Input() height: string
   @Input() borderRadius: string
+  @Input() is_profile: boolean = false
 
   public actionSheetButtons = [
     {
@@ -74,6 +75,14 @@ export class ImagePickerComponent  implements OnInit {
     }catch {
       console.error('Error picking image');
       Camera.requestPermissions()
+    }
+  }
+
+  getDefaultImage(){
+    if (this.is_profile){
+      return 'https://ionicframework.com/docs/img/demos/avatar.svg'
+    }else{
+      return 'https://ionicframework.com/docs/img/demos/card-media.png'
     }
   }
 

@@ -17,12 +17,13 @@
       class="profile-image"
     >
       <app-image-picker
-      (selectImage)="imageSelected($event)"
-      [imageUrl]="profileImage"
-      [width]="'100px'"
-      [height]="'100px'"
-      [borderRadius]="'100%'"
-    ></app-image-picker>
+        (selectImage)="imageSelected($event)"
+        [imageUrl]="profileImage"
+        [width]="'100px'"
+        [height]="'100px'"
+        [borderRadius]="'100%'"
+        [is_profile]="true"
+      ></app-image-picker>
     </div>
     <ion-list>
       <ion-item>

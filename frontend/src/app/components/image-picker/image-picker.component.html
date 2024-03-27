@@ -2,7 +2,7 @@
   class="image"
   id="open-action-sheet"
   [ngStyle]="{
-    'background-image': 'url(' + (imageUrl ? imageUrl : 'https://ionicframework.com/docs/img/demos/card-media.png') + ')',
+    'background-image': 'url(' + (imageUrl ? imageUrl : getDefaultImage()) + ')',
     'height': height,
     'width': width,
     'border-radius': borderRadius
