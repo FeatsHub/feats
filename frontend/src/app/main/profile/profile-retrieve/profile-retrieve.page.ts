@@ -109,7 +109,7 @@ export class ProfileRetrievePage implements OnInit {
       error: (e) => {
       },
       complete: () => {
-        this.getOwnRecipes(this.limit, this.offset)
+        this.getOwnRecipes()
 
         this._recipeListService.recipeListList$Response(
           {
@@ -131,13 +131,13 @@ export class ProfileRetrievePage implements OnInit {
     });
   }
 
-  getOwnRecipes(limit: number, offset: number){
+  getOwnRecipes(){
     this._recipeService.recipeList$Response(
       {
         expand: '~all',
         owner: this.user.id,
-        limit: limit,
-        offset: offset
+        limit: this.limit,
+        offset: this.offset
       }
     ).subscribe(
       {
@@ -227,7 +227,7 @@ export class ProfileRetrievePage implements OnInit {
 
   handleInfiniteScroll(event: any){
     this.offset = this.offset + 10
-    this.getOwnRecipes(this.limit, this.offset);
+    this.getOwnRecipes();
   }
 
 }
