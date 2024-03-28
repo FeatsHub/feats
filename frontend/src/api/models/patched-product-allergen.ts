@@ -7,8 +7,8 @@
  * control which fields are displayed, and whether to replace simple values with
  * complex, nested serializations.
  */
-export interface Product {
-  allergens?: Array<number>;
-  id: number;
-  name: string;
+export interface PatchedProductAllergen {
+  emoji?: null | string;
+  id?: number;
+  name?: string;
 }

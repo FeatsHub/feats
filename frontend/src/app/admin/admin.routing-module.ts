@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminPage } from './admin.page';
-import { StatsPage } from './stats/stats.page';
 import { AdminTabsComponent } from './admin-tabs/admin-tabs.component';
+import { StatsPage } from './stats/stats.page';
 import { ProductListComponent } from './product-list/product-list.component';
 
 const routes: Routes = [

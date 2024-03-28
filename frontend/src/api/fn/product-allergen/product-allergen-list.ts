@@ -6,9 +6,9 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { PaginatedProductList } from '../../models/paginated-product-list';
+import { PaginatedProductAllergenList } from '../../models/paginated-product-allergen-list';
 
-export interface ProductList$Params {
+export interface ProductAllergenList$Params {
 
 /**
  * List of nested objects
@@ -42,8 +42,8 @@ export interface ProductList$Params {
   search?: string;
 }
 
-export function productList(http: HttpClient, rootUrl: string, params?: ProductList$Params, context?: HttpContext): Observable<StrictHttpResponse<PaginatedProductList>> {
-  const rb = new RequestBuilder(rootUrl, productList.PATH, 'get');
+export function productAllergenList(http: HttpClient, rootUrl: string, params?: ProductAllergenList$Params, context?: HttpContext): Observable<StrictHttpResponse<PaginatedProductAllergenList>> {
+  const rb = new RequestBuilder(rootUrl, productAllergenList.PATH, 'get');
   if (params) {
     rb.query('expand', params.expand, {});
     rb.query('fields', params.fields, {});
@@ -59,9 +59,9 @@ export function productList(http: HttpClient, rootUrl: string, params?: ProductL
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<PaginatedProductList>;
+      return r as StrictHttpResponse<PaginatedProductAllergenList>;
     })
   );
 }
 
-productList.PATH = '/api/product/';
+productAllergenList.PATH = '/api/product_allergen/';

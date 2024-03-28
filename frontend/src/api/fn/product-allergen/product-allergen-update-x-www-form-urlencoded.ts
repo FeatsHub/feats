@@ -6,9 +6,9 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Product } from '../../models/product';
+import { ProductAllergen } from '../../models/product-allergen';
 
-export interface ProductCreate$XWwwFormUrlencoded$Params {
+export interface ProductAllergenUpdate$XWwwFormUrlencoded$Params {
 
 /**
  * List of nested objects
@@ -19,14 +19,20 @@ export interface ProductCreate$XWwwFormUrlencoded$Params {
  * List of nested objects
  */
   fields?: string;
-      body: Product
+
+/**
+ * A unique integer value identifying this product allergen.
+ */
+  id: number;
+      body: ProductAllergen
 }
 
-export function productCreate$XWwwFormUrlencoded(http: HttpClient, rootUrl: string, params: ProductCreate$XWwwFormUrlencoded$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
-  const rb = new RequestBuilder(rootUrl, productCreate$XWwwFormUrlencoded.PATH, 'post');
+export function productAllergenUpdate$XWwwFormUrlencoded(http: HttpClient, rootUrl: string, params: ProductAllergenUpdate$XWwwFormUrlencoded$Params, context?: HttpContext): Observable<StrictHttpResponse<ProductAllergen>> {
+  const rb = new RequestBuilder(rootUrl, productAllergenUpdate$XWwwFormUrlencoded.PATH, 'put');
   if (params) {
     rb.query('expand', params.expand, {});
     rb.query('fields', params.fields, {});
+    rb.path('id', params.id, {});
     rb.body(params.body, 'application/x-www-form-urlencoded');
   }
 
@@ -35,9 +41,9 @@ export function productCreate$XWwwFormUrlencoded(http: HttpClient, rootUrl: stri
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Product>;
+      return r as StrictHttpResponse<ProductAllergen>;
     })
   );
 }
 
-productCreate$XWwwFormUrlencoded.PATH = '/api/product/';
+productAllergenUpdate$XWwwFormUrlencoded.PATH = '/api/product_allergen/{id}/';

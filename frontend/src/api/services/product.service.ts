@@ -17,14 +17,24 @@ import { productCreate$Json } from '../fn/product/product-create-json';
 import { ProductCreate$Json$Params } from '../fn/product/product-create-json';
 import { productCreate$XWwwFormUrlencoded } from '../fn/product/product-create-x-www-form-urlencoded';
 import { ProductCreate$XWwwFormUrlencoded$Params } from '../fn/product/product-create-x-www-form-urlencoded';
-import { productGetOrCreateCreate$FormData } from '../fn/product/product-get-or-create-create-form-data';
-import { ProductGetOrCreateCreate$FormData$Params } from '../fn/product/product-get-or-create-create-form-data';
-import { productGetOrCreateCreate$Json } from '../fn/product/product-get-or-create-create-json';
-import { ProductGetOrCreateCreate$Json$Params } from '../fn/product/product-get-or-create-create-json';
-import { productGetOrCreateCreate$XWwwFormUrlencoded } from '../fn/product/product-get-or-create-create-x-www-form-urlencoded';
-import { ProductGetOrCreateCreate$XWwwFormUrlencoded$Params } from '../fn/product/product-get-or-create-create-x-www-form-urlencoded';
+import { productDestroy } from '../fn/product/product-destroy';
+import { ProductDestroy$Params } from '../fn/product/product-destroy';
 import { productList } from '../fn/product/product-list';
 import { ProductList$Params } from '../fn/product/product-list';
+import { productPartialUpdate$FormData } from '../fn/product/product-partial-update-form-data';
+import { ProductPartialUpdate$FormData$Params } from '../fn/product/product-partial-update-form-data';
+import { productPartialUpdate$Json } from '../fn/product/product-partial-update-json';
+import { ProductPartialUpdate$Json$Params } from '../fn/product/product-partial-update-json';
+import { productPartialUpdate$XWwwFormUrlencoded } from '../fn/product/product-partial-update-x-www-form-urlencoded';
+import { ProductPartialUpdate$XWwwFormUrlencoded$Params } from '../fn/product/product-partial-update-x-www-form-urlencoded';
+import { productRetrieve } from '../fn/product/product-retrieve';
+import { ProductRetrieve$Params } from '../fn/product/product-retrieve';
+import { productUpdate$FormData } from '../fn/product/product-update-form-data';
+import { ProductUpdate$FormData$Params } from '../fn/product/product-update-form-data';
+import { productUpdate$Json } from '../fn/product/product-update-json';
+import { ProductUpdate$Json$Params } from '../fn/product/product-update-json';
+import { productUpdate$XWwwFormUrlencoded } from '../fn/product/product-update-x-www-form-urlencoded';
+import { ProductUpdate$XWwwFormUrlencoded$Params } from '../fn/product/product-update-x-www-form-urlencoded';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService extends BaseService {
@@ -126,83 +136,190 @@ export class ProductService extends BaseService {
     );
   }
 
-  /** Path part for operation `productGetOrCreateCreate()` */
-  static readonly ProductGetOrCreateCreatePath = '/api/product/get_or_create/';
+  /** Path part for operation `productRetrieve()` */
+  static readonly ProductRetrievePath = '/api/product/{id}/';
 
   /**
-   * Method to create a tag (if exist return tag selected)
-   *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `productGetOrCreateCreate$Json()` instead.
+   * To access only the response body, use `productRetrieve()` instead.
    *
-   * This method sends `application/json` and handles request body of type `application/json`.
+   * This method doesn't expect any request body.
    */
-  productGetOrCreateCreate$Json$Response(params: ProductGetOrCreateCreate$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
-    return productGetOrCreateCreate$Json(this.http, this.rootUrl, params, context);
+  productRetrieve$Response(params: ProductRetrieve$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
+    return productRetrieve(this.http, this.rootUrl, params, context);
   }
 
   /**
-   * Method to create a tag (if exist return tag selected)
-   *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `productGetOrCreateCreate$Json$Response()` instead.
+   * To access the full response (for headers, for example), `productRetrieve$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  productRetrieve(params: ProductRetrieve$Params, context?: HttpContext): Observable<Product> {
+    return this.productRetrieve$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Product>): Product => r.body)
+    );
+  }
+
+  /** Path part for operation `productUpdate()` */
+  static readonly ProductUpdatePath = '/api/product/{id}/';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `productUpdate$Json()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  productGetOrCreateCreate$Json(params: ProductGetOrCreateCreate$Json$Params, context?: HttpContext): Observable<Product> {
-    return this.productGetOrCreateCreate$Json$Response(params, context).pipe(
+  productUpdate$Json$Response(params: ProductUpdate$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
+    return productUpdate$Json(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `productUpdate$Json$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  productUpdate$Json(params: ProductUpdate$Json$Params, context?: HttpContext): Observable<Product> {
+    return this.productUpdate$Json$Response(params, context).pipe(
       map((r: StrictHttpResponse<Product>): Product => r.body)
     );
   }
 
   /**
-   * Method to create a tag (if exist return tag selected)
-   *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `productGetOrCreateCreate$XWwwFormUrlencoded()` instead.
+   * To access only the response body, use `productUpdate$XWwwFormUrlencoded()` instead.
    *
    * This method sends `application/x-www-form-urlencoded` and handles request body of type `application/x-www-form-urlencoded`.
    */
-  productGetOrCreateCreate$XWwwFormUrlencoded$Response(params: ProductGetOrCreateCreate$XWwwFormUrlencoded$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
-    return productGetOrCreateCreate$XWwwFormUrlencoded(this.http, this.rootUrl, params, context);
+  productUpdate$XWwwFormUrlencoded$Response(params: ProductUpdate$XWwwFormUrlencoded$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
+    return productUpdate$XWwwFormUrlencoded(this.http, this.rootUrl, params, context);
   }
 
   /**
-   * Method to create a tag (if exist return tag selected)
-   *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `productGetOrCreateCreate$XWwwFormUrlencoded$Response()` instead.
+   * To access the full response (for headers, for example), `productUpdate$XWwwFormUrlencoded$Response()` instead.
    *
    * This method sends `application/x-www-form-urlencoded` and handles request body of type `application/x-www-form-urlencoded`.
    */
-  productGetOrCreateCreate$XWwwFormUrlencoded(params: ProductGetOrCreateCreate$XWwwFormUrlencoded$Params, context?: HttpContext): Observable<Product> {
-    return this.productGetOrCreateCreate$XWwwFormUrlencoded$Response(params, context).pipe(
+  productUpdate$XWwwFormUrlencoded(params: ProductUpdate$XWwwFormUrlencoded$Params, context?: HttpContext): Observable<Product> {
+    return this.productUpdate$XWwwFormUrlencoded$Response(params, context).pipe(
       map((r: StrictHttpResponse<Product>): Product => r.body)
     );
   }
 
   /**
-   * Method to create a tag (if exist return tag selected)
-   *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `productGetOrCreateCreate$FormData()` instead.
+   * To access only the response body, use `productUpdate$FormData()` instead.
    *
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
-  productGetOrCreateCreate$FormData$Response(params: ProductGetOrCreateCreate$FormData$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
-    return productGetOrCreateCreate$FormData(this.http, this.rootUrl, params, context);
+  productUpdate$FormData$Response(params: ProductUpdate$FormData$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
+    return productUpdate$FormData(this.http, this.rootUrl, params, context);
   }
 
   /**
-   * Method to create a tag (if exist return tag selected)
-   *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `productGetOrCreateCreate$FormData$Response()` instead.
+   * To access the full response (for headers, for example), `productUpdate$FormData$Response()` instead.
    *
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
-  productGetOrCreateCreate$FormData(params: ProductGetOrCreateCreate$FormData$Params, context?: HttpContext): Observable<Product> {
-    return this.productGetOrCreateCreate$FormData$Response(params, context).pipe(
+  productUpdate$FormData(params: ProductUpdate$FormData$Params, context?: HttpContext): Observable<Product> {
+    return this.productUpdate$FormData$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Product>): Product => r.body)
+    );
+  }
+
+  /** Path part for operation `productDestroy()` */
+  static readonly ProductDestroyPath = '/api/product/{id}/';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `productDestroy()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  productDestroy$Response(params: ProductDestroy$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return productDestroy(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `productDestroy$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  productDestroy(params: ProductDestroy$Params, context?: HttpContext): Observable<void> {
+    return this.productDestroy$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
+    );
+  }
+
+  /** Path part for operation `productPartialUpdate()` */
+  static readonly ProductPartialUpdatePath = '/api/product/{id}/';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `productPartialUpdate$Json()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  productPartialUpdate$Json$Response(params: ProductPartialUpdate$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
+    return productPartialUpdate$Json(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `productPartialUpdate$Json$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  productPartialUpdate$Json(params: ProductPartialUpdate$Json$Params, context?: HttpContext): Observable<Product> {
+    return this.productPartialUpdate$Json$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Product>): Product => r.body)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `productPartialUpdate$XWwwFormUrlencoded()` instead.
+   *
+   * This method sends `application/x-www-form-urlencoded` and handles request body of type `application/x-www-form-urlencoded`.
+   */
+  productPartialUpdate$XWwwFormUrlencoded$Response(params: ProductPartialUpdate$XWwwFormUrlencoded$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
+    return productPartialUpdate$XWwwFormUrlencoded(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `productPartialUpdate$XWwwFormUrlencoded$Response()` instead.
+   *
+   * This method sends `application/x-www-form-urlencoded` and handles request body of type `application/x-www-form-urlencoded`.
+   */
+  productPartialUpdate$XWwwFormUrlencoded(params: ProductPartialUpdate$XWwwFormUrlencoded$Params, context?: HttpContext): Observable<Product> {
+    return this.productPartialUpdate$XWwwFormUrlencoded$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Product>): Product => r.body)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `productPartialUpdate$FormData()` instead.
+   *
+   * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
+   */
+  productPartialUpdate$FormData$Response(params: ProductPartialUpdate$FormData$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
+    return productPartialUpdate$FormData(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `productPartialUpdate$FormData$Response()` instead.
+   *
+   * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
+   */
+  productPartialUpdate$FormData(params: ProductPartialUpdate$FormData$Params, context?: HttpContext): Observable<Product> {
+    return this.productPartialUpdate$FormData$Response(params, context).pipe(
       map((r: StrictHttpResponse<Product>): Product => r.body)
     );
   }

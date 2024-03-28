@@ -20,7 +20,8 @@ class ProductAllergenSerializer(DynamicModelSerializer):
         model = ProductAllergen
         fields = (
             'id',
-            'name'
+            'name',
+            'emoji'
         )
         read_only_fields = (
             'id',

@@ -6,9 +6,9 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Product } from '../../models/product';
+import { ProductAllergen } from '../../models/product-allergen';
 
-export interface ProductCreate$FormData$Params {
+export interface ProductAllergenUpdate$Json$Params {
 
 /**
  * List of nested objects
@@ -19,15 +19,21 @@ export interface ProductCreate$FormData$Params {
  * List of nested objects
  */
   fields?: string;
-      body: Product
+
+/**
+ * A unique integer value identifying this product allergen.
+ */
+  id: number;
+      body: ProductAllergen
 }
 
-export function productCreate$FormData(http: HttpClient, rootUrl: string, params: ProductCreate$FormData$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
-  const rb = new RequestBuilder(rootUrl, productCreate$FormData.PATH, 'post');
+export function productAllergenUpdate$Json(http: HttpClient, rootUrl: string, params: ProductAllergenUpdate$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<ProductAllergen>> {
+  const rb = new RequestBuilder(rootUrl, productAllergenUpdate$Json.PATH, 'put');
   if (params) {
     rb.query('expand', params.expand, {});
     rb.query('fields', params.fields, {});
-    rb.body(params.body, 'multipart/form-data');
+    rb.path('id', params.id, {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -35,9 +41,9 @@ export function productCreate$FormData(http: HttpClient, rootUrl: string, params
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Product>;
+      return r as StrictHttpResponse<ProductAllergen>;
     })
   );
 }
 
-productCreate$FormData.PATH = '/api/product/';
+productAllergenUpdate$Json.PATH = '/api/product_allergen/{id}/';

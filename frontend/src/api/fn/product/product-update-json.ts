@@ -8,13 +8,31 @@ import { RequestBuilder } from '../../request-builder';
 
 import { Product } from '../../models/product';
 
-export interface ProductGetOrCreateCreate$Json$Params {
+export interface ProductUpdate$Json$Params {
+
+/**
+ * List of nested objects
+ */
+  expand?: string;
+
+/**
+ * List of nested objects
+ */
+  fields?: string;
+
+/**
+ * A unique integer value identifying this product.
+ */
+  id: number;
       body: Product
 }
 
-export function productGetOrCreateCreate$Json(http: HttpClient, rootUrl: string, params: ProductGetOrCreateCreate$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
-  const rb = new RequestBuilder(rootUrl, productGetOrCreateCreate$Json.PATH, 'post');
+export function productUpdate$Json(http: HttpClient, rootUrl: string, params: ProductUpdate$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
+  const rb = new RequestBuilder(rootUrl, productUpdate$Json.PATH, 'put');
   if (params) {
+    rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
+    rb.path('id', params.id, {});
     rb.body(params.body, 'application/json');
   }
 
@@ -28,4 +46,4 @@ export function productGetOrCreateCreate$Json(http: HttpClient, rootUrl: string,
   );
 }
 
-productGetOrCreateCreate$Json.PATH = '/api/product/get_or_create/';
+productUpdate$Json.PATH = '/api/product/{id}/';

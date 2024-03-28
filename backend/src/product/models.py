@@ -15,15 +15,11 @@ class Product(models.Model):
 
 class ProductAllergen(models.Model):
     name = models.CharField(
-        verbose_name=u'Allergen name'
+        verbose_name=u'Allergen name',
+        unique=True
     )
 
     emoji = models.CharField(
         verbose_name=u'Allergen emoji',
-        null=True
-    )
-
-    image_url = models.CharField(
-        verbose_name=u'Allergen image',
         null=True
     )

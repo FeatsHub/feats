@@ -8,7 +8,7 @@ import { RequestBuilder } from '../../request-builder';
 
 import { Product } from '../../models/product';
 
-export interface ProductCreate$FormData$Params {
+export interface ProductRetrieve$Params {
 
 /**
  * List of nested objects
@@ -19,15 +19,19 @@ export interface ProductCreate$FormData$Params {
  * List of nested objects
  */
   fields?: string;
-      body: Product
+
+/**
+ * A unique integer value identifying this product.
+ */
+  id: number;
 }
 
-export function productCreate$FormData(http: HttpClient, rootUrl: string, params: ProductCreate$FormData$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
-  const rb = new RequestBuilder(rootUrl, productCreate$FormData.PATH, 'post');
+export function productRetrieve(http: HttpClient, rootUrl: string, params: ProductRetrieve$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
+  const rb = new RequestBuilder(rootUrl, productRetrieve.PATH, 'get');
   if (params) {
     rb.query('expand', params.expand, {});
     rb.query('fields', params.fields, {});
-    rb.body(params.body, 'multipart/form-data');
+    rb.path('id', params.id, {});
   }
 
   return http.request(
@@ -40,4 +44,4 @@ export function productCreate$FormData(http: HttpClient, rootUrl: string, params
   );
 }
 
-productCreate$FormData.PATH = '/api/product/';
+productRetrieve.PATH = '/api/product/{id}/';

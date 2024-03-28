@@ -8,13 +8,31 @@ import { RequestBuilder } from '../../request-builder';
 
 import { Product } from '../../models/product';
 
-export interface ProductGetOrCreateCreate$XWwwFormUrlencoded$Params {
+export interface ProductUpdate$XWwwFormUrlencoded$Params {
+
+/**
+ * List of nested objects
+ */
+  expand?: string;
+
+/**
+ * List of nested objects
+ */
+  fields?: string;
+
+/**
+ * A unique integer value identifying this product.
+ */
+  id: number;
       body: Product
 }
 
-export function productGetOrCreateCreate$XWwwFormUrlencoded(http: HttpClient, rootUrl: string, params: ProductGetOrCreateCreate$XWwwFormUrlencoded$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
-  const rb = new RequestBuilder(rootUrl, productGetOrCreateCreate$XWwwFormUrlencoded.PATH, 'post');
+export function productUpdate$XWwwFormUrlencoded(http: HttpClient, rootUrl: string, params: ProductUpdate$XWwwFormUrlencoded$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
+  const rb = new RequestBuilder(rootUrl, productUpdate$XWwwFormUrlencoded.PATH, 'put');
   if (params) {
+    rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
+    rb.path('id', params.id, {});
     rb.body(params.body, 'application/x-www-form-urlencoded');
   }
 
@@ -28,4 +46,4 @@ export function productGetOrCreateCreate$XWwwFormUrlencoded(http: HttpClient, ro
   );
 }
 
-productGetOrCreateCreate$XWwwFormUrlencoded.PATH = '/api/product/get_or_create/';
+productUpdate$XWwwFormUrlencoded.PATH = '/api/product/{id}/';

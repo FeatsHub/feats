@@ -6,9 +6,8 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Product } from '../../models/product';
 
-export interface ProductCreate$FormData$Params {
+export interface ProductDestroy$Params {
 
 /**
  * List of nested objects
@@ -19,25 +18,29 @@ export interface ProductCreate$FormData$Params {
  * List of nested objects
  */
   fields?: string;
-      body: Product
+
+/**
+ * A unique integer value identifying this product.
+ */
+  id: number;
 }
 
-export function productCreate$FormData(http: HttpClient, rootUrl: string, params: ProductCreate$FormData$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
-  const rb = new RequestBuilder(rootUrl, productCreate$FormData.PATH, 'post');
+export function productDestroy(http: HttpClient, rootUrl: string, params: ProductDestroy$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, productDestroy.PATH, 'delete');
   if (params) {
     rb.query('expand', params.expand, {});
     rb.query('fields', params.fields, {});
-    rb.body(params.body, 'multipart/form-data');
+    rb.path('id', params.id, {});
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: 'application/json', context })
+    rb.build({ responseType: 'text', accept: '*/*', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Product>;
+      return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
     })
   );
 }
 
-productCreate$FormData.PATH = '/api/product/';
+productDestroy.PATH = '/api/product/{id}/';

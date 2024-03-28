@@ -8,13 +8,31 @@ import { RequestBuilder } from '../../request-builder';
 
 import { Product } from '../../models/product';
 
-export interface ProductGetOrCreateCreate$FormData$Params {
+export interface ProductUpdate$FormData$Params {
+
+/**
+ * List of nested objects
+ */
+  expand?: string;
+
+/**
+ * List of nested objects
+ */
+  fields?: string;
+
+/**
+ * A unique integer value identifying this product.
+ */
+  id: number;
       body: Product
 }
 
-export function productGetOrCreateCreate$FormData(http: HttpClient, rootUrl: string, params: ProductGetOrCreateCreate$FormData$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
-  const rb = new RequestBuilder(rootUrl, productGetOrCreateCreate$FormData.PATH, 'post');
+export function productUpdate$FormData(http: HttpClient, rootUrl: string, params: ProductUpdate$FormData$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
+  const rb = new RequestBuilder(rootUrl, productUpdate$FormData.PATH, 'put');
   if (params) {
+    rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
+    rb.path('id', params.id, {});
     rb.body(params.body, 'multipart/form-data');
   }
 
@@ -28,4 +46,4 @@ export function productGetOrCreateCreate$FormData(http: HttpClient, rootUrl: str
   );
 }
 
-productGetOrCreateCreate$FormData.PATH = '/api/product/get_or_create/';
+productUpdate$FormData.PATH = '/api/product/{id}/';

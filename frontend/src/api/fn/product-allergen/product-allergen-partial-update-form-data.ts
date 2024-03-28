@@ -6,9 +6,10 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Product } from '../../models/product';
+import { PatchedProductAllergen } from '../../models/patched-product-allergen';
+import { ProductAllergen } from '../../models/product-allergen';
 
-export interface ProductCreate$FormData$Params {
+export interface ProductAllergenPartialUpdate$FormData$Params {
 
 /**
  * List of nested objects
@@ -19,14 +20,20 @@ export interface ProductCreate$FormData$Params {
  * List of nested objects
  */
   fields?: string;
-      body: Product
+
+/**
+ * A unique integer value identifying this product allergen.
+ */
+  id: number;
+      body?: PatchedProductAllergen
 }
 
-export function productCreate$FormData(http: HttpClient, rootUrl: string, params: ProductCreate$FormData$Params, context?: HttpContext): Observable<StrictHttpResponse<Product>> {
-  const rb = new RequestBuilder(rootUrl, productCreate$FormData.PATH, 'post');
+export function productAllergenPartialUpdate$FormData(http: HttpClient, rootUrl: string, params: ProductAllergenPartialUpdate$FormData$Params, context?: HttpContext): Observable<StrictHttpResponse<ProductAllergen>> {
+  const rb = new RequestBuilder(rootUrl, productAllergenPartialUpdate$FormData.PATH, 'patch');
   if (params) {
     rb.query('expand', params.expand, {});
     rb.query('fields', params.fields, {});
+    rb.path('id', params.id, {});
     rb.body(params.body, 'multipart/form-data');
   }
 
@@ -35,9 +42,9 @@ export function productCreate$FormData(http: HttpClient, rootUrl: string, params
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Product>;
+      return r as StrictHttpResponse<ProductAllergen>;
     })
   );
 }
 
-productCreate$FormData.PATH = '/api/product/';
+productAllergenPartialUpdate$FormData.PATH = '/api/product_allergen/{id}/';
