@@ -70,9 +70,7 @@ export class AllergenListComponent implements OnInit {
       error: (e) => {
       },
       complete: () => {
-        console.log(this.allergens.splice(index, 1))
-        console.log(index)
-        this.allergens = this.allergens.splice(index - 1, 1);
+        this.allergens.splice(index, 1);
       }
     });
   }

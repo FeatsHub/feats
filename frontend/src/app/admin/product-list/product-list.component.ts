@@ -57,7 +57,7 @@ export class ProductListComponent implements OnInit {
       error: (e) => {
       },
       complete: () => {
-        this.products = this.products.splice(index, 1);
+        this.products.splice(index, 1);
       }
     });
   }
