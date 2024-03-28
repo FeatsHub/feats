@@ -2603,6 +2603,9 @@ components:
             title: User saved recipes
           readOnly: true
           title: User saved recipes
+        allergens:
+          type: string
+          readOnly: true
     PatchedRecipeCategory:
       type: object
       description: |-
@@ -2854,7 +2857,11 @@ components:
             title: User saved recipes
           readOnly: true
           title: User saved recipes
+        allergens:
+          type: string
+          readOnly: true
       required:
+      - allergens
       - category_data
       - description
       - diners

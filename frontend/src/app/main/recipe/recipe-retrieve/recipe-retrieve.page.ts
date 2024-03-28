@@ -29,7 +29,8 @@ export class RecipeDetailPage implements OnInit {
     name: '',
     time: 0,
     owner: -1,
-    saved_by: []
+    saved_by: [],
+    allergens: ''
   }
 
   saved = false

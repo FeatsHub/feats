@@ -42,14 +42,16 @@ class RecipeSerializer(WritableNestedModelSerializer, DynamicModelSerializer):
             'category_data',
             'is_public',
             'owner',
-            'saved_by'
+            'saved_by',
+            'allergens'
         )
         read_only_fields = (
             'id',
             'image_data',
             'category_data',
             'owner',
-            'saved_by'
+            'saved_by',
+            'allergens'
         )
 
     def create(self, validated_data):

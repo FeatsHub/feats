@@ -57,6 +57,16 @@ class Recipe(models.Model):
         null=True
     )
 
+    @property
+    def allergens(self):
+        allergens = ''
+
+        for ingredient in self.ingredients.all():
+            for allergen in ingredient.product.allergens.all():
+                allergens = allergens + f' {allergen.emoji}'
+
+        return allergens
+
 
 class RecipeList(models.Model):
     is_default_list = models.BooleanField(

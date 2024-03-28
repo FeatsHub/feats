@@ -8,6 +8,7 @@ import { RecipeIngredient } from '../models/recipe-ingredient';
  * Adds nested create feature
  */
 export interface Recipe {
+  allergens: string;
   category?: Array<number>;
   category_data: Array<RecipeCategory>;
   description: string;
