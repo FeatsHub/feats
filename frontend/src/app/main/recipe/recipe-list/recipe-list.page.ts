@@ -19,6 +19,7 @@ export class RecipeListPage implements OnInit {
   searchedText: string | undefined = undefined
   limit = 5
   offset = 0
+  selectedAllergens = [1, 3, 4]
 
 
   constructor(

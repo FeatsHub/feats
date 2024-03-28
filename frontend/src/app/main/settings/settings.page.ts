@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsPage implements OnInit {
 
+  selectedAllergens = [1, 3, 5]
+
   settings = [
     {
       id: 'useDarkColor',

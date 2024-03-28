@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
 import { ProductAllergen } from 'src/api/models';
 import { ProductAllergenService } from 'src/api/services';
@@ -11,7 +11,8 @@ import { ProductAllergenService } from 'src/api/services';
 export class AllergenChecksComponent  implements OnInit {
 
   allergens: ProductAllergen[]
-  allergenSelecteds: number[]
+  @Input() allergensSelected: number[]
+  @Output() allergensSelectedChange: EventEmitter<number[]> = new EventEmitter<number[]>();
 
   constructor(
     private _allergenService: ProductAllergenService
@@ -33,8 +34,17 @@ export class AllergenChecksComponent  implements OnInit {
     )
   }
 
-  allergenInList(allergen: number){
-    return true
+  allergenInList(allergenId: number){
+    return this.allergensSelected.some(allergen => allergen === allergenId);
+  }
+
+  toggleSelect(allergenId: number){
+    if (this.allergenInList(allergenId)){
+      const index = this.allergensSelected.indexOf(allergenId);
+      this.allergensSelected.splice(index, 1);
+    }else{
+      this.allergensSelected.push(allergenId);
+    }
   }
 
 }
