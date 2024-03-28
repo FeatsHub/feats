@@ -4,6 +4,7 @@ import { AdminPage } from './admin.page';
 import { AdminTabsComponent } from './admin-tabs/admin-tabs.component';
 import { StatsPage } from './stats/stats.page';
 import { ProductListComponent } from './product-list/product-list.component';
+import { AllergenListComponent } from './allergen-list/allergen-list.component';
 
 const routes: Routes = [
   {
@@ -12,7 +13,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'stats',
+        redirectTo: 'options',
         pathMatch: 'full'
       },
       {
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path: 'options/products',
         component: ProductListComponent
+      },
+      {
+        path: 'options/allergens',
+        component: AllergenListComponent
       },
     ]
   }

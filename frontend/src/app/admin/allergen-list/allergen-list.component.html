@@ -1,0 +1,53 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref='/admin/options'></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            Allergens
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+
+    <ion-alert
+        trigger="present-alert"
+        header="Add allergen"
+        [buttons]="alertButtons"
+        [inputs]="alertInputs"
+        (didDismiss)="createAllergen($event)"
+    ></ion-alert>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button id="present-alert">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+    <ion-list lines="none">
+        <ion-item *ngFor="let allergen of allergens; index as i">
+          <ion-input style="width: 30px;" [(ngModel)]="allergen.emoji">
+          </ion-input>
+            <ion-input [(ngModel)]="allergen.name">
+            </ion-input>
+            <ion-button
+                slot="end"
+                expand="block"
+                fill="clear"
+                color="success"
+                (click)="saveAllergen(allergen)"
+            >
+                <ion-icon name="save-outline"></ion-icon>
+            </ion-button>
+            <ion-button
+                slot="end"
+                expand="block"
+                fill="clear"
+                color="danger"
+                (click)="deleteAllergen(allergen, i)"
+            >
+                <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+        </ion-item>
+    </ion-list>
+</ion-content>
