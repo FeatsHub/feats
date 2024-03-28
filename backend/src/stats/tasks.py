@@ -1,11 +1,10 @@
 import logging
 from main.celery import app
-from utils.tasks_utils import ResilientTask
 
 logger = logging.getLogger(__name__)
 
-@app.task(bind=True, base=ResilientTask)
-def save_system_stats():
+@app.task(bind=True)
+def save_system_stats(self):
     from stats.models import Stats
     from user.models import User
     from food.models import Recipe
