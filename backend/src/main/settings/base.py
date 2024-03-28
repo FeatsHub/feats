@@ -64,7 +64,8 @@ LOCAL_APPS = [
     'user',
     'image_library',
     'food',
-    'product'
+    'product',
+    'stats'
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

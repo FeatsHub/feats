@@ -32,10 +32,12 @@ app.conf.task_routes = ([
 
 @app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
+    from stats.tasks import save_system_stats
 
     # Calls test('hello') every 10 seconds.
     sender.add_periodic_task(60.0, debug_task, name='celerybeat debug task')
     sender.add_periodic_task(60.0, debug_mail_task, name='celerybeat mail task')
+    sender.add_periodic_task(60.0 * 60, save_system_stats, name='save system stats')
 
 @app.task(bind=True)
 def debug_task(self):
