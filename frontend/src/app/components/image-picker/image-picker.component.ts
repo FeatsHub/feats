@@ -32,7 +32,7 @@ export class ImagePickerComponent  implements OnInit {
       },
     },
     {
-      text: 'Cancel',
+      text: 'Cancelar',
       role: 'cancel',
       data: {
         action: 'cancel',

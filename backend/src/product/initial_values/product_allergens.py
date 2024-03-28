@@ -4,23 +4,23 @@ initial_values = [
         'emoji': '🌾'
     },
     {
-        'name': 'ShellFish',
+        'name': 'Marisco',
         'emoji': '🦀'
     },
     {
-        'name': 'Egg',
+        'name': 'Huevo',
         'emoji': '🥚'
     },
     {
-        'name': 'Fish',
+        'name': 'Pescado',
         'emoji': '🐟'
     },
     {
-        'name': 'Peanut',
+        'name': 'Cacahuete',
         'emoji': '🥜'
     },
     {
-        'name': 'Milk',
+        'name': 'Lácteos',
         'emoji': '🥛'
     }
 ]

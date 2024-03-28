@@ -10,7 +10,7 @@ class Command(BaseCommand):
     help = 'Populate command'
 
     def add_arguments(self, parser):
-        parser.add_argument('-m', '--model', type=str, help='Model name')
+        parser.add_argument('-m', '--model', type=str, help='Model name', required=False)
 
     def handle(self, *args, **kwargs):
         model = kwargs['model']

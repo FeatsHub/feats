@@ -46,15 +46,15 @@ export class ProfileRetrievePage implements OnInit {
 
   menuButtons = [
     {
-      text: 'Settings',
+      text: 'Ajustes',
       role: 'settings',
     },
     {
-      text: 'Edit profile',
+      text: 'Editar perfil',
       role: 'edit',
     },
     {
-      text: 'Log out',
+      text: 'Cerrar Sesión',
       role: 'logout',
     }
   ];
