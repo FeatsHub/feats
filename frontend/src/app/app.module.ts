@@ -15,6 +15,7 @@ import { StepCheckEmailComponent } from './main/register/components/step-check-e
 import { StepCheckUsernameComponent } from './main/register/components/step-check-username/step-check-username.component';
 import { SettingsPage } from './main/settings/settings.page';
 import { TabsComponent } from './main/tabs/tabs.component';
+import { AllergensListModule } from './components/allergen-list/allergen-list.module';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { TabsComponent } from './main/tabs/tabs.component';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    AllergensListModule,
     ApiModule.forRoot({ rootUrl: 'http://192.168.0.38:8000' }),
     //ApiModule.forRoot({ rootUrl: 'https://api.feats-app.com' })
   ],

@@ -1,0 +1,8 @@
+<ion-list>
+  <ion-list-header>
+    <ion-label>Alergias / Intolerancias</ion-label>
+  </ion-list-header>
+  <ion-item *ngFor="let allergen of allergens">
+    <ion-checkbox [checked]="allergenInList(allergen.id)">{{allergen.emoji}} {{allergen.name}}</ion-checkbox>
+  </ion-item>
+</ion-list>

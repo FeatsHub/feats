@@ -9,6 +9,7 @@ import { RecipeListPage } from './recipe-list/recipe-list.page';
 import { RouterModule } from '@angular/router';
 import { ImagePickerModule } from 'src/app/components/image-picker/image-picker.module';
 import { RecipeTableModule } from './recipe-table/recipe-table.module';
+import { AllergensListModule } from 'src/app/components/allergen-list/allergen-list.module';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { RecipeTableModule } from './recipe-table/recipe-table.module';
     RecipeRoutingModule,
     ReactiveFormsModule,
     ImagePickerModule,
-    RecipeTableModule
+    RecipeTableModule,
+    AllergensListModule
   ],
   declarations: [
     RecipeDetailPage,
