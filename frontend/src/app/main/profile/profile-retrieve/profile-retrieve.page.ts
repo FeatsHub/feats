@@ -135,6 +135,10 @@ export class ProfileRetrievePage implements OnInit {
     });
   }
 
+  ionViewDidLeave(){
+    this.myRecipes = []
+  }
+
   getOwnRecipes(){
     this._recipeService.recipeList$Response(
       {
