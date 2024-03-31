@@ -9,6 +9,6 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" *ngIf="user && user.role == 'superadmin'">
+<ion-content scroll-y="false" [fullscreen]="true" *ngIf="user && user.role == 'superadmin'">
   <div #chartContent style="width: 100%;height: 400px;"></div>
 </ion-content>

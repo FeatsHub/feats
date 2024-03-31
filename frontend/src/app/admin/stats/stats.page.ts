@@ -62,23 +62,43 @@ export class StatsPage implements OnInit {
       yAxis: {
         type: 'value'
       },
+      color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
+      /*title: {
+        text: 'Gradient Stacked Area Chart'
+      },*/
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          label: {
+            backgroundColor: '#6a7985'
+          }
+        }
+      },
+      legend: {
+        data: ['Usuarios', 'Recetas', 'Recetas Públicas', 'Recetas Privadas',]
+      },
       series: [
         this.initLine(
+          'Usuarios',
           [300, 250, 700, 200, 180, 150, 100, 500],
           'rgb(128, 255, 165)',
           'rgb(1, 191, 236)'
         ),
         this.initLine(
+          'Recetas',
           [280, 240, 600, 550, 160, 130, 100, 450],
           'rgb(0, 221, 255)',
           'rgb(77, 119, 255)'
         ),
         this.initLine(
+          'Recetas Públicas',
           [260, 220, 500, 170, 140, 110, 80, 400],
           'rgb(55, 162, 255)',
           'rgb(116, 21, 219)'
         ),
         this.initLine(
+          'Recetas Privadas',
           [240, 200, 170, 150, 800, 90, 60, 350],
           'rgb(255, 0, 135)',
           'rgb(135, 0, 157)'
@@ -90,8 +110,9 @@ export class StatsPage implements OnInit {
     loading.dismiss();
   }
 
-  initLine(data: number[], color1: string, color2: string): SeriesOption{
+  initLine(name: string, data: number[], color1: string, color2: string): SeriesOption{
     return {
+      name: name,
       data: data,
       type: 'line',
       showSymbol: false,
