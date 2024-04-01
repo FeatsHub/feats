@@ -3,17 +3,20 @@
       <ion-title>
         Perfil
       </ion-title>
-        <ion-buttons slot="end">
-            <ion-button id="profile-menu">
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+        <ion-buttons slot="end" *ngIf="isOwn()">
+            <ion-button (click)="setOpen(true)">
                 <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
   </ion-header>
 <ion-content [fullscreen]="true">
-    <ion-action-sheet 
+    <ion-action-sheet
+        [isOpen]="isActionSheetOpen"
         translucent="true"
-        trigger="profile-menu"
         [buttons]="menuButtons"
         (didDismiss)="profileMenuResult($event)"
     ></ion-action-sheet>
@@ -45,9 +48,9 @@
         </ion-row>
     </ion-grid>
 
-    <ion-grid>
+    <ion-grid *ngIf="isOwn()">
         <ion-row>
-            <ion-col  [ngClass]="{'selected': tab.selected}" (click)="selectTab(tab)" class="profile-tab" *ngFor="let tab of tabs">
+            <ion-col [ngClass]="{'selected': tab.selected}" (click)="selectTab(tab)" class="profile-tab" *ngFor="let tab of tabs">
                 <ion-icon [name]="!tab.selected ? tab.icon + '-outline' : tab.icon"></ion-icon>
                 <ion-ripple-effect></ion-ripple-effect>
             </ion-col>

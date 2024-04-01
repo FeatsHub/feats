@@ -2675,6 +2675,10 @@ components:
         allergens:
           type: string
           readOnly: true
+        creator:
+          allOf:
+          - $ref: '#/components/schemas/RecipeOwner'
+          readOnly: true
     PatchedRecipeCategory:
       type: object
       description: |-
@@ -2929,9 +2933,14 @@ components:
         allergens:
           type: string
           readOnly: true
+        creator:
+          allOf:
+          - $ref: '#/components/schemas/RecipeOwner'
+          readOnly: true
       required:
       - allergens
       - category_data
+      - creator
       - description
       - diners
       - id
@@ -3022,6 +3031,28 @@ components:
       - name
       - owner
       - recipes_data
+    RecipeOwner:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+        image:
+          allOf:
+          - $ref: '#/components/schemas/Image'
+          readOnly: true
+      required:
+      - id
+      - image
+      - username
     ResetPassword:
       type: object
       description: Validate the contact email

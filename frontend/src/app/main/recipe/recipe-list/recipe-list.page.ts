@@ -54,7 +54,7 @@ export class RecipeListPage implements OnInit {
       this.selectedCategory = undefined;
     }
 
-    this._recipeService.recipeList({expand: '~all', category: selectedCategory, search: search}).subscribe({
+    this._recipeService.recipeList({expand: '~all,creator.~all', category: selectedCategory, search: search}).subscribe({
       next: (recipes) => {
         if (recipes.results != undefined){
           this.recipes = recipes.results;

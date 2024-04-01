@@ -3,6 +3,7 @@ from food.models import Recipe, RecipeCategory, RecipeIngredient, RecipeList
 from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
 from image_library.serializers import ImageSerializer
+from user.serializers import RecipeOwnerSerializer
 
 class RecipeCategorySerializer(DynamicModelSerializer):
     class Meta:
@@ -26,6 +27,7 @@ class RecipeSerializer(WritableNestedModelSerializer, DynamicModelSerializer):
     image_data = ImageSerializer(read_only=True, source='image')
     category_data = RecipeCategorySerializer(many=True, read_only=True, source='category')
     ingredients = RecipeIngredientSerializer(many=True)  # Writable
+    creator = RecipeOwnerSerializer(source='owner', read_only=True)
 
     class Meta:
         model = Recipe
@@ -43,7 +45,8 @@ class RecipeSerializer(WritableNestedModelSerializer, DynamicModelSerializer):
             'is_public',
             'owner',
             'saved_by',
-            'allergens'
+            'allergens',
+            'creator'
         )
         read_only_fields = (
             'id',
@@ -51,7 +54,8 @@ class RecipeSerializer(WritableNestedModelSerializer, DynamicModelSerializer):
             'category_data',
             'owner',
             'saved_by',
-            'allergens'
+            'allergens',
+            'creator'
         )
 
     def create(self, validated_data):

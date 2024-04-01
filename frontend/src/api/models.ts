@@ -30,6 +30,7 @@ export { Recipe } from './models/recipe';
 export { RecipeCategory } from './models/recipe-category';
 export { RecipeIngredient } from './models/recipe-ingredient';
 export { RecipeList } from './models/recipe-list';
+export { RecipeOwner } from './models/recipe-owner';
 export { ResetPassword } from './models/reset-password';
 export { RoleEnum } from './models/role-enum';
 export { Stats } from './models/stats';

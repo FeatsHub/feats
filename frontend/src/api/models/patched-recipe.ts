@@ -3,6 +3,7 @@
 import { Image } from '../models/image';
 import { RecipeCategory } from '../models/recipe-category';
 import { RecipeIngredient } from '../models/recipe-ingredient';
+import { RecipeOwner } from '../models/recipe-owner';
 
 /**
  * Adds nested create feature
@@ -11,6 +12,7 @@ export interface PatchedRecipe {
   allergens?: string;
   category?: Array<number>;
   category_data?: Array<RecipeCategory>;
+  creator?: RecipeOwner;
   description?: string;
   diners?: number;
   id?: number;

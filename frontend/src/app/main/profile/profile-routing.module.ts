@@ -17,7 +17,11 @@ const routes: Routes = [
   {
     path: 'recipes/:id',
     component: SavedRecipesPage,
-},
+  },
+  {
+    path: ':id',
+    component: ProfileRetrievePage,
+  },
 ];
 
 @NgModule({

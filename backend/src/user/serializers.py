@@ -44,6 +44,16 @@ class UserSerializer(DynamicModelSerializer):
             'image_data',
         )
 
+class RecipeOwnerSerializer(DynamicModelSerializer):
+    image = ImageSerializer(read_only=True)
+    class Meta:
+        model = user_models.User
+        fields = (
+            'id',
+            'username',
+            'image',
+        )
+        read_only_fields = fields
 
 class CheckUsernameSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
