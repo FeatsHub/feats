@@ -1,0 +1,11 @@
+<ion-grid>
+    <ion-row>
+        <ion-col [ngClass]="{'selected': tab.selected}" (click)="selectTab(tab)" class="search-tab" *ngFor="let tab of tabs">
+            <ion-icon [name]="!tab.selected ? tab.icon + '-outline' : tab.icon"></ion-icon>
+            <ion-ripple-effect></ion-ripple-effect>
+        </ion-col>
+    </ion-row>
+</ion-grid>
+
+<app-recipe-table *ngIf="isTabSelected('recipes')"></app-recipe-table>
+<app-user-list *ngIf="isTabSelected('users')"></app-user-list>

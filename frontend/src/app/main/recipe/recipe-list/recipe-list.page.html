@@ -1,9 +1,12 @@
 <ion-header [translucent]="true" style="z-index: 2;">
   <ion-toolbar>
-    <ion-title>
+    <ion-title *ngIf="!showSearch">
       Recetas
     </ion-title>
-    <ion-buttons slot="end">
+    <ion-title *ngIf="showSearch">
+      Búsqueda
+    </ion-title>
+    <ion-buttons slot="end" *ngIf="!showSearch">
       <ion-menu-toggle>
         <ion-button>
           <ion-icon slot="icon-only" name="filter-circle-outline"></ion-icon>
@@ -15,10 +18,12 @@
     <ion-searchbar
       show-cancel-button="focus" 
       placeholder="Búsqueda" 
-      (ionInput)="handleSearch($event)">
+      (ionInput)="handleSearch($event)"
+      (ionFocus)="searchFocus()"
+      (ionClear)="searchNotFocus()">
       <!--(ionClear)="handleSearch($event)"-->
     </ion-searchbar>
-    <div class="categories">
+    <div *ngIf="!showSearch" class="categories">
       <ion-chip 
         *ngFor="let category of recipeCategories"
         (click)="getRecipes([category.id])"
@@ -60,21 +65,24 @@
 </ion-menu>
 
 <ion-content id="main-content" [fullscreen]="true">
-
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab *ngIf="!showSearch" slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button [routerLink]="['/recipes/new']">
       <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
+  <div *ngIf="!showSearch">
+    <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 
-  <app-recipe-table
-    [loaded]="loaded"
-    [recipes]="recipes"
-    (infiniteScroll)="handleInfiniteScroll($event)"
-  ></app-recipe-table>
+    <app-recipe-table
+      [loaded]="loaded"
+      [recipes]="recipes"
+      (infiniteScroll)="handleInfiniteScroll($event)"
+    ></app-recipe-table>
+  </div>
+
+  <app-search-component *ngIf="showSearch"></app-search-component>
 
 </ion-content>

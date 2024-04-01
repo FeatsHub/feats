@@ -20,6 +20,7 @@ export class RecipeListPage implements OnInit {
   limit = 5
   offset = 0
   selectedAllergens = [1, 3, 4]
+  showSearch = false
 
 
   constructor(
@@ -117,4 +118,11 @@ export class RecipeListPage implements OnInit {
     //this.getOwnRecipes();
   }
 
+  searchFocus(){
+    this.showSearch = true
+  }
+
+  searchNotFocus(){
+    this.showSearch = false
+  }
 }

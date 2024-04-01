@@ -5,9 +5,7 @@ import { RegisterPage } from './main/register/register.page';
 import { SettingsPage } from './main/settings/settings.page';
 import { RecipeListPage } from './main/recipe/recipe-list/recipe-list.page';
 import { ProfileRetrievePage } from './main/profile/profile-retrieve/profile-retrieve.page';
-import { RecipeModule } from './main/recipe/recipe.module';
 import { TabsComponent } from './main/tabs/tabs.component';
-import { UserListComponent } from './main/user/user-list-component/user-list.component';
 
 const routes: Routes = [
   {
@@ -36,10 +34,6 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginPage
-  },
-  {
-    path: 'users',
-    component: UserListComponent
   },
   {
     path: 'register',

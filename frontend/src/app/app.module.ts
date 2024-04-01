@@ -16,7 +16,6 @@ import { StepCheckUsernameComponent } from './main/register/components/step-chec
 import { SettingsPage } from './main/settings/settings.page';
 import { TabsComponent } from './main/tabs/tabs.component';
 import { AllergensListModule } from './components/allergen-list/allergen-list.module';
-import { UserListComponent } from './main/user/user-list-component/user-list.component';
 
 
 @NgModule({
@@ -28,7 +27,6 @@ import { UserListComponent } from './main/user/user-list-component/user-list.com
     StepCheckEmailComponent,
     StepCheckUsernameComponent,
     TabsComponent,
-    UserListComponent
   ],
   imports: [
     RouterModule,

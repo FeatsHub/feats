@@ -1,0 +1,14 @@
+.search-tab {
+    text-align: center;
+    padding: 14px 10px 10px 10px;
+    font-size: x-large;
+}
+
+.selected {
+    border-bottom: 2px solid black;
+}
+@media (prefers-color-scheme: dark) {
+    .selected {
+        border-bottom: 2px solid white;
+    }
+}
