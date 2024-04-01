@@ -16,4 +16,4 @@ export function base64toBlob(base64str: string){
 
     // Create blob
     return new Blob([byteArrays], { type: contentType });
-  }
+}

@@ -13,6 +13,7 @@ export { PaginatedRecipeCategoryList } from './models/paginated-recipe-category-
 export { PaginatedRecipeIngredientList } from './models/paginated-recipe-ingredient-list';
 export { PaginatedRecipeList } from './models/paginated-recipe-list';
 export { PaginatedRecipeListList } from './models/paginated-recipe-list-list';
+export { PaginatedStatsList } from './models/paginated-stats-list';
 export { PaginatedUserList } from './models/paginated-user-list';
 export { PatchedImage } from './models/patched-image';
 export { PatchedProduct } from './models/patched-product';
@@ -31,5 +32,6 @@ export { RecipeIngredient } from './models/recipe-ingredient';
 export { RecipeList } from './models/recipe-list';
 export { ResetPassword } from './models/reset-password';
 export { RoleEnum } from './models/role-enum';
+export { Stats } from './models/stats';
 export { User } from './models/user';
 export { UserLogin } from './models/user-login';

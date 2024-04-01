@@ -12,6 +12,7 @@ import { RecipeCategoryService } from './services/recipe-category.service';
 import { RecipeIngredientService } from './services/recipe-ingredient.service';
 import { RecipeListService } from './services/recipe-list.service';
 import { SchemaService } from './services/schema.service';
+import { SystemStatsService } from './services/system-stats.service';
 import { UserService } from './services/user.service';
 
 /**
@@ -30,6 +31,7 @@ import { UserService } from './services/user.service';
     RecipeIngredientService,
     RecipeListService,
     SchemaService,
+    SystemStatsService,
     UserService,
     ApiConfiguration
   ],
