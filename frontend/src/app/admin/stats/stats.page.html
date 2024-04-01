@@ -10,6 +10,48 @@
 </ion-header>
 
 <ion-content scroll-y="false" [fullscreen]="true" *ngIf="user && user.role == 'superadmin'">
-  <div #userChartContent class="def-chart"></div>
-  <div #recipesChartContent class="def-chart"></div>
+<ion-grid style="text-align: center;">
+  <ion-row>
+    <ion-col>
+      <ion-label>From:</ion-label>
+      <ion-datetime-button class="date-picker-button" datetime="fromDatePicker"></ion-datetime-button>
+    </ion-col>
+    <ion-col>
+      <ion-label>To:</ion-label>
+      <ion-datetime-button class="date-picker-button" datetime="toDatePicker"></ion-datetime-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+  <div
+    #userChartContent
+    class="def-chart"
+  ></div>
+  <div
+    #recipesChartContent
+    class="def-chart"
+  ></div>
+
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime
+        presentation="date"
+        id="fromDatePicker"
+        [(ngModel)]="fromDate"
+        (ionChange)="filterDate(false)"
+        [showDefaultButtons]="true"
+      ></ion-datetime>
+    </ng-template>
+  </ion-modal>
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime
+        presentation="date"
+        id="toDatePicker"
+        [(ngModel)]="toDate"
+        (ionChange)="filterDate(true)"
+        [showDefaultButtons]="true"
+      ></ion-datetime>
+    </ng-template>
+  </ion-modal>
 </ion-content>

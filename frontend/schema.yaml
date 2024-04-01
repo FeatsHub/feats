@@ -1771,6 +1771,11 @@ paths:
     get:
       operationId: system_stats_list
       parameters:
+      - in: query
+        name: end
+        schema:
+          type: string
+          format: date
       - name: limit
         required: false
         in: query
@@ -1795,6 +1800,11 @@ paths:
         description: A search term.
         schema:
           type: string
+      - in: query
+        name: start
+        schema:
+          type: string
+          format: date
       tags:
       - system_stats
       security:

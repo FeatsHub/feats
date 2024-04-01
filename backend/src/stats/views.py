@@ -2,6 +2,8 @@ from utils.views import ModelViewSet
 from stats.models import Stats
 from stats.serializers import StatsSerializer
 from rest_framework import mixins, viewsets
+from stats.filters import StatsFilter
+
 
 
 class StatsView(
@@ -10,4 +12,4 @@ class StatsView(
 ):
     queryset = Stats.objects.all()
     serializer_class = StatsSerializer
-    #filterset_fields = ('created__gte', 'modified__lte')
+    filterset_class = StatsFilter

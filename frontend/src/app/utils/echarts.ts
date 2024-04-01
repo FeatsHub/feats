@@ -3,18 +3,16 @@ import { init, EChartsOption, graphic, SeriesOption, color, EChartsType } from '
 
 export class Chart {
 
-    xAxis: string[];
     HTMLElement: any;
     series: SeriesOption[] = [];
+    private _xAxis: string[] = [];
     private legend: string[] = []
     private myChart: EChartsType;
     private option: EChartsOption;
 
     constructor(
-        xAxis: string[],
         HTMLElement: ElementRef
     ){
-        this.xAxis = xAxis;
         this.HTMLElement = HTMLElement;
         this.initChart();
     }
@@ -27,7 +25,7 @@ export class Chart {
         this.option = {
           xAxis: {
             type: 'category',
-            data: this.xAxis
+            data: this._xAxis
           },
           yAxis: {
             type: 'value'
@@ -51,7 +49,7 @@ export class Chart {
           series: []
         } as EChartsOption;
 
-        this.myChart.setOption(this.option);
+        this.myChart.setOption(this.option, true);
         this.myChart.hideLoading();
     }
 
@@ -83,8 +81,8 @@ export class Chart {
             },
         } as SeriesOption;
         this.series.push(newSerie);
-        this.option.series = this.series
-        this.myChart.setOption(this.option);
+        this.option.series = this.series;
+        this.myChart.setOption(this.option, true);
     }
 
     calculateColors(){
@@ -112,5 +110,14 @@ export class Chart {
             colors = [color3_1, color3_2];
         }
         return colors;
+    }
+
+    set xAxis(xAxis: string[]){
+      this.series = []
+      this.option.xAxis! = {
+        type: 'category',
+        data: xAxis
+      }
+      this.myChart.setOption(this.option, true)
     }
 }
