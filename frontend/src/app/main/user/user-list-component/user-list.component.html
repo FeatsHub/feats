@@ -1,0 +1,17 @@
+<ion-list lines="none">
+  <ion-item
+    *ngFor="let user of users"
+    class="user-item"
+  >
+    <div
+      class="creator-image"
+      [ngStyle]="{
+        'background-image': 'url(' + (user && user.image_data ? user.image_data.image : 'https://ionicframework.com/docs/img/demos/avatar.svg') + ')'
+      }"
+    >
+    </div>
+    <ion-text class="username">
+        {{ user.username }}
+    </ion-text>
+  </ion-item>
+</ion-list>

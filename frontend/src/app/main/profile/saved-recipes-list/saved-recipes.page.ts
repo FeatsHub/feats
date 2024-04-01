@@ -40,7 +40,7 @@ export class SavedRecipesPage implements OnInit {
   ngOnInit(){}
 
   async getRecipeList(){
-    this._recipeListService.recipeListRetrieve$Response({id: this.recipeListId, expand: '~all,recipes_data.~all'}).subscribe({
+    this._recipeListService.recipeListRetrieve$Response({id: this.recipeListId, expand: '~all,recipes_data.~all,recipes_data.creator.~all'}).subscribe({
       next: (recipeList) => {
         this.isDefaultList = recipeList.body.is_default_list!
         this.listName = recipeList.body.name
