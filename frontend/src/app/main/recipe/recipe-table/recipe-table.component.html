@@ -1,11 +1,6 @@
 <ion-list lines="none">
     <ion-item *ngFor="let recipe of recipes">
       <ion-card class="plate-item">
-        <div
-          router-direction="forward"
-          class="plate-image"
-          [ngStyle]="{'background-image': 'url(' + (recipe.image_data && recipe.image_data.image ? recipe.image_data.image: 'https://ionicframework.com/docs/img/demos/card-media.png') + ')'}"
-        >
         <div class="creator-line" [routerLink]="['/profile', recipe.creator.id]">
           <div
             class="creator-image"
@@ -18,6 +13,12 @@
               {{ recipe.creator.username }}
           </ion-text>
         </div>
+        <div
+          [routerLink]="['/recipes', recipe.id]"
+          router-direction="forward"
+          class="plate-image"
+          [ngStyle]="{'background-image': 'url(' + (recipe.image_data && recipe.image_data.image ? recipe.image_data.image: 'https://ionicframework.com/docs/img/demos/card-media.png') + ')'}"
+        >
           <ion-ripple-effect></ion-ripple-effect>
         </div>
         <ion-card-header

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from 'src/api/models';
 import { UserService } from 'src/api/services';
 
@@ -14,9 +15,14 @@ export class UserListComponent implements OnInit {
   
 
   constructor(
-    private _userService: UserService
+    private _userService: UserService,
+    private _router: Router
   ) {}
 
   ngOnInit(){}
+
+  goProfile(userId: number){
+    this._router.navigate(['/profile/', userId])
+  }
 
 }

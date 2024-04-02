@@ -122,7 +122,12 @@ export class RecipeListPage implements OnInit {
     this.showSearch = true
   }
 
-  searchNotFocus(){
+  closeSearch(){
     this.showSearch = false
   }
+
+  ionViewWillLeave() {
+    this.closeSearch()
+  }
+
 }

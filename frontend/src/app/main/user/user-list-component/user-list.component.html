@@ -2,7 +2,7 @@
     <ion-item
       *ngFor="let user of users"
       class="user-item"
-      [routerLink]="['/profile', user.id]"
+      (click)="goProfile(user.id)"
     >
       <div
         class="creator-image"

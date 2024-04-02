@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Recipe, User } from 'src/api/models';
 import { RecipeService, UserService } from 'src/api/services';
 
@@ -15,8 +15,10 @@ interface Tab {
 })
 export class SearchComponent implements OnInit {
 
-  searchedText: string
   @ViewChild('searchBar') searchBar: ElementRef;
+  @Output() closeModalEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  searchedText: string
   recipes: Recipe[]
   recipesLoaded = false
   users: User[]
@@ -72,7 +74,7 @@ export class SearchComponent implements OnInit {
   }
 
   closeModal(){
-    
+    this.closeModalEvent.emit(true);
   }
 
   searchRecipes(){

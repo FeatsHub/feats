@@ -1,4 +1,4 @@
-<ion-header [translucent]="true" style="z-index: 2;">
+<ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
       Recetas
@@ -17,7 +17,7 @@
       placeholder="Búsqueda" 
       (ionInput)="handleSearch($event)"
       (ionFocus)="searchFocus()"
-      (ionCancel)="searchNotFocus()">
+      (ionCancel)="closeSearch()">
       <!--(ionClear)="handleSearch($event)"-->
     </ion-searchbar>
     <div class="categories">
@@ -68,7 +68,6 @@
     </ion-fab-button>
   </ion-fab>
 
-  <div>
     <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
@@ -78,19 +77,18 @@
       [recipes]="recipes"
       (infiniteScroll)="handleInfiniteScroll($event)"
     ></app-recipe-table>
-  </div>
 
 
   <ion-modal
       [isOpen]="showSearch"
       [initialBreakpoint]="1"
-      [breakpoints]="[1, 0.75]"
+      [breakpoints]="[1, 0.6]"
       [backdropDismiss]="true"
-      [backdropBreakpoint]="0.7"
-      (didDismiss)="searchNotFocus()"
+      [backdropBreakpoint]="0.3"
+      (didDismiss)="closeSearch()"
     >
       <ng-template>
-        <app-search-component></app-search-component>
+        <app-search-component (closeModalEvent)="closeSearch()"></app-search-component>
       </ng-template>
     </ion-modal>
 
