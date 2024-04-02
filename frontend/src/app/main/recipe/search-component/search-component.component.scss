@@ -1,7 +1,7 @@
 .search-tab {
     text-align: center;
-    padding: 14px 10px 10px 10px;
-    font-size: x-large;
+    //padding: 14px 10px 10px 10px;
+    font-size: large;
 }
 
 .selected {
@@ -13,4 +13,8 @@
     .selected {
         border-bottom: 2px solid white;
     }
+}
+
+.search-bar{
+    padding-top: 20px;
 }

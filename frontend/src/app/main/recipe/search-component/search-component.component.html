@@ -1,14 +1,10 @@
 <ion-header>
     <ion-toolbar>
-      <ion-title>
-        Búsqueda
-      </ion-title>
-    </ion-toolbar>
-    <ion-toolbar>
         <ion-searchbar
             #searchBar
             show-cancel-button="always"
-            placeholder="Búsqueda" 
+            class="search-bar"
+            placeholder="Búsqueda"
             (ionInput)="handleSearch($event)"
             (ionCancel)="closeModal()">
         </ion-searchbar>
@@ -31,7 +27,7 @@
         (closeModal)="closeModalCallBack($event)"
     ></app-recipe-table>
 
-    <app-user-list 
+    <app-user-list
         *ngIf="isTabSelected('users')"
         [users]="users"
         [loaded]="usersLoaded"
