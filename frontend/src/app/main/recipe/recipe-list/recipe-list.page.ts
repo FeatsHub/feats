@@ -23,9 +23,7 @@ export class RecipeListPage implements OnInit {
   selectedAllergens = [1, 3, 4]
   showSearch = false
 
-
   constructor(
-    private _actionSheetCtrl: ActionSheetController,
     private _recipeCategoryService: RecipeCategoryService,
     private _recipeService: RecipeService
   ) {}
@@ -46,7 +44,14 @@ export class RecipeListPage implements OnInit {
     this.getRecipes();
   }
 
-  async ngOnInit(){}
+  async ngOnInit(){
+    // Set focus on searchbar
+    const modal = document.querySelector('ion-modal')!;
+    modal.addEventListener('didPresent', () => {
+      const search = modal.querySelector('ion-searchbar')!;
+      search.setFocus();
+  });
+  }
 
   async getRecipes(
     selectedCategory: number[] | undefined = undefined,
@@ -125,8 +130,12 @@ export class RecipeListPage implements OnInit {
   }
 
   closeSearch(){
-    document.getElementById('search-modal')?.remove()
     this.showSearch = false
+  }
+
+  forceCloseSearch(){
+    this.showSearch = false
+    document.getElementById('search-modal')?.remove()
   }
 
 }

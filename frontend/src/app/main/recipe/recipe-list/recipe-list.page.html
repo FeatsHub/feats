@@ -13,8 +13,8 @@
   </ion-toolbar>
   <ion-toolbar>
     <ion-searchbar
-      show-cancel-button="never" 
-      placeholder="Búsqueda" 
+      show-cancel-button="never"
+      placeholder="Búsqueda"
       (ionInput)="handleSearch($event)"
       (ionFocus)="searchFocus()"
       (ionCancel)="closeSearch()">
@@ -89,7 +89,10 @@
     id="search-modal"
   >
     <ng-template>
-      <app-search-component (closeModalEvent)="closeSearch()"></app-search-component>
+      <app-search-component
+        (closeModalEvent)="closeSearch()"
+        (forceCloseModalEvent)="forceCloseSearch()"
+      ></app-search-component>
     </ng-template>
   </ion-modal>
 

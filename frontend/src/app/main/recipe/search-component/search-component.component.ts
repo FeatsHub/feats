@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { IonSearchbar } from '@ionic/angular';
 import { Recipe, User } from 'src/api/models';
 import { RecipeService, UserService } from 'src/api/services';
 
@@ -15,8 +16,8 @@ interface Tab {
 })
 export class SearchComponent implements OnInit {
 
-  @ViewChild('searchBar') searchBar: ElementRef;
   @Output() closeModalEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() forceCloseModalEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   searchedText: string
   recipes: Recipe[]
@@ -47,12 +48,6 @@ export class SearchComponent implements OnInit {
     this.searchUsers()
   }
 
-  async ngAfterViewInit() {
-    /*setTimeout(() => {
-      this.searchBar.nativeElement.focus();
-    }, 1000);*/
-  }
-
   selectTab(selectedTab: Tab): void {
     this.tabs.forEach(tab => {
         if (tab === selectedTab) {
@@ -74,11 +69,15 @@ export class SearchComponent implements OnInit {
   }
 
   closeModalCallBack(event: any){
-    this.closeModal()
+    this.forceCloseModal()
   }
 
   closeModal(){
     this.closeModalEvent.emit(true);
+  }
+
+  forceCloseModal(){
+    this.forceCloseModalEvent.emit(true)
   }
 
   searchRecipes(){
