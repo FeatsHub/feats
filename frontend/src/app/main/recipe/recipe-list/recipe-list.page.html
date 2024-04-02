@@ -18,7 +18,6 @@
       (ionInput)="handleSearch($event)"
       (ionFocus)="searchFocus()"
       (ionCancel)="closeSearch()">
-      <!--(ionClear)="handleSearch($event)"-->
     </ion-searchbar>
     <div class="categories">
       <ion-chip 
@@ -62,6 +61,7 @@
 </ion-menu>
 
 <ion-content id="main-content" [fullscreen]="true">
+
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button [routerLink]="['/recipes/new']">
       <ion-icon name="add-outline"></ion-icon>
@@ -80,16 +80,17 @@
 
 
   <ion-modal
-      [isOpen]="showSearch"
-      [initialBreakpoint]="1"
-      [breakpoints]="[1, 0.6]"
-      [backdropDismiss]="true"
-      [backdropBreakpoint]="0.3"
-      (didDismiss)="closeSearch()"
-    >
-      <ng-template>
-        <app-search-component (closeModalEvent)="closeSearch()"></app-search-component>
-      </ng-template>
-    </ion-modal>
+    [isOpen]="showSearch"
+    [initialBreakpoint]="1"
+    [breakpoints]="[1, 0.6]"
+    [backdropDismiss]="true"
+    [backdropBreakpoint]="0.3"
+    (didDismiss)="closeSearch()"
+    id="search-modal"
+  >
+    <ng-template>
+      <app-search-component (closeModalEvent)="closeSearch()"></app-search-component>
+    </ng-template>
+  </ion-modal>
 
 </ion-content>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/api/models';
 import { UserService } from 'src/api/services';
@@ -12,7 +12,7 @@ export class UserListComponent implements OnInit {
 
   @Input() users: User[] = []
   @Input() loaded = false
-  
+  @Output() closeModal: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
     private _userService: UserService,
@@ -22,6 +22,7 @@ export class UserListComponent implements OnInit {
   ngOnInit(){}
 
   goProfile(userId: number){
+    this.closeModal.emit(true)
     this._router.navigate(['/profile/', userId])
   }
 

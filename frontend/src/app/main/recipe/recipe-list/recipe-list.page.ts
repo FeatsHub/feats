@@ -1,4 +1,5 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { ActionSheetController } from '@ionic/angular';
 import { Recipe, RecipeCategory } from 'src/api/models';
 import { RecipeCategoryService, RecipeService } from 'src/api/services';
 
@@ -24,6 +25,7 @@ export class RecipeListPage implements OnInit {
 
 
   constructor(
+    private _actionSheetCtrl: ActionSheetController,
     private _recipeCategoryService: RecipeCategoryService,
     private _recipeService: RecipeService
   ) {}
@@ -44,7 +46,7 @@ export class RecipeListPage implements OnInit {
     this.getRecipes();
   }
 
-  ngOnInit(){}
+  async ngOnInit(){}
 
   async getRecipes(
     selectedCategory: number[] | undefined = undefined,
@@ -123,11 +125,8 @@ export class RecipeListPage implements OnInit {
   }
 
   closeSearch(){
+    document.getElementById('search-modal')?.remove()
     this.showSearch = false
-  }
-
-  ionViewWillLeave() {
-    this.closeSearch()
   }
 
 }

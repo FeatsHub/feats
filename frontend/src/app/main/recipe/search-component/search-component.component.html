@@ -28,12 +28,14 @@
         *ngIf="isTabSelected('recipes')"
         [recipes]="recipes"
         [loaded]="recipesLoaded"
+        (closeModal)="closeModalCallBack($event)"
     ></app-recipe-table>
 
     <app-user-list 
         *ngIf="isTabSelected('users')"
         [users]="users"
         [loaded]="usersLoaded"
+        (closeModal)="closeModalCallBack($event)"
     ></app-user-list>
 
 </ion-content>

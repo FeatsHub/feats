@@ -73,6 +73,10 @@ export class SearchComponent implements OnInit {
     this.searchUsers()
   }
 
+  closeModalCallBack(event: any){
+    this.closeModal()
+  }
+
   closeModal(){
     this.closeModalEvent.emit(true);
   }

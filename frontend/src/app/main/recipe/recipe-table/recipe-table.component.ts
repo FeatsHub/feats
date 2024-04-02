@@ -13,6 +13,7 @@ export class RecipeTablePage implements OnInit {
   @Input() recipes: Recipe[] = []
   @Input() loaded = false
   @Output() infiniteScroll = new EventEmitter();
+  @Output() closeModal: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
     private _router: Router
@@ -25,6 +26,16 @@ export class RecipeTablePage implements OnInit {
     setTimeout(() => {
       (e as InfiniteScrollCustomEvent).target.complete();
     }, 500);
+  }
+
+  goRecipe(recipeId: number){
+    this.closeModal.emit(true)
+    this._router.navigate(['/recipes/', recipeId])
+  }
+
+  goCreator(creatorId: number){
+    this.closeModal.emit(true)
+    this._router.navigate(['/profile/', creatorId])
   }
 
 }
