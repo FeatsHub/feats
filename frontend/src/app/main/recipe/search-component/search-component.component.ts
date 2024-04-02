@@ -40,7 +40,10 @@ export class SearchComponent implements OnInit {
     private _userService: UserService
   ) {}
 
-  ngOnInit(){}
+  ngOnInit(){
+    this.searchRecipes()
+    this.searchUsers()
+  }
 
   async ngAfterViewInit() {
     /*setTimeout(() => {
