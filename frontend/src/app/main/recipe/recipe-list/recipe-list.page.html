@@ -1,12 +1,9 @@
 <ion-header [translucent]="true" style="z-index: 2;">
   <ion-toolbar>
-    <ion-title *ngIf="!showSearch">
+    <ion-title>
       Recetas
     </ion-title>
-    <ion-title *ngIf="showSearch">
-      Búsqueda
-    </ion-title>
-    <ion-buttons slot="end" *ngIf="!showSearch">
+    <ion-buttons slot="end">
       <ion-menu-toggle>
         <ion-button>
           <ion-icon slot="icon-only" name="filter-circle-outline"></ion-icon>
@@ -16,14 +13,14 @@
   </ion-toolbar>
   <ion-toolbar>
     <ion-searchbar
-      show-cancel-button="focus" 
+      show-cancel-button="never" 
       placeholder="Búsqueda" 
       (ionInput)="handleSearch($event)"
       (ionFocus)="searchFocus()"
-      (ionClear)="searchNotFocus()">
+      (ionCancel)="searchNotFocus()">
       <!--(ionClear)="handleSearch($event)"-->
     </ion-searchbar>
-    <div *ngIf="!showSearch" class="categories">
+    <div class="categories">
       <ion-chip 
         *ngFor="let category of recipeCategories"
         (click)="getRecipes([category.id])"
@@ -65,13 +62,13 @@
 </ion-menu>
 
 <ion-content id="main-content" [fullscreen]="true">
-  <ion-fab *ngIf="!showSearch" slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button [routerLink]="['/recipes/new']">
       <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <div *ngIf="!showSearch">
+  <div>
     <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
@@ -83,6 +80,18 @@
     ></app-recipe-table>
   </div>
 
-  <app-search-component *ngIf="showSearch"></app-search-component>
+
+  <ion-modal
+      [isOpen]="showSearch"
+      [initialBreakpoint]="1"
+      [breakpoints]="[1, 0.75]"
+      [backdropDismiss]="true"
+      [backdropBreakpoint]="0.7"
+      (didDismiss)="searchNotFocus()"
+    >
+      <ng-template>
+        <app-search-component></app-search-component>
+      </ng-template>
+    </ion-modal>
 
 </ion-content>

@@ -20,6 +20,7 @@ from utils.serializers import EmptySerializer
 class UserView(ModelViewSet):
     queryset = user_models.User.objects.all()
     serializer_class = user_serializers.UserSerializer
+    search_fields = ('username', 'first_name')
 
     def get_permissions(self):
         no_permission_views = (

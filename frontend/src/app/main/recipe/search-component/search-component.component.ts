@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Recipe, User } from 'src/api/models';
+import { RecipeService, UserService } from 'src/api/services';
 
 interface Tab {
   icon: string,
@@ -12,6 +14,13 @@ interface Tab {
   styleUrls: ['search-component.component.scss']
 })
 export class SearchComponent implements OnInit {
+
+  searchedText: string
+  @ViewChild('searchBar') searchBar: ElementRef;
+  recipes: Recipe[]
+  recipesLoaded = false
+  users: User[]
+  usersLoaded = false
 
   tabs: Tab[] = [
     {
@@ -27,9 +36,17 @@ export class SearchComponent implements OnInit {
   ] 
 
   constructor(
+    private _recipeService: RecipeService,
+    private _userService: UserService
   ) {}
 
   ngOnInit(){}
+
+  async ngAfterViewInit() {
+    /*setTimeout(() => {
+      this.searchBar.nativeElement.focus();
+    }, 1000);*/
+  }
 
   selectTab(selectedTab: Tab): void {
     this.tabs.forEach(tab => {
@@ -45,4 +62,49 @@ export class SearchComponent implements OnInit {
     return this.tabs.find(tab => tab.tab === tabName)?.selected ?? false;
   }
 
+  handleSearch(event: any){
+    this.searchedText = event.detail.value
+    this.searchRecipes()
+    this.searchUsers()
+  }
+
+  closeModal(){
+    
+  }
+
+  searchRecipes(){
+    this._recipeService.recipeList$Response(
+      {
+        search: this.searchedText,
+        expand: '~all,creator.~all'
+      }
+    ).subscribe(
+      {
+        next: (response) => {
+          this.recipes = response.body.results!
+        },
+        complete: () => {
+          this.recipesLoaded = true
+        }
+      }
+    )
+  }
+
+  searchUsers(){
+    this._userService.userList$Response(
+      {
+        search: this.searchedText,
+        expand: '~all'
+      }
+    ).subscribe(
+      {
+        next: (response) => {
+          this.users = response.body.results!
+        },
+        complete: () => {
+          this.usersLoaded = true
+        }
+      }
+    )
+  }
 }
