@@ -1,6 +1,7 @@
 <ion-list lines="none">
     <ion-item *ngFor="let recipe of recipes">
       <ion-card class="plate-item">
+        <ion-ripple-effect></ion-ripple-effect>
         <div class="creator-line" (click)="goCreator(recipe.creator.id)">
           <div
             class="creator-image"
@@ -19,7 +20,6 @@
           class="plate-image"
           [ngStyle]="{'background-image': 'url(' + (recipe.image_data && recipe.image_data.image ? recipe.image_data.image: 'https://ionicframework.com/docs/img/demos/card-media.png') + ')'}"
         >
-          <ion-ripple-effect></ion-ripple-effect>
         </div>
         <ion-card-header
           class="recipe-card-header"
