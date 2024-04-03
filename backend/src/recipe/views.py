@@ -1,7 +1,6 @@
 from utils.views import ModelViewSet
 from recipe.models import Recipe, RecipeCategory, RecipeIngredient, RecipeList, Food, FoodAllergen
 from recipe.serializers import RecipeSerializer, RecipeCategorySerializer, RecipeIngredientSerializer, RecipeListSerializer, FoodSerializer, FoodAllergenSerializer
-from rest_framework import mixins, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from drf_spectacular.utils import extend_schema
@@ -17,7 +16,7 @@ class RecipeView(ModelViewSet):
     serializer_class = RecipeSerializer
     filterset_fields = ('category', 'owner')
     filter_backends = (SearchFilter, DjangoFilterBackend)
-    search_fields = ('name', 'ingredients__product__name')
+    search_fields = ('name', 'ingredients__food__name')
 
     @extend_schema(
         parameters=[

@@ -56,6 +56,9 @@ export class SearchComponent implements OnInit {
             tab.selected = false;
         }
     });
+    // Doesnt lose focus when select a tab
+    const search = document.querySelector('ion-searchbar')!;
+    search.setFocus();
   }
 
   isTabSelected(tabName: string): boolean {
