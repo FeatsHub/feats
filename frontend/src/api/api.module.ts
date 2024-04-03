@@ -14,6 +14,7 @@ import { RecipeListService } from './services/recipe-list.service';
 import { SchemaService } from './services/schema.service';
 import { SystemStatsService } from './services/system-stats.service';
 import { UserService } from './services/user.service';
+import { UserSettingsService } from './services/user-settings.service';
 
 /**
  * Module that provides all services and configuration.
@@ -33,6 +34,7 @@ import { UserService } from './services/user.service';
     SchemaService,
     SystemStatsService,
     UserService,
+    UserSettingsService,
     ApiConfiguration
   ],
 })

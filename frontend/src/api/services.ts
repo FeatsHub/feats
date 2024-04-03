@@ -8,3 +8,4 @@ export { RecipeListService } from './services/recipe-list.service';
 export { SchemaService } from './services/schema.service';
 export { SystemStatsService } from './services/system-stats.service';
 export { UserService } from './services/user.service';
+export { UserSettingsService } from './services/user-settings.service';

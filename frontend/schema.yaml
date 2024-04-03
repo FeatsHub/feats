@@ -2322,6 +2322,231 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: ''
+  /api/user_settings/:
+    get:
+      operationId: user_settings_list
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - user_settings
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserSettingsList'
+          description: ''
+    post:
+      operationId: user_settings_create
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - user_settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSettings'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserSettings'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserSettings'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSettings'
+          description: ''
+  /api/user_settings/{id}/:
+    get:
+      operationId: user_settings_retrieve
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user settings.
+        required: true
+      tags:
+      - user_settings
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSettings'
+          description: ''
+    put:
+      operationId: user_settings_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user settings.
+        required: true
+      tags:
+      - user_settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSettings'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserSettings'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserSettings'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSettings'
+          description: ''
+    patch:
+      operationId: user_settings_partial_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user settings.
+        required: true
+      tags:
+      - user_settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserSettings'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserSettings'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserSettings'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSettings'
+          description: ''
+    delete:
+      operationId: user_settings_destroy
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user settings.
+        required: true
+      tags:
+      - user_settings
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
 components:
   schemas:
     CheckEmail:
@@ -2603,6 +2828,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/User'
+    PaginatedUserSettingsList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSettings'
     PatchedFood:
       type: object
       description: |-
@@ -2860,6 +3105,26 @@ components:
           allOf:
           - $ref: '#/components/schemas/Image'
           readOnly: true
+    PatchedUserSettings:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+        use_dark_mode:
+          type: boolean
+          nullable: true
+        allergens:
+          type: array
+          items:
+            type: integer
     Permission:
       type: object
       description: Serialize pydrfpermissions
@@ -3225,6 +3490,29 @@ components:
       - id
       - password
       - token
+    UserSettings:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+        use_dark_mode:
+          type: boolean
+          nullable: true
+        allergens:
+          type: array
+          items:
+            type: integer
+      required:
+      - id
+      - user
   securitySchemes:
     tokenAuth:
       type: apiKey
