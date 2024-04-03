@@ -16,11 +16,12 @@
 
   <form [formGroup]="recipeForm">
     <ion-icon name="pencil-outline" class="edit-pencil"></ion-icon>
-    <app-image-picker 
+    <app-image-picker
       (selectImage)="imageSelected($event)"
       [imageUrl]="selectedImage"
       [width]="'100%'"
       [height]="'300px'"
+      [customImageUrl]="selectedImage"
     ></app-image-picker>
     <div class="plate-content">
       <ion-list>

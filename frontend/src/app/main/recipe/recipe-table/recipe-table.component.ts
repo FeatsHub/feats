@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { Recipe } from 'src/api/models';
+import { getRandomRecipeImage } from 'src/app/utils/functions';
 
 @Component({
   selector: 'app-recipe-table',
@@ -36,6 +37,10 @@ export class RecipeTablePage implements OnInit {
   goCreator(creatorId: number){
     this.closeModal.emit(true)
     this._router.navigate(['/profile/', creatorId])
+  }
+
+  getRandomRecipeImage(){
+    return getRandomRecipeImage()
   }
 
 }

@@ -17,3 +17,11 @@ export function base64toBlob(base64str: string){
     // Create blob
     return new Blob([byteArrays], { type: contentType });
 }
+
+export function getRandomRecipeImage(){
+  return `/assets/select-recipe-image/${Math.floor(Math.random() * 7) + 1}.jpg`
+}
+
+export function getRandomProfileImage(){
+  return `/assets/select-recipe-image/${Math.floor(Math.random() * 7) + 1}.jpg`
+}
