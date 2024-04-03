@@ -1,6 +1,6 @@
+export { FoodService } from './services/food.service';
+export { FoodAllergenService } from './services/food-allergen.service';
 export { ImageLibraryService } from './services/image-library.service';
-export { ProductService } from './services/product.service';
-export { ProductAllergenService } from './services/product-allergen.service';
 export { RecipeService } from './services/recipe.service';
 export { RecipeCategoryService } from './services/recipe-category.service';
 export { RecipeIngredientService } from './services/recipe-ingredient.service';

@@ -88,17 +88,17 @@
                 <ion-searchbar
                 (ionInput)="handleSearch($event)"
                 ></ion-searchbar>
-                <ion-list *ngIf="searchedProducts.length == 0 && productName.length > 0">
+                <ion-list *ngIf="searchedFoods.length == 0 && productName.length > 0">
                   <ion-item
-                    (click)="createProduct(productName)">
+                    (click)="createFood(productName)">
                     {{productName}}
                   </ion-item>
                 </ion-list>
-                <ion-list *ngIf="searchedProducts.length != 0">
+                <ion-list *ngIf="searchedFoods.length != 0">
                   <ion-item
-                  *ngFor="let searchedProduct of searchedProducts"
-                  (click)="selectProduct(searchedProduct)"
-                  >{{searchedProduct.name}}
+                  *ngFor="let searchedFood of searchedFoods"
+                  (click)="selectFood(searchedFood)"
+                  >{{searchedFood.name}}
                   </ion-item>
                 </ion-list>
               </ion-col>
@@ -119,7 +119,7 @@
                         <ion-col>
                           <ion-label style="margin-top: 9px;">
                             <b>
-                              {{ ingredient.value.product_name.charAt(0).toUpperCase() + ingredient.value.product_name.slice(1) }}
+                              {{ ingredient.value.food_name.charAt(0).toUpperCase() + ingredient.value.food_name.slice(1) }}
                             </b>
                           </ion-label>
                         </ion-col>

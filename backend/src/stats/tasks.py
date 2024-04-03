@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 def save_system_stats(self):
     from stats.models import Stats
     from user.models import User
-    from food.models import Recipe
+    from recipe.models import Recipe
 
     user_number = User.objects.all().count()
 

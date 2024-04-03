@@ -1,5 +1,4 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
-import { ActionSheetController } from '@ionic/angular';
 import { Recipe, RecipeCategory } from 'src/api/models';
 import { RecipeCategoryService, RecipeService } from 'src/api/services';
 

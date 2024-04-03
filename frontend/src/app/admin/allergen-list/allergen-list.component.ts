@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductAllergen } from 'src/api/models';
-import { ProductAllergenService } from 'src/api/services';
+import { FoodAllergen } from 'src/api/models';
+import { FoodAllergenService } from 'src/api/services';
 
 @Component({
   selector: 'app-allergen-list',
@@ -9,7 +9,7 @@ import { ProductAllergenService } from 'src/api/services';
 })
 export class AllergenListComponent implements OnInit {
 
-  allergens: ProductAllergen[] = []
+  allergens: FoodAllergen[] = []
 
   public alertButtons = ['Save'];
   public alertInputs = [
@@ -22,11 +22,11 @@ export class AllergenListComponent implements OnInit {
   ];
 
   constructor(
-    private _allergenService: ProductAllergenService
+    private _allergenService: FoodAllergenService
   ) {}
 
   ngOnInit(){
-    this._allergenService.productAllergenList$Response().subscribe({
+    this._allergenService.foodAllergenList$Response().subscribe({
       next: (response) => {
         this.allergens = response.body.results!
       },
@@ -44,7 +44,7 @@ export class AllergenListComponent implements OnInit {
   }
 
   addAllergen(name: string, emoji: string){
-    this._allergenService.productAllergenCreate$Json$Response(
+    this._allergenService.foodAllergenCreate$Json$Response(
       {body: {
         id: -1,
         name: name,
@@ -61,8 +61,8 @@ export class AllergenListComponent implements OnInit {
     });
   }
 
-  deleteAllergen(allergen: ProductAllergen, index: number){
-    this._allergenService.productAllergenDestroy$Response(
+  deleteAllergen(allergen: FoodAllergen, index: number){
+    this._allergenService.foodAllergenDestroy$Response(
       {id: allergen.id}
     ).subscribe({
       next: (response) => {
@@ -75,8 +75,8 @@ export class AllergenListComponent implements OnInit {
     });
   }
 
-  saveAllergen(allergen: ProductAllergen){
-    this._allergenService.productAllergenPartialUpdate$Json$Response(
+  saveAllergen(allergen: FoodAllergen){
+    this._allergenService.foodAllergenPartialUpdate$Json$Response(
       {id: allergen.id, body: allergen}
     ).subscribe({
       next: (response) => {

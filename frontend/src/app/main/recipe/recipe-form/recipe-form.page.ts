@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Product, Recipe, RecipeCategory, RecipeIngredient } from 'src/api/models';
+import { Food, Recipe, RecipeCategory, RecipeIngredient } from 'src/api/models';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
-import { ProductService, RecipeCategoryService, RecipeService } from 'src/api/services';
+import { FoodService, RecipeCategoryService, RecipeService } from 'src/api/services';
 import { Image } from 'src/api/models';
 import { ImageLibraryService } from 'src/api/services';
 import { LoadingController } from '@ionic/angular';
@@ -21,7 +21,7 @@ export class RecipeFormPage implements OnInit{
   selectedImage = ''
   recipeCategories: RecipeCategory[]
   recipeId = -1
-  searchedProducts: Product[] = []
+  searchedFoods: Food[] = []
   productName = ''
 
   constructor(
@@ -32,7 +32,7 @@ export class RecipeFormPage implements OnInit{
     private _recipeService: RecipeService,
     private _recipeCategoryService: RecipeCategoryService,
     private _imageLibraryService: ImageLibraryService,
-    private _productService: ProductService
+    private _productService: FoodService
   ) {
   }
 
@@ -83,8 +83,8 @@ export class RecipeFormPage implements OnInit{
               this.recipeForm.patchValue(recipe);
               recipe.ingredients.forEach( (item) => {
                 this.ingredients.push(this._formBuilder.group({
-                  product: [item.product],
-                  product_name: [item.product_name],
+                  food: [item.food],
+                  food_name: [item.food_name],
                   quantity: [item.quantity],
                   unit: [item.unit],
                 }));
@@ -165,13 +165,13 @@ export class RecipeFormPage implements OnInit{
     const query = event.target.value.toLowerCase()
     this.productName = query
     if (query.length == 0){
-      this.searchedProducts = []
+      this.searchedFoods = []
       return
     }
-    this._productService.productList$Response({search: query, limit: 3}).subscribe({
+    this._productService.foodList$Response({search: query, limit: 3}).subscribe({
       next: (response) => {
         console.log(response.body.results!)
-        this.searchedProducts = response.body.results!;
+        this.searchedFoods = response.body.results!;
       },
       error: (e) => console.error(e),
       complete: () => {
@@ -179,8 +179,8 @@ export class RecipeFormPage implements OnInit{
     });
   }
 
-  createProduct(productName: string){
-    this._productService.productCreate$Json$Response(
+  createFood(productName: string){
+    this._productService.foodCreate$Json$Response(
       {
         body: {
           id: -1,
@@ -190,12 +190,12 @@ export class RecipeFormPage implements OnInit{
     ).subscribe({
       next: (response) => {
         this.ingredients.push(this._formBuilder.group({
-          product: [response.body.id!],
-          product_name: [response.body.name],
+          food: [response.body.id!],
+          food_name: [response.body.name],
           quantity: [0],
           unit: [''],
         }));
-        this.searchedProducts = []
+        this.searchedFoods = []
         this.productName = ''
       },
       error: (e) => console.error(e),
@@ -204,14 +204,14 @@ export class RecipeFormPage implements OnInit{
     });
   }
 
-  selectProduct(product: Product){
+  selectFood(product: Food){
     this.ingredients.push(this._formBuilder.group({
-      product: [product.id],
-      product_name: [product.name],
+      food: [product.id],
+      food_name: [product.name],
       quantity: [0],
       unit: [''],
     }));
-    this.searchedProducts = []
+    this.searchedFoods = []
     this.productName = ''
   }
 

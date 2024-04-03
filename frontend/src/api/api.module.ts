@@ -4,9 +4,9 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
+import { FoodService } from './services/food.service';
+import { FoodAllergenService } from './services/food-allergen.service';
 import { ImageLibraryService } from './services/image-library.service';
-import { ProductService } from './services/product.service';
-import { ProductAllergenService } from './services/product-allergen.service';
 import { RecipeService } from './services/recipe.service';
 import { RecipeCategoryService } from './services/recipe-category.service';
 import { RecipeIngredientService } from './services/recipe-ingredient.service';
@@ -23,9 +23,9 @@ import { UserService } from './services/user.service';
   exports: [],
   declarations: [],
   providers: [
+    FoodService,
+    FoodAllergenService,
     ImageLibraryService,
-    ProductService,
-    ProductAllergenService,
     RecipeService,
     RecipeCategoryService,
     RecipeIngredientService,

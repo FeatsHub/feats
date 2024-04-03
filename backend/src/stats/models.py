@@ -1,6 +1,7 @@
 from django.db import models
 from model_utils.models import TimeStampedModel
 
+
 class Stats(TimeStampedModel):
     user_number = models.PositiveIntegerField(
         verbose_name=u'User number in the system'

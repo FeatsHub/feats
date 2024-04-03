@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ActionSheetController } from '@ionic/angular';
-import { ProductAllergen } from 'src/api/models';
-import { ProductAllergenService } from 'src/api/services';
+import { FoodAllergen } from 'src/api/models';
+import { FoodAllergenService } from 'src/api/services';
 
 @Component({
   selector: 'app-allergens-check',
@@ -10,16 +9,16 @@ import { ProductAllergenService } from 'src/api/services';
 })
 export class AllergenChecksComponent  implements OnInit {
 
-  allergens: ProductAllergen[]
+  allergens: FoodAllergen[]
   @Input() allergensSelected: number[]
   @Output() allergensSelectedChange: EventEmitter<number[]> = new EventEmitter<number[]>();
 
   constructor(
-    private _allergenService: ProductAllergenService
+    private _allergenService: FoodAllergenService
   ) { }
 
   ngOnInit() {
-    this._allergenService.productAllergenList$Response().subscribe(
+    this._allergenService.foodAllergenList$Response().subscribe(
       {
         next: (response) => {
           this.allergens = response.body.results!
