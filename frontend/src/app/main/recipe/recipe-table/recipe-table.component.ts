@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { Recipe } from 'src/api/models';
-import { getRandomRecipeImage } from 'src/app/utils/functions';
+import { ImageGenerator } from 'src/app/utils/functions';
 
 @Component({
   selector: 'app-recipe-table',
@@ -15,6 +15,7 @@ export class RecipeTablePage implements OnInit {
   @Input() loaded = false
   @Output() infiniteScroll = new EventEmitter();
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter<boolean>();
+  randomImage = ImageGenerator.getRandomRecipeImage()
 
   constructor(
     private _router: Router
@@ -40,7 +41,7 @@ export class RecipeTablePage implements OnInit {
   }
 
   getRandomRecipeImage(){
-    return getRandomRecipeImage()
+    return ImageGenerator.getRandomRecipeImage()
   }
 
 }

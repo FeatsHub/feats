@@ -4,7 +4,7 @@ import { AlertController, LoadingController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Recipe } from 'src/api/models';
 import { RecipeService } from 'src/api/services';
-import { getRandomRecipeImage } from 'src/app/utils/functions';
+import { ImageGenerator } from 'src/app/utils/functions';
 
 @Component({
   selector: 'app-recipe-retrieve',
@@ -23,7 +23,7 @@ export class RecipeDetailPage implements OnInit {
     image: 0,
     image_data: {
       id: 0,
-      image: getRandomRecipeImage()
+      image: ImageGenerator.getRandomRecipeImage()
     },
     ingredients: [],
     name: '',
@@ -73,7 +73,7 @@ export class RecipeDetailPage implements OnInit {
             }
             if (this.recipe.image_data == null){
               this.recipe.image_data = {
-                image: getRandomRecipeImage(),
+                image: ImageGenerator.getRandomRecipeImage(),
                 id: -1
               }
             }

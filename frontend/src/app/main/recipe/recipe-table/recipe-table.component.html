@@ -18,7 +18,7 @@
           (click)="goRecipe(recipe.id)"
           router-direction="forward"
           class="plate-image"
-          [ngStyle]="{'background-image': 'url(' + (recipe.image_data && recipe.image_data.image ? recipe.image_data.image: getRandomRecipeImage()) + ')'}"
+          [ngStyle]="{'background-image': 'url(' + (recipe.image_data && recipe.image_data.image ? recipe.image_data.image: randomImage) + ')'}"
         >
         </div>
         <ion-card-header

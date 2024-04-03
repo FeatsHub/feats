@@ -7,7 +7,7 @@ import { FoodService, RecipeCategoryService, RecipeService } from 'src/api/servi
 import { Image } from 'src/api/models';
 import { ImageLibraryService } from 'src/api/services';
 import { LoadingController } from '@ionic/angular';
-import { getRandomRecipeImage } from 'src/app/utils/functions';
+import { ImageGenerator } from 'src/app/utils/functions';
 
 @Component({
   selector: 'app-recipe-form',
@@ -35,7 +35,7 @@ export class RecipeFormPage implements OnInit{
     private _imageLibraryService: ImageLibraryService,
     private _productService: FoodService
   ) {
-    this.selectedImage = getRandomRecipeImage()
+    this.selectedImage = ImageGenerator.getRandomRecipeImage()
   }
 
   get ingredients(): FormArray {
