@@ -1,7 +1,7 @@
 http:
   routers:
     api-router:
-      rule: "Host(`api.feats-app.com`) && Method(`GET`, `POST`, `PUT`, `DELETE`, `PATCH`)"
+      rule: "Host(`api.feats-app.com`) && Method(`GET`, `POST`, `PUT`, `DELETE`, `PATCH`, `OPTIONS`)"
       entryPoints:
         - websecure
       tls:
