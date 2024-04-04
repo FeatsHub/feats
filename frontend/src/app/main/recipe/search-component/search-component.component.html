@@ -1,0 +1,37 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-searchbar
+            #searchBar
+            show-cancel-button="always"
+            class="search-bar"
+            placeholder="Búsqueda"
+            (ionInput)="handleSearch($event)"
+            (ionCancel)="closeModal()">
+        </ion-searchbar>
+        <ion-grid>
+            <ion-row>
+                <ion-col [ngClass]="{'selected': tab.selected}" (click)="selectTab(tab)" class="search-tab" *ngFor="let tab of tabs">
+                    <ion-icon [name]="!tab.selected ? tab.icon + '-outline' : tab.icon"></ion-icon>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+
+    <app-recipe-table
+        *ngIf="isTabSelected('recipes')"
+        [recipes]="recipes"
+        [loaded]="recipesLoaded"
+        (closeModal)="closeModalCallBack($event)"
+    ></app-recipe-table>
+
+    <app-user-list
+        *ngIf="isTabSelected('users')"
+        [users]="users"
+        [loaded]="usersLoaded"
+        (closeModal)="closeModalCallBack($event)"
+    ></app-user-list>
+
+</ion-content>

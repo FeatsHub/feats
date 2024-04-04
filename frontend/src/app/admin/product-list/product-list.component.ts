@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Product, ProductAllergen } from 'src/api/models';
-import { ProductAllergenService, ProductService } from 'src/api/services';
+import { Food, FoodAllergen } from 'src/api/models';
+import { FoodAllergenService, FoodService } from 'src/api/services';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: 'product-list.component.html',
   styleUrls: ['product-list.component.scss']
 })
-export class ProductListComponent implements OnInit {
+export class FoodListComponent implements OnInit {
 
-  products: Product[] = []
-  allergens: ProductAllergen[] = []
+  products: Food[] = []
+  allergens: FoodAllergen[] = []
   isAllergensModalOpen = false
-  selectedProduct: Product
+  selectedFood: Food
 
   public alertButtons = ['Save'];
   public alertInputs = [
@@ -22,12 +22,12 @@ export class ProductListComponent implements OnInit {
   ];
 
   constructor(
-    private _productService: ProductService,
-    private _allergenService: ProductAllergenService
+    private _productService: FoodService,
+    private _allergenService: FoodAllergenService
   ) {}
 
   ngOnInit(){
-    this._productService.productList$Response().subscribe({
+    this._productService.foodList$Response().subscribe({
         next: (response) => {
           this.products = response.body.results!
         },
@@ -37,7 +37,7 @@ export class ProductListComponent implements OnInit {
         }
       });
 
-    this._allergenService.productAllergenList$Response().subscribe({
+    this._allergenService.foodAllergenList$Response().subscribe({
       next: (response) => {
         this.allergens = response.body.results!
         console.log(response)
@@ -49,8 +49,8 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  deleteProduct(product: Product, index: number){
-    this._productService.productDestroy$Response({id: product.id}).subscribe({
+  deleteFood(product: Food, index: number){
+    this._productService.foodDestroy$Response({id: product.id}).subscribe({
       next: (response) => {
         
       },
@@ -62,8 +62,8 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  updateProduct(product: Product){
-    this._productService.productPartialUpdate$Json$Response({
+  updateFood(product: Food){
+    this._productService.foodPartialUpdate$Json$Response({
       id: product.id, body: product
     }).subscribe({
       next: (response) => {
@@ -76,13 +76,13 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  createProduct(event: any){
+  createFood(event: any){
     const productName = event.detail.data.values['0'];
-    this.addProduct(productName)
+    this.addFood(productName)
   }
 
-  addProduct(productName: string){
-    this._productService.productCreate$Json$Response(
+  addFood(productName: string){
+    this._productService.foodCreate$Json$Response(
       {
         body: {
           id: -1,
@@ -100,14 +100,14 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  openAllergensModal(product: Product){
+  openAllergensModal(product: Food){
     this.isAllergensModalOpen = true
-    this.selectedProduct = product
+    this.selectedFood = product
   }
 
   applyAllergens(){
-    this._productService.productPartialUpdate$Json$Response(
-      {id: this.selectedProduct.id, body: this.selectedProduct}
+    this._productService.foodPartialUpdate$Json$Response(
+      {id: this.selectedFood.id, body: this.selectedFood}
     ).subscribe({
       next: (response) => {
       },
@@ -119,11 +119,11 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  toggleSelectAllergen(allergen: ProductAllergen, index: number){
-    if (this.selectedProduct.allergens!.includes(allergen.id)){
-      this.selectedProduct.allergens = this.selectedProduct.allergens!.splice(index, 1);
+  toggleSelectAllergen(allergen: FoodAllergen, index: number){
+    if (this.selectedFood.allergens!.includes(allergen.id)){
+      this.selectedFood.allergens = this.selectedFood.allergens!.splice(index, 1);
     }else{
-      this.selectedProduct.allergens!.push(allergen.id)
+      this.selectedFood.allergens!.push(allergen.id)
     }
     
   }

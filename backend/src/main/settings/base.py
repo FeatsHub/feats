@@ -63,8 +63,7 @@ LOCAL_APPS = [
     'main',
     'user',
     'image_library',
-    'food',
-    'product',
+    'recipe',
     'stats'
 ]
 

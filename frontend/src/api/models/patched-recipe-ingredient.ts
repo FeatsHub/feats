@@ -8,9 +8,9 @@
  * complex, nested serializations.
  */
 export interface PatchedRecipeIngredient {
+  food?: number;
+  food_name?: string;
   id?: number;
-  product?: number;
-  product_name?: string;
   quantity?: number;
   unit?: string;
 }

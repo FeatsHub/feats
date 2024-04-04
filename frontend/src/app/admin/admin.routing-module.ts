@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminPage } from './admin.page';
 import { AdminTabsComponent } from './admin-tabs/admin-tabs.component';
 import { StatsPage } from './stats/stats.page';
-import { ProductListComponent } from './product-list/product-list.component';
+import { FoodListComponent } from './product-list/product-list.component';
 import { AllergenListComponent } from './allergen-list/allergen-list.component';
 
 const routes: Routes = [
@@ -26,7 +26,7 @@ const routes: Routes = [
       },
       {
         path: 'options/products',
-        component: ProductListComponent
+        component: FoodListComponent
       },
       {
         path: 'options/allergens',

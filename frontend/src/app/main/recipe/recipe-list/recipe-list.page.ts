@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { Recipe, RecipeCategory } from 'src/api/models';
 import { RecipeCategoryService, RecipeService } from 'src/api/services';
 
@@ -20,7 +20,7 @@ export class RecipeListPage implements OnInit {
   limit = 5
   offset = 0
   selectedAllergens = [1, 3, 4]
-
+  showSearch = false
 
   constructor(
     private _recipeCategoryService: RecipeCategoryService,
@@ -43,7 +43,14 @@ export class RecipeListPage implements OnInit {
     this.getRecipes();
   }
 
-  ngOnInit(){}
+  async ngOnInit(){
+    // Set focus on searchbar
+    const modal = document.querySelector('ion-modal')!;
+    modal.addEventListener('didPresent', () => {
+      const search = modal.querySelector('ion-searchbar')!;
+      search.setFocus();
+  });
+  }
 
   async getRecipes(
     selectedCategory: number[] | undefined = undefined,
@@ -54,7 +61,7 @@ export class RecipeListPage implements OnInit {
       this.selectedCategory = undefined;
     }
 
-    this._recipeService.recipeList({expand: '~all', category: selectedCategory, search: search}).subscribe({
+    this._recipeService.recipeList({expand: '~all,creator.~all', category: selectedCategory, search: search}).subscribe({
       next: (recipes) => {
         if (recipes.results != undefined){
           this.recipes = recipes.results;
@@ -115,6 +122,19 @@ export class RecipeListPage implements OnInit {
   handleInfiniteScroll(event: any){
     this.offset = this.offset + 10
     //this.getOwnRecipes();
+  }
+
+  searchFocus(){
+    this.showSearch = true
+  }
+
+  closeSearch(){
+    this.showSearch = false
+  }
+
+  forceCloseSearch(){
+    this.showSearch = false
+    document.getElementById('search-modal')?.remove()
   }
 
 }

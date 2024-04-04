@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { RoleEnum, User } from 'src/api/models';
-import { UserService } from 'src/api/services';
-import { init, EChartsOption, graphic, SeriesOption, color } from 'echarts';
+import { RoleEnum, Stats, User } from 'src/api/models';
+import { SystemStatsService, UserService } from 'src/api/services';
 import { LoadingController } from '@ionic/angular';
+import { Chart } from 'src/app/utils/echarts';
 
 @Component({
   selector: 'app-stats',
@@ -13,13 +13,28 @@ import { LoadingController } from '@ionic/angular';
 export class StatsPage implements OnInit {
 
   user: User | undefined
-  @ViewChild('chartContent', {static: false}) chartContent: ElementRef;
+  fromDate: string
+  toDate: string
+  stats: Stats[] = []
+  userChart: Chart
+  recipesChart: Chart
+
+  @ViewChild('userChartContent', {static: false}) userChartContent: ElementRef;
+  @ViewChild('recipesChartContent', {static: false}) recipesChartContent: ElementRef;
 
   constructor(
     private _userService: UserService,
     private _router: Router,
-    private _loadingCtrl: LoadingController,
-  ) { }
+    private _statsService: SystemStatsService,
+    private _loadingCtrl: LoadingController
+  ) {
+    this.fromDate = new Date().toISOString().split('T')[0];
+    let fechaDeHoy: Date = new Date();
+    let fechaDeMañana: Date = new Date(fechaDeHoy.getTime() + (24 * 60 * 60 * 1000));
+
+    let fechaDeMañanaISO: string = fechaDeMañana.toISOString().split('T')[0];
+    this.toDate = fechaDeMañanaISO
+  }
 
   ngOnInit() {
     if (localStorage.getItem('userId')){
@@ -29,89 +44,100 @@ export class StatsPage implements OnInit {
           if (this.user.role != RoleEnum.Superadmin){
             this._router.navigate(['/recipes'])
           }
-        },
-        error: (e) => {
-        },
-        complete: () => {
         }
       })
     }
   }
 
-  async ngAfterViewInit() {
+  async getStats(){
     const loading = await this._loadingCtrl.create({
-      message: 'Saving...',
+      message: 'Loading...',
       duration: 4000,
     });
-
     loading.present();
+    this._statsService.systemStatsList$Response(
+      {
+        limit: 9999,
+        start: this.fromDate,
+        end: this.toDate
+      }
+    ).subscribe(
+      {
+        next: (response) => {
+          this.stats = response.body.results!;
+        },
+        complete: () => {
+          const statsTimes = this.stats.map(item => {
+            const date = new Date(item.created);
+            const day = ('0' + date.getDate()).slice(-2);
+            const month = ('0' + (date.getMonth() + 1)).slice(-2);
+            const hours = ('0' + date.getHours()).slice(-2);
+            const minutes = ('0' + date.getMinutes()).slice(-2);
+            return `${day}/${month} ${hours}:${minutes}`;
+          });
+
+          this.userChart.xAxis = statsTimes;
+          this.userChartSetValues();
+
+          this.recipesChart.xAxis = statsTimes;
+          this.recipesChartSetValues();
+          loading.dismiss();
+        }
+      }
+    )
+  }
+
+  async ngAfterViewInit() {
     setTimeout(() => {
-      this.initChart(loading);
+      this.initCharts();
     }, 1000);
   }
 
-  initChart(loading: HTMLIonLoadingElement) {
-    var chartDom = this.chartContent.nativeElement;
-    var myChart = init(chartDom);
+  initCharts() {
+    this.userChart = new Chart(
+      this.userChartContent.nativeElement!
+    )
 
-    let option: EChartsOption = {
-      xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        this.initLine(
-          [300, 250, 700, 200, 180, 150, 100, 500],
-          'rgb(128, 255, 165)',
-          'rgb(1, 191, 236)'
-        ),
-        this.initLine(
-          [280, 240, 600, 550, 160, 130, 100, 450],
-          'rgb(0, 221, 255)',
-          'rgb(77, 119, 255)'
-        ),
-        this.initLine(
-          [260, 220, 500, 170, 140, 110, 80, 400],
-          'rgb(55, 162, 255)',
-          'rgb(116, 21, 219)'
-        ),
-        this.initLine(
-          [240, 200, 170, 150, 800, 90, 60, 350],
-          'rgb(255, 0, 135)',
-          'rgb(135, 0, 157)'
-        ),
-      ]
-    };
+    this.recipesChart = new Chart(
+      this.recipesChartContent.nativeElement!
+    )
 
-    myChart.setOption(option);
-    loading.dismiss();
+    this.getStats();
   }
 
-  initLine(data: number[], color1: string, color2: string): SeriesOption{
-    return {
-      data: data,
-      type: 'line',
-      showSymbol: false,
-      smooth: true,
-      lineStyle: {
-        width: 0
-      },
-      areaStyle: {
-        opacity: 0.8,
-        color: new graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: color1
-          },
-          {
-            offset: 1,
-            color: color2
-          }
-        ])
-      },
+  userChartSetValues(){
+    const userNumber = this.stats.map(item => {
+      return item.user_number
+    });
+
+    this.userChart.addSerie('Total users', userNumber);
+  }
+
+  recipesChartSetValues(){
+    const totalRecipesNumber = this.stats.map(item => {
+      return item.total_recipe_number
+    });
+    const publicRecipesNumber = this.stats.map(item => {
+      return item.public_recipe_number
+    });
+    const privateRecipesNumber = this.stats.map(item => {
+      return item.private_recipe_number
+    });
+
+    this.recipesChart.addSerie('Total Recipes', totalRecipesNumber);
+    this.recipesChart.addSerie('Public Recipes', publicRecipesNumber);
+    this.recipesChart.addSerie('Private Recipes', privateRecipesNumber);
+  }
+
+  filterDate(lastDate: boolean){
+    if (!lastDate){
+      let fechaDeHoy: Date = new Date(this.fromDate);
+      let fechaDeMañana: Date = new Date(fechaDeHoy.getTime() + (24 * 60 * 60 * 1000));
+  
+      let fechaDeMañanaISO: string = fechaDeMañana.toISOString().split('T')[0];
+      this.toDate = fechaDeMañanaISO
     }
+    this.getStats()
   }
+
 }

@@ -89,6 +89,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         null=True
     )
 
+    preferences = models.OneToOneField(
+        to='user.UserPreferences',
+        on_delete=models.SET_NULL,
+        null=True
+    )
+
     objects = UserManager()
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
@@ -152,3 +158,14 @@ class UserResetPassword(TimeStampedModel):
             recipient_list=[self.user.email],
             fail_silently=False,
         )
+
+
+class UserPreferences(models.Model):
+    use_dark_mode = models.BooleanField(
+        null=True
+    )
+
+    allergens = models.ManyToManyField(
+        to='recipe.FoodAllergen',
+        blank=True
+    )

@@ -1,8 +1,10 @@
 from django.contrib.auth.models import BaseUserManager
 
+
 class UserManager(BaseUserManager):
     def create(self, username, password, email, **extra_fields):
-        from food.models import RecipeList
+        from recipe.models import RecipeList
+        from user.models import UserSettings
 
         user = self.model(
             email=self.normalize_email(email),
@@ -11,13 +13,17 @@ class UserManager(BaseUserManager):
         )
         user.set_password(password)
         user.save(using=self._db)
-        
+
         # Create default list
         RecipeList.objects.create(**{
             'is_default_list': True,
             'owner': user,
-            'name': 'Saved',
+            'name': 'Guardados',
         })
+
+        # Create user settings
+        user.settings = UserSettings.objects.create()
+        user.save()
 
         return user
 

@@ -1,4 +1,4 @@
-<ion-header [translucent]="true" style="z-index: 2;">
+<ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
       Recetas
@@ -13,10 +13,11 @@
   </ion-toolbar>
   <ion-toolbar>
     <ion-searchbar
-      show-cancel-button="focus" 
-      placeholder="Búsqueda" 
-      (ionInput)="handleSearch($event)">
-      <!--(ionClear)="handleSearch($event)"-->
+      show-cancel-button="never"
+      placeholder="Búsqueda"
+      (ionInput)="handleSearch($event)"
+      (ionFocus)="searchFocus()"
+      (ionCancel)="closeSearch()">
     </ion-searchbar>
     <div class="categories">
       <ion-chip 
@@ -51,7 +52,7 @@
 </ion-header>
 
 <ion-menu side="end" contentId="main-content" style="z-index: 1;">
-  <ion-content style="position: relative; top: 15%;" class="ion-padding">
+  <ion-content style="position: absolute; top: 22%;" class="ion-padding">
     <app-allergens-check [(allergensSelected)]="selectedAllergens"></app-allergens-check>
     <ion-button expand="block" style="margin-top: 20px">
       Aplicar filtros
@@ -67,14 +68,32 @@
     </ion-fab-button>
   </ion-fab>
 
-  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
+    <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 
-  <app-recipe-table
-    [loaded]="loaded"
-    [recipes]="recipes"
-    (infiniteScroll)="handleInfiniteScroll($event)"
-  ></app-recipe-table>
+    <app-recipe-table
+      [loaded]="loaded"
+      [recipes]="recipes"
+      (infiniteScroll)="handleInfiniteScroll($event)"
+    ></app-recipe-table>
+
+
+  <ion-modal
+    [isOpen]="showSearch"
+    [initialBreakpoint]="1"
+    [breakpoints]="[1, 0.6]"
+    [backdropDismiss]="true"
+    [backdropBreakpoint]="0.3"
+    (didDismiss)="closeSearch()"
+    id="search-modal"
+  >
+    <ng-template>
+      <app-search-component
+        (closeModalEvent)="closeSearch()"
+        (forceCloseModalEvent)="forceCloseSearch()"
+      ></app-search-component>
+    </ng-template>
+  </ion-modal>
 
 </ion-content>

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Recipe, RoleEnum, User } from 'src/api/models';
 import { RecipeListService, RecipeService, UserService } from 'src/api/services';
 import { RecipeList } from 'src/api/models';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
+import { Subscription, expand } from 'rxjs';
 
 interface Tab {
     icon: string,
@@ -17,6 +18,8 @@ interface Tab {
   styleUrls: ['profile-retrieve.page.scss']
 })
 export class ProfileRetrievePage implements OnInit {
+
+  routeSub: Subscription
   imageUrl: string | null = null
   loaded = false
   recipesLoaded = false
@@ -82,18 +85,45 @@ export class ProfileRetrievePage implements OnInit {
   myRecipes: Recipe[]
   recipeLists: RecipeList[]
 
+  isActionSheetOpen = false
+
   constructor (
     private _userService: UserService,
     private _router: Router,
     private _recipeListService: RecipeListService,
-    private _recipeService: RecipeService
+    private _recipeService: RecipeService,
+    private _route: ActivatedRoute,
   ) {
   }
 
   ngOnInit() {
+    this.routeSub = this._route.params.subscribe(params => {
+      // 🚩 Edit Mode and take the recipe from api
+      if (params['id'] != undefined){
+        this._userService.userRetrieve$Response({
+          id: params['id'], expand: '~all'
+        }).subscribe({
+          next: (response) =>{
+            this.user = response.body
+            this.loaded = true
+            if (this.user.image_data){
+              this.imageUrl = this.user.image_data.image!
+            }
+          },
+          error: () => {
+            this._router.navigate(['/recipes']);
+          },
+          complete: () => {
+            this.getOwnRecipes()
+          }
+        });
+      }else {
+        this.getCurrentUser();
+      }
+    })
   }
 
-  ionViewWillEnter(){
+  getCurrentUser(){
     this._userService.userCurrentRetrieve$Response({expand: '~all'}).subscribe({
       next: (response) => {
         this.user = response.body
@@ -114,23 +144,26 @@ export class ProfileRetrievePage implements OnInit {
       },
       complete: () => {
         this.getOwnRecipes()
+        this.getOwnLists()
+      }
+    });
+  }
 
-        this._recipeListService.recipeListList$Response(
-          {
-            expand: '~~all,recipes_data.~all',
-            fields: 'id,name,is_default_list,recipes_data.image_data.image',
-            owner: this.user.id
-          }
-          ).subscribe({
-          next: (response) => {
-            this.recipeLists = response.body.results!
-            this.recipesListLoaded = true
-          },
-          error: (e) => {
-          },
-          complete: () => {
-          }
-        });
+  getOwnLists(){
+    this._recipeListService.recipeListList$Response(
+      {
+        expand: '~~all,recipes_data.~all',
+        fields: 'id,name,is_default_list,recipes_data.image_data.image',
+        owner: this.user.id
+      }
+      ).subscribe({
+      next: (response) => {
+        this.recipeLists = response.body.results!
+        this.recipesListLoaded = true
+      },
+      error: (e) => {
+      },
+      complete: () => {
       }
     });
   }
@@ -142,7 +175,7 @@ export class ProfileRetrievePage implements OnInit {
   getOwnRecipes(){
     this._recipeService.recipeList$Response(
       {
-        expand: '~all',
+        expand: '~all,creator.~all',
         owner: this.user.id,
         limit: this.limit,
         offset: this.offset
@@ -155,7 +188,6 @@ export class ProfileRetrievePage implements OnInit {
           }else{
             this.myRecipes = response.body.results!
           }
-          
           this.recipesLoaded = true
           },
         error: (e) => {},
@@ -165,6 +197,7 @@ export class ProfileRetrievePage implements OnInit {
   }
 
   profileMenuResult(event: any){
+    this.isActionSheetOpen = false
     if (event.detail.role == 'logout'){
       this.logOut()
     } else if (event.detail.role == 'edit'){
@@ -236,6 +269,14 @@ export class ProfileRetrievePage implements OnInit {
   handleInfiniteScroll(event: any){
     this.offset = this.offset + 10
     this.getOwnRecipes();
+  }
+
+  isOwn(){
+    return localStorage.getItem('userId') == this.user.id.toString()
+  }
+
+  setOpen(isOpen: boolean) {
+    this.isActionSheetOpen = isOpen;
   }
 
 }

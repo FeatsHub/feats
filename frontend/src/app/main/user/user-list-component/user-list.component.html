@@ -1,0 +1,39 @@
+  <ion-list lines="none">
+    <ion-item
+      *ngFor="let user of users"
+      class="user-item"
+      (click)="goProfile(user.id)"
+    >
+      <div
+        class="creator-image"
+        [ngStyle]="{
+          'background-image': 'url(' + (user && user.image_data ? user.image_data.image : 'https://ionicframework.com/docs/img/demos/avatar.svg') + ')'
+        }"
+      >
+      </div>
+      <ion-text class="username">
+          {{ user.username }}
+      </ion-text>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="!loaded" lines="none">
+    <ion-item *ngFor="let dummy of ' '.repeat(10).split(''), let x = index">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="auto">
+            <ion-skeleton-text class="loading-image" [animated]="true"></ion-skeleton-text>
+          </ion-col>
+          <ion-col>
+            <ion-skeleton-text [animated]="true" class="loading-text"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+  <p
+    *ngIf="loaded && users.length == 0"
+    style="text-align: center;color: #979191;">
+      No se encontraron usuarios
+  </p>

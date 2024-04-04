@@ -20,6 +20,7 @@ from utils.serializers import EmptySerializer
 class UserView(ModelViewSet):
     queryset = user_models.User.objects.all()
     serializer_class = user_serializers.UserSerializer
+    search_fields = ('username', 'first_name')
 
     def get_permissions(self):
         no_permission_views = (
@@ -239,3 +240,17 @@ class UserView(ModelViewSet):
                 self.extract_permissions(schema[key], permissions_list)
 
         return user_serializers.PermissionSerializer(permissions_list, many=True).data
+
+    @extend_schema(
+        responses={status.HTTP_200_OK: user_serializers.UserPreferencesSerializer}
+    )
+    @action(detail=True, methods=['get'])
+    def preferences(self, request, *args, **kwargs):
+        if request.user == self.get_object():
+            preferences = self.get_object().preferences
+            preferences_data = user_serializers.UserPreferencesSerializer(
+                instance=preferences
+            ).data
+            return Response(preferences_data)
+        else:
+            return Response(status=403)

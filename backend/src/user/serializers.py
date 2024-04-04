@@ -45,6 +45,18 @@ class UserSerializer(DynamicModelSerializer):
         )
 
 
+class RecipeOwnerSerializer(DynamicModelSerializer):
+    image = ImageSerializer(read_only=True)
+    class Meta:
+        model = user_models.User
+        fields = (
+            'id',
+            'username',
+            'image',
+        )
+        read_only_fields = fields
+
+
 class CheckUsernameSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
 
@@ -117,7 +129,18 @@ class ResetPasswordSerializer(serializers.Serializer):
 
 class PermissionSerializer(serializers.Serializer):
     """
-	Serialize pydrfpermissions
-	"""
+    Serialize pydrfpermissions
+    """
     url = serializers.CharField()
     action = serializers.CharField()
+
+
+class UserPreferencesSerializer(DynamicModelSerializer):
+
+    class Meta:
+        model = user_models.UserPreferences
+        fields = (
+            'id',
+            'use_dark_mode',
+            'allergens'
+        )

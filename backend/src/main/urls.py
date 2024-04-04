@@ -16,16 +16,12 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib import admin
-from django.urls import include, path, re_path
-from drf_yasg import openapi
-from drf_yasg.views import get_schema_view
-from rest_framework import permissions, routers
+from django.urls import include, re_path
+from rest_framework import routers
 from user import views as user_views
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
-from food import views as food_views
+from recipe import views as recipe_views
 from image_library import views as image_library_views
-from product import views as product_views
 from stats import views as stats_views
 
 
@@ -56,38 +52,38 @@ router.register(
 # Food views
 router.register(
     r'recipe',
-    food_views.RecipeView,
+    recipe_views.RecipeView,
     basename='recipe'
 )
 
 router.register(
     r'recipe_category',
-    food_views.RecipeCategoryView,
+    recipe_views.RecipeCategoryView,
     basename='recipe_category'
 )
 
 router.register(
     r'recipe_ingredient',
-    food_views.RecipeIngredientView,
+    recipe_views.RecipeIngredientView,
     basename='recipe_ingredient'
 )
 
 router.register(
     r'recipe_list',
-    food_views.RecipeListView,
+    recipe_views.RecipeListView,
     basename='recipe_list'
 )
 
 router.register(
-    r'product',
-    product_views.ProductView,
-    basename='product'
+    r'food',
+    recipe_views.FoodView,
+    basename='food'
 )
 
 router.register(
-    r'product_allergen',
-    product_views.ProductAllergenView,
-    basename='product_allergen'
+    r'food_allergen',
+    recipe_views.FoodAllergenView,
+    basename='food_allergen'
 )
 
 router.register(

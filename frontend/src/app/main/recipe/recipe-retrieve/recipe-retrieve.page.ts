@@ -1,10 +1,10 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Recipe } from 'src/api/models';
 import { RecipeService } from 'src/api/services';
+import { ImageGenerator } from 'src/app/utils/functions';
 
 @Component({
   selector: 'app-recipe-retrieve',
@@ -23,14 +23,22 @@ export class RecipeDetailPage implements OnInit {
     image: 0,
     image_data: {
       id: 0,
-      image: 'https://ionicframework.com/docs/img/demos/card-media.png'
+      image: ImageGenerator.getRandomRecipeImage()
     },
     ingredients: [],
     name: '',
     time: 0,
     owner: -1,
     saved_by: [],
-    allergens: ''
+    allergens: '',
+    creator: {
+      id: -1,
+      image: {
+        id: -1,
+        image: ''
+      },
+      username: ''
+    }
   }
 
   saved = false
@@ -43,7 +51,8 @@ export class RecipeDetailPage implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private _alertController: AlertController,
-  ) {}
+  ) {
+  }
 
   async ngOnInit() {
     const loading = await this._loadingCtrl.create({
@@ -61,6 +70,12 @@ export class RecipeDetailPage implements OnInit {
             let userId = localStorage.getItem('userId')
             if (userId){
               this.saved = this.recipe.saved_by.includes(Number(userId))
+            }
+            if (this.recipe.image_data == null){
+              this.recipe.image_data = {
+                image: ImageGenerator.getRandomRecipeImage(),
+                id: -1
+              }
             }
           },
           error: (e) => console.error(e),
