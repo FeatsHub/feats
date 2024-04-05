@@ -25,3 +25,18 @@
     margin: 10px;
     border-radius: 10px;
 }
+
+.time-diners{
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.time-diners>ion-item{
+    width: 50%;
+}
+
+ion-label>ion-icon{
+    position: relative;
+    top: 2px
+}
