@@ -1,0 +1,48 @@
+<ion-searchbar
+    placeholder="Búsqueda"
+    (ionInput)="handleSearch($event)"
+    (ionFocus)="searchFocus()"
+></ion-searchbar>
+
+<ion-list>
+    <ion-item>
+        <ion-icon
+            name="restaurant-outline"
+            slot="start"
+            color="primary"
+        ></ion-icon>
+        <ion-text>
+            Carne picada
+        </ion-text>
+        <br>
+        <ion-input
+            label="Cantidad"
+            labelPlacement="stacked"
+        ></ion-input>
+        <ion-input
+            label="Unidad"
+            labelPlacement="stacked"
+        ></ion-input>
+    </ion-item>
+</ion-list>
+
+<ion-modal
+    [isOpen]="showSearch"
+    [initialBreakpoint]="1"
+    [breakpoints]="[1, 0.6]"
+    [backdropDismiss]="true"
+    [backdropBreakpoint]="0.3"
+    (didDismiss)="closeSearch()"
+    id="search-modal"
+>
+    <ng-template>
+        <ion-searchbar
+            #searchBar
+            show-cancel-button="always"
+            placeholder="Búsqueda"
+            (ionInput)="handleSearch($event)"
+            (ionFocus)="searchFocus()"
+            (ionCancel)="closeSearch()"
+        ></ion-searchbar>
+    </ng-template>
+</ion-modal>
