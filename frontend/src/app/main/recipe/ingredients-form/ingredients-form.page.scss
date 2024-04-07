@@ -1,11 +1,30 @@
-ion-input{
-    margin-left: 10px;
+ion-input, ion-select{
+    margin-left: 20px;
     position: relative;
-    top: -10px
+    top: -10px;
+    width: 20%;
 }
 
 ion-item{
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+    flex-direction: row-reverse;
+    --padding-start: 0px;
+    padding-top: 10px;
+}
+
+ion-item-options{
+    padding-top: 10px;
+}
+
+
+ion-text{
+    width: 60%;
+}
+
+ion-select::part(icon) {
+    display: none !important;
+}
+
+.search-bar{
+    padding-top: 20px;
 }

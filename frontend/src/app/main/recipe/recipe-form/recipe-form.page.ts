@@ -146,12 +146,13 @@ export class RecipeFormPage implements OnInit{
         console.error(e),
         complete: () => {
           loading.dismiss();
-          this._router.navigate(['/recipes/'+this.recipeId]);
+          this._router.navigate(['/recipes/'+this.recipeId+'/edit/ingredients']);
         }
       });
     }else{
       this._recipeService.recipeCreate$Json$Response({body: recipe}).subscribe({
         next: (response) => {
+          this._router.navigate(['/recipes/'+ response.body.id +'/edit/ingredients']);
         },
         error: (e) => 
         console.error(e),

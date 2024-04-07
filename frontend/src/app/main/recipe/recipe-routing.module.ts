@@ -12,16 +12,16 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'ingredients',
-    component: IngredientsFormPage,
-  },
-  {
     path: 'new',
     component: RecipeFormPage,
   },
   {
     path: ':id/edit',
     component: RecipeFormPage,
+  },
+  {
+    path: ':id/edit/ingredients',
+    component: IngredientsFormPage,
   },
   {
     path: ':id',
