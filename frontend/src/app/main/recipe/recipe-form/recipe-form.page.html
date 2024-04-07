@@ -26,13 +26,13 @@
     <div class="plate-content">
       <ion-list>
         <ion-item>
-          <ion-label position="stacked">
-            <ion-icon slot="start" name="text-outline"></ion-icon>
-            Nombre
-          </ion-label>
           <ion-input
-            aria-label="Nombre"
-            formControlName="name">
+            formControlName="name"
+            labelPlacement="stacked">
+              <div slot="label">
+                <ion-icon slot="start" name="text-outline"></ion-icon>
+                Nombre
+              </div>
           </ion-input>
 
         </ion-item>
@@ -40,41 +40,43 @@
         <ion-item lines="none">
           <div class="time-diners">
             <ion-item style="position: relative; left: -16px;">
-              <ion-label position="stacked">
-                <ion-icon slot="start" name="time-outline"></ion-icon>
-                Tiempo (min)
-              </ion-label>
                 <ion-input
-                  aria-label="Tiempo (min)"
+                  labelPlacement="stacked"
                   formControlName="time"
                   type="number">
+                    <div slot="label">
+                      <ion-icon slot="start" name="time-outline"></ion-icon>
+                      Tiempo (min)
+                    </div>
                 </ion-input>
+
             </ion-item>
 
             <ion-item>
-              <ion-label position="stacked">
-                <ion-icon slot="start" name="people-outline"></ion-icon>
-                Comensales
-              </ion-label>
               <ion-input
-                aria-label="Comensales"
+                labelPlacement="stacked"
                 formControlName="diners"
                 type="number">
+                  <div slot="label">
+                    <ion-icon slot="start" name="people-outline"></ion-icon>
+                    Tiempo (min)
+                  </div>
               </ion-input>
             </ion-item>
           </div>
         </ion-item>
 
         <ion-item>
-          <ion-label position="stacked">
-            <ion-icon slot="start" name="create-outline"></ion-icon>
-            Descripción
-          </ion-label>
           <ion-textarea
+            labelPlacement="stacked"
             formControlName="description"
             style="padding-bottom: 50px;"
             rows="10"
             >
+            <div slot="label">
+              <ion-icon slot="start" name="people-outline"></ion-icon>
+              Descripción
+            </div>
           </ion-textarea>
         </ion-item>
 
