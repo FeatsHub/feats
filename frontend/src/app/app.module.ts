@@ -36,8 +36,8 @@ import { AllergensListModule } from './components/allergen-list/allergen-list.mo
     AppRoutingModule,
     HttpClientModule,
     AllergensListModule,
-    ApiModule.forRoot({ rootUrl: 'http://localhost:8000' }),
-    //ApiModule.forRoot({ rootUrl: 'https://api.feats-app.com' })
+    //ApiModule.forRoot({ rootUrl: 'http://localhost:8000' }),
+    ApiModule.forRoot({ rootUrl: 'https://api.feats-app.com' })
   ],
   providers: [
     Router,
