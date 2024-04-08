@@ -16,8 +16,8 @@
     <ion-fab-button
       size="small"
       color="light"
-      (click)="goProfile()"
       class="recipe-creator-fab"
+      [routerLink]="['/profile', recipe.creator.id]"
     >
       <div class="recipe-creator-image"
       [ngStyle]="{
@@ -25,7 +25,7 @@
       }"
       ></div>
       <ion-text class="recipe-creator-username">
-        {{ recipe.creator.username.length > 4 ? (recipe.creator.username | slice:0:4) + '...' : recipe.creator.username }}
+        {{ recipe.creator.username.length > 6 ? (recipe.creator.username | slice:0:4) + '...' : recipe.creator.username }}
       </ion-text>
     </ion-fab-button>
 
@@ -159,8 +159,18 @@
     </ion-accordion-group>
     </div>
     <div *ngIf="isIngredientSegment">
-      <ion-list lines="none">
-        <ion-item 
+      <ion-button
+        *ngIf="isOwner"
+        size="small"
+        color="light"
+        [routerLink]="['/recipes', recipe.id, 'edit', 'ingredients']"
+        class="edit-ingredients"
+      >
+        <ion-icon size="large" name="pencil-outline"></ion-icon>
+      </ion-button>
+
+      <ion-list>
+        <ion-item
           *ngFor="let ingredient of recipe.ingredients"
         >
           <ion-grid>
@@ -171,8 +181,8 @@
               <ion-col style="padding: 20px 3px;">
                 {{ ingredient.food_name.charAt(0).toUpperCase() + ingredient.food_name.slice(1) }}
               </ion-col>
-              <ion-col size="auto" style="color: grey;font-size: 13px;">
-                {{ingredient.quantity}} {{ingredient.unit}}
+              <ion-col size="auto" style="color: grey;font-size: 13px;padding: 20px 3px;">
+                {{ingredient.quantity}} {{ingredient.unit == "-" ? "" : ingredient.unit}}
               </ion-col>
             </ion-row>
           </ion-grid>

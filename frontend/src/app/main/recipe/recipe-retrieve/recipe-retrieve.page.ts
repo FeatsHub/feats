@@ -159,8 +159,4 @@ export class RecipeDetailPage implements OnInit {
     this.showDescription = !this.showDescription;
   }
 
-  goProfile(){
-    this._router.navigate([`/profile/${this.recipe.creator.id}`])
-  }
-
 }
