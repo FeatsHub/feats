@@ -11,8 +11,27 @@
 
 <ion-content [fullscreen]="true">
 
-  <ion-fab slot="fixed" vertical="top" horizontal="end">
+  <ion-fab slot="fixed" vertical="top" horizontal="start">
 
+    <ion-fab-button
+      size="small"
+      color="light"
+      (click)="goProfile()"
+      class="recipe-creator-fab"
+    >
+      <div class="recipe-creator-image"
+      [ngStyle]="{
+        'background-image': 'url(' + (recipe.creator.image ? recipe.creator.image.image : 'https://ionicframework.com/docs/img/demos/avatar.svg') + ')'
+      }"
+      ></div>
+      <ion-text class="recipe-creator-username">
+        {{ recipe.creator.username.length > 4 ? (recipe.creator.username | slice:0:4) + '...' : recipe.creator.username }}
+      </ion-text>
+    </ion-fab-button>
+
+  </ion-fab>
+
+  <ion-fab slot="fixed" vertical="top" horizontal="end">
 
     <ion-fab-button
       size="small"

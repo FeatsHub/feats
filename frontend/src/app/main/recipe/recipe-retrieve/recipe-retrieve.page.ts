@@ -66,7 +66,7 @@ export class RecipeDetailPage implements OnInit {
     this.routeSub = this._route.params.subscribe(params => {
       // 🚩 Edit Mode and take the recipe from api
       if (params['id'] != undefined){
-        this._recipeService.recipeRetrieve$Response({id: params['id'], expand: '~all'}).subscribe({
+        this._recipeService.recipeRetrieve$Response({id: params['id'], expand: '~all,creator.~all'}).subscribe({
           next: (recipe) => {
             this.recipe = recipe.body;
             this.shortDescription = `${this.recipe.description.slice(0, 75)}...`;
@@ -157,6 +157,10 @@ export class RecipeDetailPage implements OnInit {
 
   toggleFullDescription() {
     this.showDescription = !this.showDescription;
+  }
+
+  goProfile(){
+    this._router.navigate([`/profile/${this.recipe.creator.id}`])
   }
 
 }
