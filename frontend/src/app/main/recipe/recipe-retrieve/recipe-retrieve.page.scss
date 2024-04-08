@@ -16,13 +16,14 @@
 
 .plate-title{
     font-weight: bold;
+    max-width: 270px;
 }
 
 .plate-description{
     text-align: justify;
     text-justify: inter-word;
     color: grey;
-    margin-top: 5px;
+    margin-top: 20px;
 }
 
 .plate-time{
@@ -54,3 +55,9 @@
 ion-fab-button {
     --box-shadow: 0px 5px 7px 0px rgba(0, 0, 0, 0.3), 0px 5px 7px 3px rgba(0, 0, 0, 0.15);
   }
+
+.recipe-time{
+    position: absolute;
+    top: 32px;
+    right: 25px;
+}

@@ -1,8 +1,8 @@
 from recipe.initial_values.food_category import initial_values as food_category_values
 from recipe.initial_values.food_allergens import initial_values as allergens_values
+from recipe.initial_values.food_foods import initial_values as foods_values
 
-from recipe.models import RecipeCategory
-from recipe.models import FoodAllergen
+from recipe.models import RecipeCategory, FoodAllergen, Food
 from django.core.management.base import BaseCommand
 
 
@@ -20,9 +20,18 @@ class Command(BaseCommand):
                     print(f'Creating RecipeCategory {i["name"]}...')
                     RecipeCategory.objects.create(**i)
 
-        if model in ['ProductAllergen', None]:
+        if model in ['FoodAllergen', None]:
             if not FoodAllergen.objects.all().exists():
                 for i in allergens_values:
-                    print(f'Creating ProductAllergen {i["name"]}...')
+                    print(f'Creating FoodAllergen {i["name"]}...')
                     FoodAllergen.objects.create(**i)
+
+        if model in ['Food', None]:
+            if not Food.objects.all().exists():
+                for i in foods_values:
+                    print(f'Creating Food {i}...')
+                    Food.objects.get_or_create(**{
+                        'name': i
+                    })
+
         print('Run command successfully')

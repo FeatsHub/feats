@@ -49,7 +49,7 @@ export class RecipeListPage implements OnInit {
     modal.addEventListener('didPresent', () => {
       const search = modal.querySelector('ion-searchbar')!;
       search.setFocus();
-  });
+    });
   }
 
   async getRecipes(

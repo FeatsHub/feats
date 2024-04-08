@@ -14,7 +14,7 @@ export class IngredientsFormPage implements OnInit{
   searchedFoods: Food[] = []
   showSearch = false
   recipe: Recipe
-  recipeForm: FormGroup
+  ingredients: RecipeIngredient[]
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -26,28 +26,32 @@ export class IngredientsFormPage implements OnInit{
   }
 
   async ngOnInit() {
-    this.recipeForm = this._formBuilder.group({
-      ingredients: this._formBuilder.array<RecipeIngredient>([]),
+    // Set focus on searchbar
+    const modal = document.querySelector('ion-modal')!;
+    modal.addEventListener('didPresent', () => {
+      const search = modal.querySelector('ion-searchbar')!;
+      search.setFocus();
     });
+
     this._route.params.subscribe(params => {
       // 🚩 Edit Mode and take the recipe from api
       if (params['id'] != undefined){
         this._recipeService.recipeRetrieve$Response(
           {
-            id: params['id']
+            id: params['id'],
+            expand: '~all',
           }
         ).subscribe(
           {
             next: (response) => {
               this.recipe = response.body!
+              this.ingredients = this.recipe.ingredients;
             }
           }
         )
       }
-    }
-  )
+    })
   this.getFoodList();
-    
   }
 
   getFoodList(
@@ -55,7 +59,8 @@ export class IngredientsFormPage implements OnInit{
   ){
     this._foodService.foodList$Response(
       {
-        search: text
+        search: text,
+        limit: 15
       }
     ).subscribe(
       {
@@ -72,6 +77,7 @@ export class IngredientsFormPage implements OnInit{
   }
 
   searchFocus(){
+    this.getFoodList()
     this.showSearch = true
   }
 
@@ -83,25 +89,24 @@ export class IngredientsFormPage implements OnInit{
     this.recipe.ingredients.splice(index, 1)
   }
 
-  get ingredients(): FormArray {
-    return this.recipeForm.get('ingredients') as FormArray;
-  }
-
   selectFood(food: Food){
-    this.ingredients.push(this._formBuilder.group({
-      food: [food.id],
-      food_name: [food.name],
-      quantity: [0],
-      unit: [''],
-    }));
+    console.log(food)
+    this.recipe.ingredients.push({
+      id: -1,
+      food: food.id,
+      food_name: food.name,
+      quantity: 0,
+      unit: '',
+    });
     this.closeSearch()
   }
 
   submit(){
+    this.recipe.ingredients = this.ingredients;
     this._recipeService.recipePartialUpdate$Json$Response(
       {
         id: this.recipe.id,
-        body: this.recipeForm.value as Recipe
+        body: this.recipe
       }
     ).subscribe(
       {

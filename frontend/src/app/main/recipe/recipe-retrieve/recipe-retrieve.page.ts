@@ -44,6 +44,8 @@ export class RecipeDetailPage implements OnInit {
   saved = false
   isPublic = false
   isIngredientSegment = true
+  shortDescription: string = '';
+  showDescription: boolean = false;
 
   constructor(
     private _loadingCtrl: LoadingController,
@@ -67,6 +69,7 @@ export class RecipeDetailPage implements OnInit {
         this._recipeService.recipeRetrieve$Response({id: params['id'], expand: '~all'}).subscribe({
           next: (recipe) => {
             this.recipe = recipe.body;
+            this.shortDescription = `${this.recipe.description.slice(0, 75)}...`;
             let userId = localStorage.getItem('userId')
             if (userId){
               this.saved = this.recipe.saved_by.includes(Number(userId))
@@ -150,6 +153,10 @@ export class RecipeDetailPage implements OnInit {
 
   changeIngredientSegment(event: any){
     this.isIngredientSegment = event.detail.value == 'ingredient'
+  }
+
+  toggleFullDescription() {
+    this.showDescription = !this.showDescription;
   }
 
 }

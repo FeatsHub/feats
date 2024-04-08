@@ -25,7 +25,9 @@
           class="recipe-card-header"
           router-direction="forward" 
           (click)="goRecipe(recipe.id)">
-          <ion-card-title>{{recipe.name}}</ion-card-title>
+          <ion-card-title>
+            {{ recipe.name.length > 30 ? (recipe.name | slice:0:30) + '...' : recipe.name }}
+          </ion-card-title>
           <ion-card-subtitle>
             <ion-text
               *ngFor="let category of recipe.category_data; let last = last"

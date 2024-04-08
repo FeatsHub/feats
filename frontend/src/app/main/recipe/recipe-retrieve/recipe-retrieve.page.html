@@ -73,21 +73,21 @@
 
 
   <div class="plate-content">
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <h2 class="plate-title">
-            {{recipe.name}}
-          </h2>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-          <ion-icon name="time-outline" class="plate-time-clock"></ion-icon>
-          {{recipe.time}} min
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <h3 class="plate-title">
+      {{recipe.name}}
+    </h3>
+    <div class="recipe-time">
+      <ion-icon name="time-outline" class="plate-time-clock"></ion-icon>
+      {{recipe.time}} min
+    </div>
+    
+    <p class="plate-description">
+      {{ showDescription ? recipe.description : shortDescription }}
+      <ion-text (click)="toggleFullDescription()" class="view-more" style="font-weight: bold;">
+        {{ showDescription ? 'Ver menos' : 'Ver más' }}
+      </ion-text>
+    </p>
+    
 
 
     <ion-segment
@@ -101,14 +101,43 @@
         <ion-label>Ingredientes</ion-label>
       </ion-segment-button>
       <ion-segment-button value="description">
-        <ion-label>Descripcion</ion-label>
+        <ion-label>Pasos</ion-label>
       </ion-segment-button>
     </ion-segment>
     <div
       *ngIf="!isIngredientSegment"
       class="plate-description"
     >
-      {{recipe.description}}
+    <ion-accordion-group multiple="true" [value]="['first']">
+      <ion-accordion value="first">
+        <ion-item slot="header" color="light">
+          <ion-label>Paso 1</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          Unas deliciosas albondigas con salsa de almendras como las que hacía tu abuela. No tiene sentido lo buenas que están.
+
+          Unas deliciosas albondigas con salsa de almendras como las que hacía tu abuela. No tiene sentido lo buenas que están. 
+        </div>
+      </ion-accordion>
+      <ion-accordion value="second">
+        <ion-item slot="header" color="light">
+          <ion-label>Paso 2</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          Unas deliciosas albondigas con salsa de almendras como las que hacía tu abuela. No tiene sentido lo buenas que están.
+
+          Unas deliciosas albondigas con salsa de almendras como las que hacía tu abuela. No tiene sentido lo buenas que están. 
+        </div>
+      </ion-accordion>
+      <ion-accordion value="third">
+        <ion-item slot="header" color="light">
+          <ion-label>Paso 3</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          Third Content
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
     </div>
     <div *ngIf="isIngredientSegment">
       <ion-list lines="none">
@@ -118,7 +147,7 @@
           <ion-grid>
             <ion-row>
               <ion-col size="auto">
-                <ion-icon style="margin-top: 9px;" size="large" color="primary" name="fast-food-outline"></ion-icon>
+                <ion-icon style="margin-top: 17px;" color="primary" name="restaurant-outline"></ion-icon>
               </ion-col>
               <ion-col style="padding: 20px 3px;">
                 {{ ingredient.food_name.charAt(0).toUpperCase() + ingredient.food_name.slice(1) }}
