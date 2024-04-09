@@ -14,7 +14,12 @@ export class AuthInterceptor implements HttpInterceptor {
         // Get userToken from localStorage
         let userToken = localStorage.getItem('accessToken')
 
-        let _req = req
+        let _req = req.clone({
+            setHeaders: {
+            'Origin': 'http://api:8000'
+            }
+        });
+
 
         // If token exists it add Authorization header
         if (userToken != null){
