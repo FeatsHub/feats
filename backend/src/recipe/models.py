@@ -136,3 +136,25 @@ class FoodAllergen(models.Model):
         verbose_name=u'Allergen emoji',
         null=True
     )
+
+
+class RecipeStep(models.Model):
+    recipe = models.ForeignKey(
+        to='Recipe',
+        on_delete=models.CASCADE,
+        related_name='steps'
+    )
+
+    number = models.PositiveIntegerField(
+        verbose_name=u'Step order'
+    )
+
+    description = models.TextField(
+        verbose_name=u'Step text description',
+        null=True
+    )
+
+    related_recipes = models.ManyToManyField(
+        to='Recipe',
+        blank=True
+    )

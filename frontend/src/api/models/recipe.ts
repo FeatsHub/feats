@@ -4,9 +4,13 @@ import { Image } from '../models/image';
 import { RecipeCategory } from '../models/recipe-category';
 import { RecipeIngredient } from '../models/recipe-ingredient';
 import { RecipeOwner } from '../models/recipe-owner';
+import { RecipeStep } from '../models/recipe-step';
 
 /**
- * Adds nested create feature
+ * A ModelSerializer that takes additional arguments for
+ * "fields" and "include" in order to
+ * control which fields are displayed, and whether to replace simple values with
+ * complex, nested serializations.
  */
 export interface Recipe {
   allergens: string;
@@ -23,5 +27,6 @@ export interface Recipe {
   name: string;
   owner: number;
   saved_by: Array<number>;
+  steps: Array<RecipeStep>;
   time: number;
 }

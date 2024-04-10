@@ -38,7 +38,8 @@ export class RecipeDetailPage implements OnInit {
         image: ''
       },
       username: ''
-    }
+    },
+    steps: []
   }
 
   saved = false

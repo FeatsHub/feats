@@ -1,6 +1,6 @@
 from utils.views import ModelViewSet
-from recipe.models import Recipe, RecipeCategory, RecipeIngredient, RecipeList, Food, FoodAllergen
-from recipe.serializers import RecipeSerializer, RecipeCategorySerializer, RecipeIngredientSerializer, RecipeListSerializer, FoodSerializer, FoodAllergenSerializer
+from recipe.models import Recipe, RecipeCategory, RecipeIngredient, RecipeList, Food, FoodAllergen, RecipeStep
+from recipe.serializers import RecipeSerializer, RecipeCategorySerializer, RecipeIngredientSerializer, RecipeListSerializer, FoodSerializer, FoodAllergenSerializer, RecipeStepSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from drf_spectacular.utils import extend_schema
@@ -86,3 +86,8 @@ class FoodAllergenView(ModelViewSet):
     serializer_class = FoodAllergenSerializer
     search_fields = ('name', )
     filterset_fields = ('name', )
+
+
+class RecipeStepView(ModelViewSet):
+    queryset = RecipeStep.objects.all()
+    serializer_class = RecipeStepSerializer

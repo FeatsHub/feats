@@ -111,7 +111,7 @@ export class IngredientsFormPage implements OnInit{
     ).subscribe(
       {
         complete: () => {
-          this._router.navigate(['/recipes'])
+          this._router.navigate(['/recipes', this.recipe.id, 'edit', 'steps'])
         }
       }
     )

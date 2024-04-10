@@ -1,9 +1,9 @@
 from utils.serializers import DynamicModelSerializer
-from recipe.models import Recipe, RecipeCategory, RecipeIngredient, RecipeList, Food, FoodAllergen
-from drf_writable_nested import WritableNestedModelSerializer
+from recipe.models import Recipe, RecipeCategory, RecipeIngredient, RecipeList, Food, FoodAllergen, RecipeStep
 from rest_framework import serializers
 from image_library.serializers import ImageSerializer
 from user.serializers import RecipeOwnerSerializer
+from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 
 class RecipeCategorySerializer(DynamicModelSerializer):
@@ -24,11 +24,43 @@ class RecipeIngredientSerializer(DynamicModelSerializer):
         fields = '__all__'
 
 
-class RecipeSerializer(WritableNestedModelSerializer, DynamicModelSerializer):
+class RelatedRecipeSerializer(DynamicModelSerializer):
+    image_data = ImageSerializer(read_only=True, source='image')
+    ingredients = RecipeIngredientSerializer(many=True)
+
+    class Meta:
+        model = Recipe
+        fields = (
+            'id',
+            'name',
+            'image_data',
+            'ingredients'
+        )
+        read_only_fields = fields
+
+
+class RecipeStepSerializer(DynamicModelSerializer):
+    related_recipes_data = RelatedRecipeSerializer()
+
+    class Meta:
+        model = RecipeStep
+        fields = (
+            'id',
+            'recipe',
+            'number',
+            'description',
+            'related_recipes',
+            'related_recipes_data'
+        )
+        read_only_fields = fields
+
+
+class RecipeSerializer(DynamicModelSerializer, WritableNestedModelSerializer):
     image_data = ImageSerializer(read_only=True, source='image')
     category_data = RecipeCategorySerializer(many=True, read_only=True, source='category')
-    ingredients = RecipeIngredientSerializer(many=True)  # Writable
+    ingredients = RecipeIngredientSerializer(many=True) # Writable
     creator = RecipeOwnerSerializer(source='owner', read_only=True)
+    steps = RecipeStepSerializer(many=True) # Writable
 
     class Meta:
         model = Recipe
@@ -47,7 +79,8 @@ class RecipeSerializer(WritableNestedModelSerializer, DynamicModelSerializer):
             'owner',
             'saved_by',
             'allergens',
-            'creator'
+            'creator',
+            'steps',
         )
         read_only_fields = (
             'id',
@@ -56,7 +89,7 @@ class RecipeSerializer(WritableNestedModelSerializer, DynamicModelSerializer):
             'owner',
             'saved_by',
             'allergens',
-            'creator'
+            'creator',
         )
 
     def create(self, validated_data):

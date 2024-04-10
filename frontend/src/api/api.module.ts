@@ -11,10 +11,10 @@ import { RecipeService } from './services/recipe.service';
 import { RecipeCategoryService } from './services/recipe-category.service';
 import { RecipeIngredientService } from './services/recipe-ingredient.service';
 import { RecipeListService } from './services/recipe-list.service';
+import { RecipeStepService } from './services/recipe-step.service';
 import { SchemaService } from './services/schema.service';
 import { SystemStatsService } from './services/system-stats.service';
 import { UserService } from './services/user.service';
-import { UserSettingsService } from './services/user-settings.service';
 
 /**
  * Module that provides all services and configuration.
@@ -31,10 +31,10 @@ import { UserSettingsService } from './services/user-settings.service';
     RecipeCategoryService,
     RecipeIngredientService,
     RecipeListService,
+    RecipeStepService,
     SchemaService,
     SystemStatsService,
     UserService,
-    UserSettingsService,
     ApiConfiguration
   ],
 })

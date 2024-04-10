@@ -7,9 +7,8 @@
  * control which fields are displayed, and whether to replace simple values with
  * complex, nested serializations.
  */
-export interface PatchedUserSettings {
+export interface UserPreferences {
   allergens?: Array<number>;
-  id?: number;
+  id: number;
   use_dark_mode?: null | boolean;
-  user?: number;
 }

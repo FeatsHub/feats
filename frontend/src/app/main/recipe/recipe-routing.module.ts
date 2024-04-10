@@ -4,6 +4,7 @@ import { RecipeListPage } from './recipe-list/recipe-list.page';
 import { RecipeFormPage } from './recipe-form/recipe-form.page';
 import { RecipeDetailPage } from './recipe-retrieve/recipe-retrieve.page';
 import { IngredientsFormPage } from './ingredients-form/ingredients-form.page';
+import { StepFormPage } from './recipe-steps-form/recipe-steps-form.page';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: ':id/edit/ingredients',
     component: IngredientsFormPage,
+  },
+  {
+    path: ':id/edit/steps',
+    component: StepFormPage,
   },
   {
     path: ':id',
