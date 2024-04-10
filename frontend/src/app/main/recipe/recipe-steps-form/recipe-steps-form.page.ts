@@ -13,8 +13,11 @@ import { IonAccordionGroup } from '@ionic/angular';
 export class StepFormPage implements OnInit{
 
   recipe: Recipe
+  showSearch = false
   steps: RecipeStep[]
   @ViewChild('accordionGroup', { static: true }) accordionGroup: IonAccordionGroup;
+  searchedRecipes: Recipe[] = []
+  selectedStep: number
 
   constructor(
     private _recipeService: RecipeService,
@@ -50,7 +53,8 @@ export class StepFormPage implements OnInit{
   }
 
   submit(){
-    //this.recipe.steps = this.steps;
+    this.recipe.steps = this.steps;
+    //this.recipe.steps.forEach(step => delete step.related_recipes_data)
     this._recipeService.recipePartialUpdate$Json$Response(
       {
         id: this.recipe.id,
@@ -76,10 +80,47 @@ export class StepFormPage implements OnInit{
         description: '',
         recipe: this.recipe.id,
         related_recipes: [],
-        related_recipes_data: undefined
+        related_recipes_data: []
     });
     let mappedStepNumbers = this.steps.map(step => step.number.toString());
     this.accordionGroup.value = mappedStepNumbers;
+  }
+
+  closeSearch(){
+    this.showSearch = false
+  }
+
+  openSearch(indexStep: number){
+    this.showSearch = true
+    this.selectedStep = indexStep
+  }
+
+  handleSearchRecipes(event: any){
+    const searchedText = event.detail.value
+    this._recipeService.recipeList$Response({
+      search: searchedText,
+      expand: '~all,creator.~all'
+    }).subscribe(
+      {
+        next: (response) => {
+          this.searchedRecipes = response.body.results!
+        }
+      }
+    )
+  }
+
+  selectRecipe(event: Recipe){
+    this.closeSearch()
+    this.steps[this.selectedStep].related_recipes.push(event.id);
+    if (!this.steps[this.selectedStep].related_recipes_data){
+      this.steps[this.selectedStep].related_recipes_data = []
+    }
+    this.steps[this.selectedStep].related_recipes_data!.push(event);
+  }
+
+  deleteRelatedRecipe(stepIndex: number, relatedRecipeId: number){
+    this.steps[stepIndex].related_recipes.splice(relatedRecipeId, 1)
+    this.steps[stepIndex].related_recipes_data!.splice(relatedRecipeId, 1)
   }
 
 }

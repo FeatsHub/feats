@@ -127,6 +127,16 @@
       *ngIf="!isIngredientSegment"
       class="plate-description"
     >
+    <ion-button
+        *ngIf="isOwner"
+        size="small"
+        expand="full"
+        color="light"
+        [routerLink]="['/recipes', recipe.id, 'edit', 'steps']"
+        class="edit-button"
+      >
+        Editar
+      </ion-button>
     <ion-accordion-group multiple="true" [value]="['first']">
       <ion-accordion value="first">
         <ion-item slot="header" color="light">
@@ -162,14 +172,15 @@
       <ion-button
         *ngIf="isOwner"
         size="small"
+        expand="full"
         color="light"
         [routerLink]="['/recipes', recipe.id, 'edit', 'ingredients']"
-        class="edit-ingredients"
+        class="edit-button"
       >
-        <ion-icon size="large" name="pencil-outline"></ion-icon>
+        Editar
       </ion-button>
 
-      <ion-list [inset]="true">
+      <ion-list>
         <ion-item
           *ngFor="let ingredient of recipe.ingredients"
         >

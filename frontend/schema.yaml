@@ -3355,7 +3355,10 @@ components:
             type: integer
           readOnly: true
         related_recipes_data:
-          $ref: '#/components/schemas/RelatedRecipe'
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedRecipe'
+          readOnly: true
       required:
       - description
       - id

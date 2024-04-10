@@ -14,5 +14,5 @@ export interface RecipeStep {
   number: number;
   recipe: number;
   related_recipes: Array<number>;
-  related_recipes_data?: RelatedRecipe;
+  related_recipes_data: Array<RelatedRecipe>;
 }

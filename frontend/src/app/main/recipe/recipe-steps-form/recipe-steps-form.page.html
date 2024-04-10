@@ -14,14 +14,19 @@
 <ion-content [fullscreen]="true">
 
   <ion-accordion-group multiple="true" #accordionGroup>
-    <ion-accordion [value]="step.number" *ngFor="let step of steps">
+    <ion-accordion [value]="step.number" *ngFor="let step of steps; let i = index">
       <ion-item slot="header" color="light">
         <ion-label>Paso {{step.number}}</ion-label>
       </ion-item>
       <div class="ion-padding" slot="content">
         <ion-textarea [(ngModel)]="step.description" rows="10"></ion-textarea>
         <div>
-          <ion-chip>
+          <ion-chip
+            *ngFor="let relatedRecipe of step.related_recipes_data; let y = index">
+            {{ recipe.name.length > 15 ? (recipe.name | slice:0:15) + '...' : recipe.name }}
+            <ion-text style="margin-left: 5px;" color="danger" (click)="deleteRelatedRecipe(i, y)">x</ion-text>
+          </ion-chip>
+          <ion-chip (click)="openSearch(i)">
             Añadir receta
             <ion-icon name="add-outline"></ion-icon>
           </ion-chip>
@@ -36,4 +41,37 @@
     </ion-accordion>
 
   </ion-accordion-group>
+
+
+<ion-modal
+  [isOpen]="showSearch"
+  [initialBreakpoint]="1"
+  [breakpoints]="[1, 0.6]"
+  [backdropDismiss]="true"
+  [backdropBreakpoint]="0.3"
+  (didDismiss)="closeSearch()"
+>
+<ng-template>
+    <ion-header [translucent]="true">
+        <ion-toolbar>
+            <ion-searchbar
+                class="search-bar"
+                #searchBar
+                show-cancel-button="always"
+                placeholder="Búsqueda"
+                (ionInput)="handleSearchRecipes($event)"
+                (ionCancel)="closeSearch()"
+            ></ion-searchbar>
+        </ion-toolbar>
+      </ion-header>
+    <ion-content id="main-content" [fullscreen]="true">
+      <app-recipe-table
+            [loaded]="true"
+            [noGoRecipe]="true"
+            [recipes]="searchedRecipes"
+            (recipeSelected)="selectRecipe($event)"
+        ></app-recipe-table>
+    </ion-content>
+</ng-template>
+</ion-modal>
 </ion-content>
