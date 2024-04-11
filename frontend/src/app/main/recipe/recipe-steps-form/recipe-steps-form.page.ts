@@ -33,7 +33,7 @@ export class StepFormPage implements OnInit{
         this._recipeService.recipeRetrieve$Response(
           {
             id: params['id'],
-            expand: '~all',
+            expand: '~all,related_recipes_data.~all',
           }
         ).subscribe(
           {

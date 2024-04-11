@@ -4,7 +4,7 @@
       Receta
     </ion-title>
     <ion-buttons slot="end">
-        <ion-button (click)="submit()">Ingredientes</ion-button>
+        <ion-button (click)="submit()">{{recipeId == -1 ? 'Siguiente' : 'Hecho' }}</ion-button>
     </ion-buttons>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/recipes" ></ion-back-button>

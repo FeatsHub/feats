@@ -15,6 +15,7 @@ export class IngredientsFormPage implements OnInit{
   showSearch = false
   recipe: Recipe
   ingredients: RecipeIngredient[]
+  isCreation = false
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -23,6 +24,12 @@ export class IngredientsFormPage implements OnInit{
     private _route: ActivatedRoute,
     private _router: Router
   ) {
+    this._route.queryParams.subscribe(params => {
+      if (this._router.getCurrentNavigation()!.extras.state) {
+        this.isCreation = this._router.getCurrentNavigation()!.extras.state!['isCreation'];
+        console.log(this.isCreation)
+      }
+    });
   }
 
   async ngOnInit() {
@@ -111,7 +118,11 @@ export class IngredientsFormPage implements OnInit{
     ).subscribe(
       {
         complete: () => {
-          this._router.navigate(['/recipes', this.recipe.id, 'edit', 'steps'])
+          if (this.isCreation){
+            this._router.navigate(['/recipes', this.recipe.id, 'edit', 'steps'])
+          }else{
+            this._router.navigate(['/recipes', this.recipe.id])
+          }
         }
       }
     )

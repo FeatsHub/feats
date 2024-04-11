@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Food, Recipe, RecipeCategory, RecipeIngredient } from 'src/api/models';
+import { Food, Recipe, RecipeCategory, RecipeIngredient, RecipeStep } from 'src/api/models';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { FoodService, RecipeCategoryService, RecipeService } from 'src/api/services';
 import { Image } from 'src/api/models';
@@ -24,6 +24,7 @@ export class RecipeFormPage implements OnInit{
   recipeId = -1
   searchedFoods: Food[] = []
   productName = ''
+  navigationExtras: NavigationExtras
 
   constructor(
     private _loadingCtrl: LoadingController,
@@ -52,6 +53,7 @@ export class RecipeFormPage implements OnInit{
       image: new FormControl(''),
       category: new FormControl(new FormArray([])),
       ingredients: this._formBuilder.array<RecipeIngredient>([]),
+      steps: this._formBuilder.array<RecipeStep>([]),
     });
     this.recipeImageForm = this._formBuilder.group({
       image: [''],
@@ -80,6 +82,11 @@ export class RecipeFormPage implements OnInit{
       // 🚩 Edit Mode and take the recipe from api
       if (params['id'] != undefined){
         this.recipeId = params['id']
+        this.navigationExtras = {
+          state: {
+            isCreation: false
+          }
+        };
         this._recipeService.recipeRetrieve({id: params['id'], expand: '~all'}).subscribe({
             next: (recipe) => {
               this.recipeForm.patchValue(recipe);
@@ -102,6 +109,12 @@ export class RecipeFormPage implements OnInit{
             }
           }
         )
+      }else{
+        this.navigationExtras = {
+          state: {
+            isCreation: true
+          }
+        };
       }
     });
     loading.dismiss();
@@ -132,11 +145,6 @@ export class RecipeFormPage implements OnInit{
   }
 
   async submit(){
-    const loading = await this._loadingCtrl.create({
-      message: 'Saving...',
-      duration: 4000,
-    });
-    loading.present();
     const recipe = this.recipeForm.value as Recipe
     if (this.recipeId != -1){
       this._recipeService.recipePartialUpdate$Json$Response({body: recipe, id:this.recipeId}).subscribe({
@@ -145,20 +153,18 @@ export class RecipeFormPage implements OnInit{
         error: (e) => 
         console.error(e),
         complete: () => {
-          loading.dismiss();
-          this._router.navigate(['/recipes/'+this.recipeId+'/edit/ingredients']);
+          this._router.navigate([`/recipes/${this.recipeId}`]);
         }
       });
     }else{
       this._recipeService.recipeCreate$Json$Response({body: recipe}).subscribe({
         next: (response) => {
-          this._router.navigate(['/recipes/'+ response.body.id +'/edit/ingredients']);
+            this._router.navigate(['/recipes/'+ response.body.id +'/edit/ingredients'], this.navigationExtras);
         },
         error: (e) => 
         console.error(e),
         complete: () => {
-          loading.dismiss();
-          this._router.navigate(['/recipes']);
+
         }
       });
     }
