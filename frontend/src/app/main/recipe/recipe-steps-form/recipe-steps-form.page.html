@@ -23,8 +23,8 @@
         <div>
           <ion-chip
             *ngFor="let relatedRecipe of step.related_recipes_data; let y = index">
-            {{ recipe.name.length > 15 ? (recipe.name | slice:0:15) + '...' : recipe.name }}
-            <ion-text style="margin-left: 5px;" color="danger" (click)="deleteRelatedRecipe(i, y)">x</ion-text>
+            {{ relatedRecipe.name.length > 15 ? (relatedRecipe.name | slice:0:15) + '...' : relatedRecipe.name }}
+            <ion-text style="margin-left: 5px;" color="grey" (click)="deleteRelatedRecipe(i, y)">x</ion-text>
           </ion-chip>
           <ion-chip (click)="openSearch(i)">
             Añadir receta

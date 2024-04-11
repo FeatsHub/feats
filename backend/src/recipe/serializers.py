@@ -40,7 +40,7 @@ class RelatedRecipeSerializer(DynamicModelSerializer):
 
 
 class RecipeStepSerializer(DynamicModelSerializer):
-    related_recipes_data = RelatedRecipeSerializer(many=True, read_only=True)
+    related_recipes_data = RelatedRecipeSerializer(source="related_recipes", many=True, read_only=True)
 
     class Meta:
         model = RecipeStep

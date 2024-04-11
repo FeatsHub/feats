@@ -33,7 +33,7 @@ export class StepFormPage implements OnInit{
         this._recipeService.recipeRetrieve$Response(
           {
             id: params['id'],
-            expand: '~all,related_recipes_data.~all',
+            expand: '~all,steps.~all',
           }
         ).subscribe(
           {
@@ -93,10 +93,15 @@ export class StepFormPage implements OnInit{
   openSearch(indexStep: number){
     this.showSearch = true
     this.selectedStep = indexStep
+    this.getRecipes()
   }
 
   handleSearchRecipes(event: any){
     const searchedText = event.detail.value
+    this.getRecipes()
+  }
+
+  getRecipes(searchedText: string | undefined = undefined){
     this._recipeService.recipeList$Response({
       search: searchedText,
       expand: '~all,creator.~all'
@@ -116,6 +121,7 @@ export class StepFormPage implements OnInit{
       this.steps[this.selectedStep].related_recipes_data = []
     }
     this.steps[this.selectedStep].related_recipes_data!.push(event);
+    console.log(this.steps)
   }
 
   deleteRelatedRecipe(stepIndex: number, relatedRecipeId: number){

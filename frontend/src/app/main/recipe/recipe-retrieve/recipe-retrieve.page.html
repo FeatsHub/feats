@@ -137,33 +137,22 @@
       >
         Editar
       </ion-button>
+
     <ion-accordion-group multiple="true" [value]="['first']">
-      <ion-accordion value="first">
+      <ion-accordion [value]="step.number" *ngFor="let step of recipe.steps">
         <ion-item slot="header" color="light">
-          <ion-label>Paso 1</ion-label>
+          <ion-label>Paso {{ step.number }}</ion-label>
         </ion-item>
         <div class="ion-padding" slot="content">
-          Unas deliciosas albondigas con salsa de almendras como las que hacía tu abuela. No tiene sentido lo buenas que están.
-
-          Unas deliciosas albondigas con salsa de almendras como las que hacía tu abuela. No tiene sentido lo buenas que están. 
-        </div>
-      </ion-accordion>
-      <ion-accordion value="second">
-        <ion-item slot="header" color="light">
-          <ion-label>Paso 2</ion-label>
-        </ion-item>
-        <div class="ion-padding" slot="content">
-          Unas deliciosas albondigas con salsa de almendras como las que hacía tu abuela. No tiene sentido lo buenas que están.
-
-          Unas deliciosas albondigas con salsa de almendras como las que hacía tu abuela. No tiene sentido lo buenas que están. 
-        </div>
-      </ion-accordion>
-      <ion-accordion value="third">
-        <ion-item slot="header" color="light">
-          <ion-label>Paso 3</ion-label>
-        </ion-item>
-        <div class="ion-padding" slot="content">
-          Third Content
+          {{ step.description }}
+          <div>
+            <ion-chip
+              *ngFor="let relatedRecipe of step.related_recipes_data; let y = index"
+              [routerLink]="['/recipes', relatedRecipe.id]"
+            >
+              {{ relatedRecipe.name.length > 15 ? (relatedRecipe.name | slice:0:15) + '...' : relatedRecipe.name }}
+            </ion-chip>
+          </div>
         </div>
       </ion-accordion>
     </ion-accordion-group>
