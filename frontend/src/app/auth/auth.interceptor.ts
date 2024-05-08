@@ -16,7 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
         let _req = req.clone({
             setHeaders: {
-            'Origin': 'http://api:8000'
+            'Origin': 'https://api.feats-app.com'
             }
         });
 
