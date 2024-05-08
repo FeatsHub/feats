@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserSettings } from 'src/api/models';
-import { UserSettingsService } from 'src/api/services';
+import { UserPreferences } from 'src/api/models';
+import { UserService } from 'src/api/services';
 
 @Component({
   selector: 'app-settings',
@@ -12,21 +12,29 @@ export class SettingsPage implements OnInit {
   selectedAllergens = [1, 3, 5]
   themeToggle = false;
 
-  settings: UserSettings
+  settings: UserPreferences
 
   constructor(
-    private _settingsService: UserSettingsService
+    private _settingsService: UserService
   ) { }
 
   ngOnInit() {
     this.initDarkMode()
-    this._settingsService.userSettingsList$Response().subscribe(
-      {
-        next: (response) => {
-          //this.settings = response.body.results
+    let userId = localStorage.getItem('userId')
+    if (userId != null){
+      this._settingsService.userPreferencesRetrieve$Response(
+        {
+          id: +userId
         }
-      }
-    )
+      ).subscribe(
+        {
+          next: (response) => {
+            //this.settings = response.body.results
+          }
+        }
+      )
+    }
+    
   }
 
   initializeDarkTheme(isDark: boolean) {

@@ -8,15 +8,11 @@
 
 <ion-content [fullscreen]="true">
 
-  <div
-  class="login-app-logo"
-  ></div>
+  <div class="login-app-logo"></div>
 
-  <form
-      [formGroup]="loginForm"
-      (ngSubmit)="onSubmit(loginForm.value)"
-  >
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
     <ion-list lines="none">
+
       <ion-item>
         <ion-input
           formControlName="email"
@@ -36,9 +32,13 @@
           >
         </ion-input>
       </ion-item>
+
     </ion-list>
 
     <ion-button [disabled]="!loginForm.valid" class="login-button" type="submit">Sign In</ion-button>
-    ¿No tienes cuenta? <a [routerLink]="['/register']">Sign Up</a>
+    <ion-text class="no-account-text">
+      ¿No tienes cuenta? <a [routerLink]="['/register']">Sign Up</a>
+    </ion-text>
+
   </form>
 </ion-content>

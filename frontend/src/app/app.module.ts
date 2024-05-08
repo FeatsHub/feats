@@ -5,16 +5,16 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { LoginPage } from "./main/login/login.page";
+import { LoginPage } from "./main/user/login/login.page";
 import { ReactiveFormsModule } from '@angular/forms';
 import { ApiModule } from 'src/api/api.module';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { Router } from '@angular/router';
-import { RegisterPage } from './main/register/register.page';
-import { StepCheckEmailComponent } from './main/register/components/step-check-email/step-check-email.component';
-import { StepCheckUsernameComponent } from './main/register/components/step-check-username/step-check-username.component';
+import { RegisterPage } from './main/user/register/register.page';
+import { StepCheckEmailComponent } from './main/user/register/components/step-check-email/step-check-email.component';
+import { StepCheckUsernameComponent } from './main/user/register/components/step-check-username/step-check-username.component';
 import { SettingsPage } from './main/settings/settings.page';
-import { TabsComponent } from './main/tabs/tabs.component';
+import { TabsComponent } from './components/tabs/tabs.component';
 import { AllergensListModule } from './components/allergen-list/allergen-list.module';
 
 
@@ -36,8 +36,8 @@ import { AllergensListModule } from './components/allergen-list/allergen-list.mo
     AppRoutingModule,
     HttpClientModule,
     AllergensListModule,
-    //ApiModule.forRoot({ rootUrl: 'http://localhost:8000' }),
-    ApiModule.forRoot({ rootUrl: 'https://api.feats-app.com' })
+    ApiModule.forRoot({ rootUrl: 'http://localhost:8000' }),
+    //ApiModule.forRoot({ rootUrl: 'https://api.feats-app.com' })
   ],
   providers: [
     Router,

@@ -58,6 +58,9 @@ import { userPartialUpdate$XWwwFormUrlencoded } from '../fn/user/user-partial-up
 import { UserPartialUpdate$XWwwFormUrlencoded$Params } from '../fn/user/user-partial-update-x-www-form-urlencoded';
 import { userPermissionsRetrieve } from '../fn/user/user-permissions-retrieve';
 import { UserPermissionsRetrieve$Params } from '../fn/user/user-permissions-retrieve';
+import { UserPreferences } from '../models/user-preferences';
+import { userPreferencesRetrieve } from '../fn/user/user-preferences-retrieve';
+import { UserPreferencesRetrieve$Params } from '../fn/user/user-preferences-retrieve';
 import { userResetConfirmPasswordCreate$FormData } from '../fn/user/user-reset-confirm-password-create-form-data';
 import { UserResetConfirmPasswordCreate$FormData$Params } from '../fn/user/user-reset-confirm-password-create-form-data';
 import { userResetConfirmPasswordCreate$Json } from '../fn/user/user-reset-confirm-password-create-json';
@@ -364,6 +367,31 @@ export class UserService extends BaseService {
   userPartialUpdate$FormData(params: UserPartialUpdate$FormData$Params, context?: HttpContext): Observable<User> {
     return this.userPartialUpdate$FormData$Response(params, context).pipe(
       map((r: StrictHttpResponse<User>): User => r.body)
+    );
+  }
+
+  /** Path part for operation `userPreferencesRetrieve()` */
+  static readonly UserPreferencesRetrievePath = '/api/user/{id}/preferences/';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `userPreferencesRetrieve()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  userPreferencesRetrieve$Response(params: UserPreferencesRetrieve$Params, context?: HttpContext): Observable<StrictHttpResponse<UserPreferences>> {
+    return userPreferencesRetrieve(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `userPreferencesRetrieve$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  userPreferencesRetrieve(params: UserPreferencesRetrieve$Params, context?: HttpContext): Observable<UserPreferences> {
+    return this.userPreferencesRetrieve$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserPreferences>): UserPreferences => r.body)
     );
   }
 

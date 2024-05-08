@@ -69,6 +69,12 @@ router.register(
 )
 
 router.register(
+    r'recipe_step',
+    recipe_views.RecipeIngredientView,
+    basename='recipe_ingredient'
+)
+
+router.register(
     r'recipe_list',
     recipe_views.RecipeListView,
     basename='recipe_list'

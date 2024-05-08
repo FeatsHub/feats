@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { LoginPage } from "./main/login/login.page";
-import { RegisterPage } from './main/register/register.page';
+import { LoginPage } from "./main/user/login/login.page";
+import { RegisterPage } from './main/user/register/register.page';
 import { SettingsPage } from './main/settings/settings.page';
 import { RecipeListPage } from './main/recipe/recipe-list/recipe-list.page';
-import { ProfileRetrievePage } from './main/profile/profile-retrieve/profile-retrieve.page';
-import { TabsComponent } from './main/tabs/tabs.component';
+import { ProfileRetrievePage } from './main/user/profile/profile-retrieve/profile-retrieve.page';
+import { TabsComponent } from './components/tabs/tabs.component';
 
 const routes: Routes = [
   {
@@ -53,7 +53,7 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    loadChildren: () => import('./main/profile/profile.module').then(m => m.ProfileModule)
+    loadChildren: () => import('./main/user/user.module').then(m => m.ProfileModule)
   },
 ];
 

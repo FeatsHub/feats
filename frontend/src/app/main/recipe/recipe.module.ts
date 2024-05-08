@@ -13,6 +13,7 @@ import { AllergensListModule } from 'src/app/components/allergen-list/allergen-l
 import { SearchComponent } from './search-component/search-component.component';
 import { UserListModule } from '../user/user-list-component/user-list.module';
 import { IngredientsFormPage } from './ingredients-form/ingredients-form.page';
+import { StepFormPage } from './recipe-steps-form/recipe-steps-form.page';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { IngredientsFormPage } from './ingredients-form/ingredients-form.page';
     RecipeFormPage,
     RecipeListPage,
     SearchComponent,
-    IngredientsFormPage
+    IngredientsFormPage,
+    StepFormPage
   ]
 })
 export class RecipeModule {}

@@ -258,3 +258,12 @@ ALLOWED_HOSTS = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 CORS_ALLOW_HEADERS = ['*']
+
+SPECTACULAR_DEFAULTS = {
+    "SWAGGER_UI_SETTINGS": {
+        "persistAuthorization": True,
+    },
+    'COMPONENT_SPLIT_REQUEST': True,
+    # Aid client generator targets that have trouble with read-only properties.
+    'COMPONENT_NO_READ_ONLY_REQUIRED': True
+}

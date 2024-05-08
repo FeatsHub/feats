@@ -1,0 +1,49 @@
+/* tslint:disable */
+/* eslint-disable */
+import { HttpClient, HttpContext, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { StrictHttpResponse } from '../../strict-http-response';
+import { RequestBuilder } from '../../request-builder';
+
+import { RecipeIngredient } from '../../models/recipe-ingredient';
+
+export interface RecipeStepUpdate$Json$Params {
+
+/**
+ * List of nested objects
+ */
+  expand?: string;
+
+/**
+ * List of nested objects
+ */
+  fields?: string;
+
+/**
+ * A unique integer value identifying this recipe ingredient.
+ */
+  id: number;
+      body: RecipeIngredient
+}
+
+export function recipeStepUpdate$Json(http: HttpClient, rootUrl: string, params: RecipeStepUpdate$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<RecipeIngredient>> {
+  const rb = new RequestBuilder(rootUrl, recipeStepUpdate$Json.PATH, 'put');
+  if (params) {
+    rb.query('expand', params.expand, {});
+    rb.query('fields', params.fields, {});
+    rb.path('id', params.id, {});
+    rb.body(params.body, 'application/json');
+  }
+
+  return http.request(
+    rb.build({ responseType: 'json', accept: 'application/json', context })
+  ).pipe(
+    filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
+    map((r: HttpResponse<any>) => {
+      return r as StrictHttpResponse<RecipeIngredient>;
+    })
+  );
+}
+
+recipeStepUpdate$Json.PATH = '/api/recipe_step/{id}/';

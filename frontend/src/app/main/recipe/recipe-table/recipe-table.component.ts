@@ -13,8 +13,10 @@ export class RecipeTablePage implements OnInit {
 
   @Input() recipes: Recipe[] = []
   @Input() loaded = false
+  @Input() noGoRecipe = false
   @Output() infiniteScroll = new EventEmitter();
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() recipeSelected: EventEmitter<Recipe> = new EventEmitter<Recipe>();
   randomImage = ImageGenerator.getRandomRecipeImage()
 
   constructor(
@@ -30,9 +32,14 @@ export class RecipeTablePage implements OnInit {
     }, 500);
   }
 
-  goRecipe(recipeId: number){
-    this.closeModal.emit(true)
-    this._router.navigate(['/recipes/', recipeId])
+  goRecipe(recipe: Recipe){
+    if (!this.noGoRecipe){
+      this.closeModal.emit(true)
+      this._router.navigate(['/recipes/', recipe.id])
+    }else{
+      this.recipeSelected.emit(recipe)
+    }
+    
   }
 
   goCreator(creatorId: number){

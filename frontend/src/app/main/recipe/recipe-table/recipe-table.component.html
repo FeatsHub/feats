@@ -15,7 +15,7 @@
           </ion-text>
         </div>
         <div
-          (click)="goRecipe(recipe.id)"
+          (click)="goRecipe(recipe)"
           router-direction="forward"
           class="plate-image"
           [ngStyle]="{'background-image': 'url(' + (recipe.image_data && recipe.image_data.image ? recipe.image_data.image: randomImage) + ')'}"
@@ -24,7 +24,7 @@
         <ion-card-header
           class="recipe-card-header"
           router-direction="forward" 
-          (click)="goRecipe(recipe.id)">
+          (click)="goRecipe(recipe)">
           <ion-card-title>
             {{ recipe.name.length > 30 ? (recipe.name | slice:0:30) + '...' : recipe.name }}
           </ion-card-title>
@@ -35,7 +35,7 @@
           </ion-card-subtitle>
         </ion-card-header>
       
-        <ion-card-content (click)="goRecipe(recipe.id)">
+        <ion-card-content (click)="goRecipe(recipe)">
           {{ recipe.description.length > 75 ? (recipe.description | slice:0:75) + '...' : recipe.description }}
           <br>
           <ion-grid>

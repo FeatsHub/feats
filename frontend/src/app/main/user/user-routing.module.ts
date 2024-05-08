@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProfileRetrievePage } from './profile-retrieve/profile-retrieve.page';
-import { ProfileFormPage } from './profile-form/profile-form.page';
-import { SavedRecipesPage } from './saved-recipes-list/saved-recipes.page';
+import { ProfileRetrievePage } from './profile/profile-retrieve/profile-retrieve.page';
+import { ProfileFormPage } from './profile/profile-form/profile-form.page';
+import { SavedRecipesPage } from './profile/saved-recipes-list/saved-recipes.page';
 
 const routes: Routes = [
   {

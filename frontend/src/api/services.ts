@@ -5,7 +5,7 @@ export { RecipeService } from './services/recipe.service';
 export { RecipeCategoryService } from './services/recipe-category.service';
 export { RecipeIngredientService } from './services/recipe-ingredient.service';
 export { RecipeListService } from './services/recipe-list.service';
+export { RecipeStepService } from './services/recipe-step.service';
 export { SchemaService } from './services/schema.service';
 export { SystemStatsService } from './services/system-stats.service';
 export { UserService } from './services/user.service';
-export { UserSettingsService } from './services/user-settings.service';
