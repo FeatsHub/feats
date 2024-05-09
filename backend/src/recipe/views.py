@@ -59,6 +59,8 @@ class RecipeView(ModelViewSet):
 class RecipeCategoryView(ModelViewSet):
     queryset = RecipeCategory.objects.all()
     serializer_class = RecipeCategorySerializer
+    filter_backends = (SearchFilter, DjangoFilterBackend)
+    search_fields = ('name', )
 
 
 class RecipeIngredientView(ModelViewSet):

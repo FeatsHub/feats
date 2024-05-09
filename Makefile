@@ -110,7 +110,7 @@ front-osshell: ## Run interactive bash shell in 'frontend' developer container
 	$(DOCKER_DEV) run --rm frontend bash
 
 front-swagger: ## Generate OpenAPI definition nfge-spa/swagger.json
-	$(DOCKER_DEV) run --rm frontend wget -O ./schema.yaml http://192.168.0.35:8000/api/schema/
+	$(DOCKER_DEV) run --rm frontend wget -O ./schema.yaml http://192.168.0.37:8000/api/schema/
 
 front-apigen: front-swagger ## Run NPM APIGEN (ng-openapi-gen)
 	$(DOCKER_DEV) run --rm frontend ng-openapi-gen

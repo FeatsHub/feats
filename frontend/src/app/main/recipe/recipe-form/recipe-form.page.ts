@@ -25,6 +25,9 @@ export class RecipeFormPage implements OnInit{
   searchedFoods: Food[] = []
   productName = ''
   navigationExtras: NavigationExtras
+  showSearch = false
+  searchedText = ''
+  currentRecipeCategories: RecipeCategory[] = []
 
   constructor(
     private _loadingCtrl: LoadingController,
@@ -64,18 +67,16 @@ export class RecipeFormPage implements OnInit{
     });
     loading.present();
 
-    // 🚩 Obtaining recipeCategory list
-    this._recipeCategoryService.recipeCategoryList().subscribe({
-      next: (recipeCategories) => {
-        if (recipeCategories.results != undefined){
-          this.recipeCategories = recipeCategories.results;
-        }
-      },
-      error: (e) => console.error(e),
-      complete: () => {
-        loading.dismiss();
-      }
+
+    // Set focus on searchbar
+    const modal = document.querySelector('ion-modal')!;
+    modal.addEventListener('didPresent', () => {
+      const search = modal.querySelector('ion-searchbar')!;
+      search.setFocus();
     });
+
+    // 🚩 Obtaining recipeCategory list
+    this.getCategories()
 
     // 🚩 Take id from url
     this.routeSub = this._route.params.subscribe(params => {
@@ -89,15 +90,8 @@ export class RecipeFormPage implements OnInit{
         };
         this._recipeService.recipeRetrieve({id: params['id'], expand: '~all'}).subscribe({
             next: (recipe) => {
+              this.currentRecipeCategories = recipe.category_data
               this.recipeForm.patchValue(recipe);
-              recipe.ingredients.forEach( (item) => {
-                this.ingredients.push(this._formBuilder.group({
-                  food: [item.food],
-                  food_name: [item.food_name],
-                  quantity: [item.quantity],
-                  unit: [item.unit],
-                }));
-              })
               this.selectedImage = recipe.image_data.image!;
             },
             error: (e) => {
@@ -109,7 +103,7 @@ export class RecipeFormPage implements OnInit{
             }
           }
         )
-      }else{
+      }else {
         this.navigationExtras = {
           state: {
             isCreation: true
@@ -118,6 +112,23 @@ export class RecipeFormPage implements OnInit{
       }
     });
     loading.dismiss();
+  }
+
+  getCategories(searchedText: string | undefined = undefined){
+    this._recipeCategoryService.recipeCategoryList(
+      {
+        search: searchedText
+      }
+    ).subscribe({
+      next: (recipeCategories) => {
+        if (recipeCategories.results != undefined){
+          this.recipeCategories = recipeCategories.results;
+        }
+      },
+      error: (e) => console.error(e),
+      complete: () => {
+      }
+    });
   }
 
   imageSelected(image: any){
@@ -138,10 +149,6 @@ export class RecipeFormPage implements OnInit{
         complete: () => {
         }
       });
-  }
-
-  handleChangeCategorySelect(e: any){
-    this.recipeForm.patchValue({category: e.detail.value});
   }
 
   async submit(){
@@ -170,58 +177,67 @@ export class RecipeFormPage implements OnInit{
     }
   }
 
-  handleSearch(event: any){
-    const query = event.target.value.toLowerCase()
-    this.productName = query
-    if (query.length == 0){
-      this.searchedFoods = []
-      return
-    }
-    this._productService.foodList$Response({search: query, limit: 3}).subscribe({
-      next: (response) => {
-        console.log(response.body.results!)
-        this.searchedFoods = response.body.results!;
-      },
-      error: (e) => console.error(e),
-      complete: () => {
-      }
-    });
+  handleCategorySearch(e: any){
+    const query = e.target.value.toLowerCase();
+    this.getCategories(query);
+    this.searchedText = query;
   }
 
-  createFood(productName: string){
-    this._productService.foodCreate$Json$Response(
+  closeSearch(){
+    this.showSearch = false
+  }
+
+  searchFocus(){
+
+  }
+
+  openCatagoryModal(){
+    this.getCategories();
+    this.showSearch = true
+  }
+
+  createCategory(){
+    this._recipeCategoryService.recipeCategoryCreate$Json$Response(
       {
         body: {
           id: -1,
-          name: productName
+          name: this.searchedText
         }
       }
     ).subscribe({
       next: (response) => {
-        this.ingredients.push(this._formBuilder.group({
-          food: [response.body.id!],
-          food_name: [response.body.name],
-          quantity: [0],
-          unit: [''],
-        }));
-        this.searchedFoods = []
-        this.productName = ''
+        this.selectCategory(response.body);
       },
       error: (e) => console.error(e),
       complete: () => {
+        //this.showSearch = false
       }
     });
   }
 
-  selectFood(product: Food){
-    this.ingredients.push(this._formBuilder.group({
-      food: [product.id],
-      food_name: [product.name],
-      quantity: [0],
-      unit: [''],
-    }));
-    this.searchedFoods = []
-    this.productName = ''
+  selectCategory(category: RecipeCategory){
+    if (!this.hasCategory(category)){
+      if (this.currentRecipeCategories.length < 3){
+        this.recipeForm.patchValue({category: category})
+        this.currentRecipeCategories.push(category)
+      }
+      else{
+        
+      }
+    }else{
+      this.deleteCategory(category)
+    }
+    
+  }
+
+  hasCategory(category: RecipeCategory){
+    return this.currentRecipeCategories.find(item => JSON.stringify(item) === JSON.stringify(category)) !== undefined;
+  }
+
+  deleteCategory(category: RecipeCategory){
+    let position = this.currentRecipeCategories.indexOf(category)
+    this.currentRecipeCategories.splice(position, 1)
+    this.recipeForm.patchValue({category: this.currentRecipeCategories})
   }
 
 }
