@@ -28,6 +28,7 @@ export class RecipeFormPage implements OnInit{
   showSearch = false
   searchedText = ''
   currentRecipeCategories: RecipeCategory[] = []
+  showNoMoreCategoryText = false
 
   constructor(
     private _loadingCtrl: LoadingController,
@@ -220,12 +221,14 @@ export class RecipeFormPage implements OnInit{
       if (this.currentRecipeCategories.length < 3){
         this.recipeForm.patchValue({category: category})
         this.currentRecipeCategories.push(category)
+        this.showNoMoreCategoryText = false
       }
       else{
-        
+        this.showNoMoreCategoryText = true;
       }
     }else{
       this.deleteCategory(category)
+      this.showNoMoreCategoryText = false
     }
     
   }
