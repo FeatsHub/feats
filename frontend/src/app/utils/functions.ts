@@ -20,7 +20,7 @@ export function base64toBlob(base64str: string){
 
 export class ImageGenerator {
   static getRandomRecipeImage(){
-    return `/assets/select-recipe-image/${Math.floor(Math.random() * 7) + 1}.jpg`
+    return `/assets/select-recipe-image/${Math.floor(Math.random() * 10) + 1}.jpg`
   }
   
   static getRandomProfileImage(){

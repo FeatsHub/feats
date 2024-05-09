@@ -279,4 +279,8 @@ export class ProfileRetrievePage implements OnInit {
     this.isActionSheetOpen = isOpen;
   }
 
+  ionViewWillLeave(){
+    this.myRecipes = []
+  }
+
 }

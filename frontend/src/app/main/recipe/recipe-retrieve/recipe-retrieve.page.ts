@@ -142,12 +142,13 @@ export class RecipeDetailPage implements OnInit {
 
   togglePublic(){
     this._recipeService.recipePartialUpdate$Json$Response(
-      {body: {is_public: !this.recipe.is_public}, id: this.recipe.id, expand: '~all'}).subscribe({
+      {body: {is_public: !this.recipe.is_public}, id: this.recipe.id, expand: '~all,creator.~all,steps.related_recipes_data.~all,'}).subscribe({
         next: (recipe) => {
           this.recipe = recipe.body;
         },
         error: (e) => console.error(e),
         complete: () => {
+          console.log(this.recipe)
         }
     });
   }
