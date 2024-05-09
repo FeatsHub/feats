@@ -219,8 +219,8 @@ export class RecipeFormPage implements OnInit{
   selectCategory(category: RecipeCategory){
     if (!this.hasCategory(category)){
       if (this.currentRecipeCategories.length < 3){
-        this.recipeForm.patchValue({category: category})
         this.currentRecipeCategories.push(category)
+        this.recipeForm.patchValue({category: this.currentRecipeCategories.map(item => item.id)})
         this.showNoMoreCategoryText = false
       }
       else{
