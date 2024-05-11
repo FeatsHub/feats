@@ -36,7 +36,7 @@
     <ion-fab-button
       size="small"
       color="light"
-      (click)="saveRecipe(recipe.id)"
+      (click)="showSaveToast()"
     >
       <ion-icon
         *ngIf="!saved"
@@ -190,5 +190,41 @@
       </ion-list>
     </div>
   </div>
+
+
+  <ion-modal
+    [isOpen]="showSavedListsModal"
+    [initialBreakpoint]="0.6"
+    [breakpoints]="[0.6]"
+    [backdropDismiss]="true"
+    [backdropBreakpoint]="0.3"
+    (didDismiss)="closeSearch()"
+    id="search-modal"
+>
+    <ng-template>
+        <ion-header [translucent]="true">
+          </ion-header>
+        <ion-content id="main-content" [fullscreen]="true">
+          <div style="margin: 20px">
+              <ion-list lines="none">
+                <ion-item
+                  class="list-item"
+                  *ngFor="let list of recipeLists"
+                  (click)="saveOnList(list)"
+                >
+                <ion-ripple-effect></ion-ripple-effect>
+                  <div class="list-icon"
+                  [ngStyle]="{
+                    'background-image': 'url(' + (list.recipes_data[0] ? list.recipes_data[0].image_data.image : '') + ')'
+                  }"
+                  >
+                  </div>
+                  {{list.name}}
+                </ion-item>
+              </ion-list>
+          </div>
+        </ion-content>
+    </ng-template>
+</ion-modal>
 
 </ion-content>

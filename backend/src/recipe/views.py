@@ -35,7 +35,7 @@ class RecipeView(ModelViewSet):
     @action(detail=True, methods=['post'])
     def save(self, request, *args, **kwargs):
         # Params
-        list_id = request.data.get('list_id', None)
+        list_id = request.GET.get('list_id', None)
         is_def_list = list_id is None
 
         # Filtering

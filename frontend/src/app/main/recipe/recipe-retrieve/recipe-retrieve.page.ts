@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { Recipe } from 'src/api/models';
-import { RecipeService } from 'src/api/services';
+import { Recipe, RecipeList } from 'src/api/models';
+import { RecipeListService, RecipeService } from 'src/api/services';
 import { ImageGenerator } from 'src/app/utils/functions';
 
 @Component({
@@ -48,12 +48,17 @@ export class RecipeDetailPage implements OnInit {
   shortDescription: string = '';
   showDescription: boolean = false;
 
+  showSavedListsModal = false
+  recipeLists: RecipeList[]
+
   constructor(
     private _loadingCtrl: LoadingController,
     private _recipeService: RecipeService,
     private _route: ActivatedRoute,
     private _router: Router,
     private _alertController: AlertController,
+    private _toastCtrl: ToastController,
+    private _recipeListService: RecipeListService
   ) {
   }
 
@@ -122,8 +127,13 @@ export class RecipeDetailPage implements OnInit {
     await _alert.present();
   }
 
-  saveRecipe(recipe: number){
-    this._recipeService.recipeSaveCreate$Json$Response({id: recipe}).subscribe({
+  changeListEvent(ev: any) {
+    const { role } = ev.detail;
+    console.log(`Dismissed with role: ${role}`);
+  }
+
+  saveRecipe(recipe: number, listId: string | undefined = undefined){
+    this._recipeService.recipeSaveCreate$Json$Response({id: recipe, list_id: listId}).subscribe({
       next: (response) => {
         let userId = localStorage.getItem('userId')
         if (userId){
@@ -131,6 +141,60 @@ export class RecipeDetailPage implements OnInit {
         }
       },
       error: (e) => console.error(e),
+      complete: () => {
+      }
+    });
+  }
+
+  closeSearch(){
+    this.showSavedListsModal = false
+  }
+
+  async showSaveToast(){
+    if (!this.saved){
+      this.saved = true;
+      await this._toastCtrl.create({
+        message: "Receta guardada",
+        duration: 2000,
+        position: 'bottom',
+        buttons: [{
+          text: 'Cambiar lista...',
+          handler: () => {
+            this.openSavedListsModal()
+          }
+        }]
+      }).then(res => {
+        res.present()
+        res.onDidDismiss().then(() => {
+          console.log('Toast cerrado');
+          if (!this.showSavedListsModal){
+            this.saveRecipe(this.recipe.id);
+          }
+        });
+      });
+    }else{
+      this.saveRecipe(this.recipe.id);
+    }
+  }
+
+  openSavedListsModal(){
+    this.getOwnLists()
+    this.showSavedListsModal = true
+  }
+
+  getOwnLists(){
+    this._recipeListService.recipeListList$Response(
+      {
+        expand: '~~all,recipes_data.~all',
+        fields: 'id,name,is_default_list,recipes_data.image_data.image',
+        owner: localStorage.getItem('userId') as unknown as number
+      }
+      ).subscribe({
+      next: (response) => {
+        this.recipeLists = response.body.results!
+      },
+      error: (e) => {
+      },
       complete: () => {
       }
     });
@@ -159,6 +223,11 @@ export class RecipeDetailPage implements OnInit {
 
   toggleFullDescription() {
     this.showDescription = !this.showDescription;
+  }
+
+  saveOnList(list: RecipeList){
+    this.saveRecipe(this.recipe.id, String(list.id))
+    this.showSavedListsModal = false
   }
 
 }
