@@ -44,7 +44,11 @@ export class RecipeTablePage implements OnInit {
 
   goCreator(creatorId: number){
     this.closeModal.emit(true)
-    this._router.navigate(['/profile/', creatorId])
+    if (localStorage.getItem('userId')! == String(creatorId)){
+      this._router.navigate(['/tabs', 'profile'])
+    }else{
+      this._router.navigate(['/profile/', creatorId])
+    }
   }
 
   getRandomRecipeImage(){

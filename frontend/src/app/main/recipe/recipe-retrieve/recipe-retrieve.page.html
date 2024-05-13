@@ -17,7 +17,7 @@
       size="small"
       color="light"
       class="recipe-creator-fab"
-      [routerLink]="['/profile', recipe.creator.id]"
+      (click)="goCreator()"
     >
       <div class="recipe-creator-image"
       [ngStyle]="{

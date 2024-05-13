@@ -230,4 +230,12 @@ export class RecipeDetailPage implements OnInit {
     this.showSavedListsModal = false
   }
 
+  goCreator(){
+    if (localStorage.getItem('userId')! == String(this.recipe.creator.id)){
+      this._router.navigate(['/tabs', 'profile'])
+    }else{
+      this._router.navigate(['/profile/', this.recipe.creator.id])
+    }
+  }
+
 }
