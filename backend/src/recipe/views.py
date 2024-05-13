@@ -14,7 +14,7 @@ from drf_spectacular.types import OpenApiTypes
 class RecipeView(ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
-    filterset_fields = ('category', 'owner')
+    filterset_fields = ('category', 'owner', 'is_public')
     filter_backends = (SearchFilter, DjangoFilterBackend)
     search_fields = ('name', 'ingredients__food__name')
 

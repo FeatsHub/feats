@@ -9,10 +9,10 @@ import { RelatedRecipe } from '../models/related-recipe';
  * complex, nested serializations.
  */
 export interface RecipeStep {
-  description: null | string;
+  description?: null | string;
   id: number;
   number: number;
   recipe: number;
-  related_recipes: Array<number>;
+  related_recipes?: Array<number>;
   related_recipes_data: Array<RelatedRecipe>;
 }

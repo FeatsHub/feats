@@ -116,7 +116,7 @@ export class StepFormPage implements OnInit{
 
   selectRecipe(event: Recipe){
     this.closeSearch()
-    this.steps[this.selectedStep].related_recipes.push(event.id);
+    this.steps[this.selectedStep].related_recipes?.push(event.id);
     if (!this.steps[this.selectedStep].related_recipes_data){
       this.steps[this.selectedStep].related_recipes_data = []
     }
@@ -125,7 +125,7 @@ export class StepFormPage implements OnInit{
   }
 
   deleteRelatedRecipe(stepIndex: number, relatedRecipeId: number){
-    this.steps[stepIndex].related_recipes.splice(relatedRecipeId, 1)
+    this.steps[stepIndex].related_recipes?.splice(relatedRecipeId, 1)
     this.steps[stepIndex].related_recipes_data!.splice(relatedRecipeId, 1)
   }
 

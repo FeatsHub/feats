@@ -1,0 +1,3588 @@
+openapi: 3.0.3
+info:
+  title: ''
+  version: 0.0.0
+paths:
+  /api/food/:
+    get:
+      operationId: food_list
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: name
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - food
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFoodList'
+          description: ''
+    post:
+      operationId: food_create
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - food
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Food'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Food'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Food'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Food'
+          description: ''
+  /api/food/{id}/:
+    get:
+      operationId: food_retrieve
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this food.
+        required: true
+      tags:
+      - food
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Food'
+          description: ''
+    put:
+      operationId: food_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this food.
+        required: true
+      tags:
+      - food
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Food'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Food'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Food'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Food'
+          description: ''
+    patch:
+      operationId: food_partial_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this food.
+        required: true
+      tags:
+      - food
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFood'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFood'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFood'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Food'
+          description: ''
+    delete:
+      operationId: food_destroy
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this food.
+        required: true
+      tags:
+      - food
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/food_allergen/:
+    get:
+      operationId: food_allergen_list
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: name
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - food_allergen
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFoodAllergenList'
+          description: ''
+    post:
+      operationId: food_allergen_create
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - food_allergen
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FoodAllergen'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FoodAllergen'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FoodAllergen'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoodAllergen'
+          description: ''
+  /api/food_allergen/{id}/:
+    get:
+      operationId: food_allergen_retrieve
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this food allergen.
+        required: true
+      tags:
+      - food_allergen
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoodAllergen'
+          description: ''
+    put:
+      operationId: food_allergen_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this food allergen.
+        required: true
+      tags:
+      - food_allergen
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FoodAllergen'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FoodAllergen'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FoodAllergen'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoodAllergen'
+          description: ''
+    patch:
+      operationId: food_allergen_partial_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this food allergen.
+        required: true
+      tags:
+      - food_allergen
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFoodAllergen'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFoodAllergen'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFoodAllergen'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoodAllergen'
+          description: ''
+    delete:
+      operationId: food_allergen_destroy
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this food allergen.
+        required: true
+      tags:
+      - food_allergen
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/image_library/:
+    get:
+      operationId: image_library_list
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - image_library
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedImageList'
+          description: ''
+    post:
+      operationId: image_library_create
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - image_library
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Image'
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+          description: ''
+  /api/image_library/{id}/:
+    get:
+      operationId: image_library_retrieve
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this image.
+        required: true
+      tags:
+      - image_library
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+          description: ''
+    put:
+      operationId: image_library_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this image.
+        required: true
+      tags:
+      - image_library
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Image'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+          description: ''
+    patch:
+      operationId: image_library_partial_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this image.
+        required: true
+      tags:
+      - image_library
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedImage'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+          description: ''
+    delete:
+      operationId: image_library_destroy
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this image.
+        required: true
+      tags:
+      - image_library
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/recipe/:
+    get:
+      operationId: recipe_list
+      parameters:
+      - in: query
+        name: category
+        schema:
+          type: array
+          items:
+            type: integer
+        explode: true
+        style: form
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: is_public
+        schema:
+          type: boolean
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: owner
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - recipe
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRecipeList'
+          description: ''
+    post:
+      operationId: recipe_create
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - recipe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Recipe'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Recipe'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Recipe'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+          description: ''
+  /api/recipe/{id}/:
+    get:
+      operationId: recipe_retrieve
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe.
+        required: true
+      tags:
+      - recipe
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+          description: ''
+    put:
+      operationId: recipe_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe.
+        required: true
+      tags:
+      - recipe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Recipe'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Recipe'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Recipe'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+          description: ''
+    patch:
+      operationId: recipe_partial_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe.
+        required: true
+      tags:
+      - recipe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipe'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipe'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipe'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+          description: ''
+    delete:
+      operationId: recipe_destroy
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe.
+        required: true
+      tags:
+      - recipe
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/recipe/{id}/save/:
+    post:
+      operationId: recipe_save_create
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe.
+        required: true
+      - in: query
+        name: list_id
+        schema:
+          type: string
+        description: List ID
+      tags:
+      - recipe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Empty'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Empty'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Empty'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+          description: ''
+  /api/recipe_category/:
+    get:
+      operationId: recipe_category_list
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - recipe_category
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRecipeCategoryList'
+          description: ''
+    post:
+      operationId: recipe_category_create
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - recipe_category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RecipeCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecipeCategory'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeCategory'
+          description: ''
+  /api/recipe_category/{id}/:
+    get:
+      operationId: recipe_category_retrieve
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe category.
+        required: true
+      tags:
+      - recipe_category
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeCategory'
+          description: ''
+    put:
+      operationId: recipe_category_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe category.
+        required: true
+      tags:
+      - recipe_category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RecipeCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecipeCategory'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeCategory'
+          description: ''
+    patch:
+      operationId: recipe_category_partial_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe category.
+        required: true
+      tags:
+      - recipe_category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipeCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipeCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipeCategory'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeCategory'
+          description: ''
+    delete:
+      operationId: recipe_category_destroy
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe category.
+        required: true
+      tags:
+      - recipe_category
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/recipe_ingredient/:
+    get:
+      operationId: recipe_ingredient_list
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - recipe_ingredient
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRecipeIngredientList'
+          description: ''
+    post:
+      operationId: recipe_ingredient_create
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - recipe_ingredient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeIngredient'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RecipeIngredient'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecipeIngredient'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeIngredient'
+          description: ''
+  /api/recipe_ingredient/{id}/:
+    get:
+      operationId: recipe_ingredient_retrieve
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe ingredient.
+        required: true
+      tags:
+      - recipe_ingredient
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeIngredient'
+          description: ''
+    put:
+      operationId: recipe_ingredient_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe ingredient.
+        required: true
+      tags:
+      - recipe_ingredient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeIngredient'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RecipeIngredient'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecipeIngredient'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeIngredient'
+          description: ''
+    patch:
+      operationId: recipe_ingredient_partial_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe ingredient.
+        required: true
+      tags:
+      - recipe_ingredient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipeIngredient'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipeIngredient'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipeIngredient'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeIngredient'
+          description: ''
+    delete:
+      operationId: recipe_ingredient_destroy
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe ingredient.
+        required: true
+      tags:
+      - recipe_ingredient
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/recipe_list/:
+    get:
+      operationId: recipe_list_list
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - in: query
+        name: owner
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - recipe_list
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRecipeListList'
+          description: ''
+    post:
+      operationId: recipe_list_create
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - recipe_list
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeList'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RecipeList'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecipeList'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeList'
+          description: ''
+  /api/recipe_list/{id}/:
+    get:
+      operationId: recipe_list_retrieve
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe list.
+        required: true
+      tags:
+      - recipe_list
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeList'
+          description: ''
+    put:
+      operationId: recipe_list_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe list.
+        required: true
+      tags:
+      - recipe_list
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeList'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RecipeList'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecipeList'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeList'
+          description: ''
+    patch:
+      operationId: recipe_list_partial_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe list.
+        required: true
+      tags:
+      - recipe_list
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipeList'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipeList'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipeList'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeList'
+          description: ''
+    delete:
+      operationId: recipe_list_destroy
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe list.
+        required: true
+      tags:
+      - recipe_list
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/recipe_step/:
+    get:
+      operationId: recipe_step_list
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - recipe_step
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRecipeIngredientList'
+          description: ''
+    post:
+      operationId: recipe_step_create
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - recipe_step
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeIngredient'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RecipeIngredient'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecipeIngredient'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeIngredient'
+          description: ''
+  /api/recipe_step/{id}/:
+    get:
+      operationId: recipe_step_retrieve
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe ingredient.
+        required: true
+      tags:
+      - recipe_step
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeIngredient'
+          description: ''
+    put:
+      operationId: recipe_step_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe ingredient.
+        required: true
+      tags:
+      - recipe_step
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeIngredient'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RecipeIngredient'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecipeIngredient'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeIngredient'
+          description: ''
+    patch:
+      operationId: recipe_step_partial_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe ingredient.
+        required: true
+      tags:
+      - recipe_step
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipeIngredient'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipeIngredient'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRecipeIngredient'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeIngredient'
+          description: ''
+    delete:
+      operationId: recipe_step_destroy
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this recipe ingredient.
+        required: true
+      tags:
+      - recipe_step
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/system_stats/:
+    get:
+      operationId: system_stats_list
+      parameters:
+      - in: query
+        name: end
+        schema:
+          type: string
+          format: date
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: start
+        schema:
+          type: string
+          format: date
+      tags:
+      - system_stats
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedStatsList'
+          description: ''
+  /api/user/:
+    get:
+      operationId: user_list
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - user
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserList'
+          description: ''
+    post:
+      operationId: user_create
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/user/{id}/:
+    get:
+      operationId: user_retrieve
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - user
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: user_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: user_partial_update
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: user_destroy
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - user
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/user/{id}/preferences/:
+    get:
+      operationId: user_preferences_retrieve
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - user
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPreferences'
+          description: ''
+  /api/user/check_email/:
+    post:
+      operationId: user_check_email_create
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckEmail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CheckEmail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CheckEmail'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckUserResponse'
+          description: ''
+  /api/user/check_username/:
+    post:
+      operationId: user_check_username_create
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckUsername'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CheckUsername'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CheckUsername'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckUserResponse'
+          description: ''
+  /api/user/current/:
+    get:
+      operationId: user_current_retrieve
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - user
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/user/login/:
+    post:
+      operationId: user_login_create
+      description: User login view
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLogin'
+          description: ''
+  /api/user/logout/:
+    post:
+      operationId: user_logout_create
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Empty'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Empty'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Empty'
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/user/permissions/:
+    get:
+      operationId: user_permissions_retrieve
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - user
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Permission'
+          description: ''
+  /api/user/reset_confirm_password/:
+    post:
+      operationId: user_reset_confirm_password_create
+      description: Reset confirm password
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResetPassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResetPassword'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/user/reset_password/:
+    post:
+      operationId: user_reset_password_create
+      description: Reset password
+      parameters:
+      - in: query
+        name: expand
+        schema:
+          type: string
+        description: List of nested objects
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: List of nested objects
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Email'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Email'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Email'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+components:
+  schemas:
+    CheckEmail:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    CheckUserResponse:
+      type: object
+      properties:
+        exists:
+          type: boolean
+      required:
+      - exists
+    CheckUsername:
+      type: object
+      properties:
+        username:
+          type: string
+      required:
+      - username
+    Email:
+      type: object
+      description: Validate the contact email
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    Empty:
+      type: object
+      properties:
+        empty_data:
+          type: string
+          readOnly: true
+      required:
+      - empty_data
+    Food:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Product name
+        allergens:
+          type: array
+          items:
+            type: integer
+      required:
+      - id
+      - name
+    FoodAllergen:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Allergen name
+        emoji:
+          type: string
+          nullable: true
+          title: Allergen emoji
+      required:
+      - id
+      - name
+    Image:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        image:
+          type: string
+          format: uri
+          nullable: true
+          title: Recipe image
+      required:
+      - id
+    PaginatedFoodAllergenList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FoodAllergen'
+    PaginatedFoodList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Food'
+    PaginatedImageList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+    PaginatedRecipeCategoryList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeCategory'
+    PaginatedRecipeIngredientList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeIngredient'
+    PaginatedRecipeList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Recipe'
+    PaginatedRecipeListList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeList'
+    PaginatedStatsList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stats'
+    PaginatedUserList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+    PatchedFood:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Product name
+        allergens:
+          type: array
+          items:
+            type: integer
+    PatchedFoodAllergen:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Allergen name
+        emoji:
+          type: string
+          nullable: true
+          title: Allergen emoji
+    PatchedImage:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        image:
+          type: string
+          format: uri
+          nullable: true
+          title: Recipe image
+    PatchedRecipe:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Food name
+        description:
+          type: string
+          title: Food description
+        diners:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Diners number
+        time:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Cooking time in minutes
+        category:
+          type: array
+          items:
+            type: integer
+            title: Food categories
+          title: Food categories
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeIngredient'
+        image:
+          type: integer
+          nullable: true
+        image_data:
+          allOf:
+          - $ref: '#/components/schemas/Image'
+          readOnly: true
+        category_data:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeCategory'
+          readOnly: true
+        is_public:
+          type: boolean
+          title: Recipe status
+        owner:
+          type: integer
+          readOnly: true
+          title: User recipe creator
+        saved_by:
+          type: array
+          items:
+            type: integer
+            title: User saved recipes
+          readOnly: true
+          title: User saved recipes
+        allergens:
+          type: string
+          readOnly: true
+        creator:
+          allOf:
+          - $ref: '#/components/schemas/RecipeOwner'
+          readOnly: true
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeStep'
+    PatchedRecipeCategory:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Category name
+          maxLength: 16
+    PatchedRecipeIngredient:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        food_name:
+          type: string
+          title: Product name
+          readOnly: true
+        quantity:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Ingredient quantity
+        unit:
+          type: string
+          title: Measure unit
+        food:
+          type: integer
+    PatchedRecipeList:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: List name
+        owner:
+          type: integer
+        recipes:
+          type: array
+          items:
+            type: integer
+        is_default_list:
+          type: boolean
+        recipes_data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Recipe'
+          readOnly: true
+    PatchedUser:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        password:
+          type: string
+          maxLength: 128
+        username:
+          type: string
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: User email
+          maxLength: 254
+        first_name:
+          type: string
+          nullable: true
+          title: User first name
+          maxLength: 30
+        last_name:
+          type: string
+          nullable: true
+          title: User last name
+          maxLength: 150
+        role:
+          allOf:
+          - $ref: '#/components/schemas/RoleEnum'
+          title: User role
+        phone:
+          type: string
+          nullable: true
+          title: User phone number
+          maxLength: 16
+        is_active:
+          type: boolean
+          nullable: true
+          title: Is user active
+        deactivation_datetime:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          title: Datetime when user was deactivated
+        login_attempts:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: User login attemps
+        last_bad_login_attempt_datetime:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        has_login_blocked:
+          type: string
+          readOnly: true
+        image:
+          type: integer
+          nullable: true
+        image_data:
+          allOf:
+          - $ref: '#/components/schemas/Image'
+          readOnly: true
+    Permission:
+      type: object
+      description: Serialize pydrfpermissions
+      properties:
+        url:
+          type: string
+        action:
+          type: string
+      required:
+      - action
+      - url
+    Recipe:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Food name
+        description:
+          type: string
+          title: Food description
+        diners:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Diners number
+        time:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Cooking time in minutes
+        category:
+          type: array
+          items:
+            type: integer
+            title: Food categories
+          title: Food categories
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeIngredient'
+        image:
+          type: integer
+          nullable: true
+        image_data:
+          allOf:
+          - $ref: '#/components/schemas/Image'
+          readOnly: true
+        category_data:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeCategory'
+          readOnly: true
+        is_public:
+          type: boolean
+          title: Recipe status
+        owner:
+          type: integer
+          readOnly: true
+          title: User recipe creator
+        saved_by:
+          type: array
+          items:
+            type: integer
+            title: User saved recipes
+          readOnly: true
+          title: User saved recipes
+        allergens:
+          type: string
+          readOnly: true
+        creator:
+          allOf:
+          - $ref: '#/components/schemas/RecipeOwner'
+          readOnly: true
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeStep'
+      required:
+      - allergens
+      - category_data
+      - creator
+      - description
+      - diners
+      - id
+      - image_data
+      - ingredients
+      - name
+      - owner
+      - saved_by
+      - steps
+      - time
+    RecipeCategory:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Category name
+          maxLength: 16
+      required:
+      - id
+      - name
+    RecipeIngredient:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        food_name:
+          type: string
+          title: Product name
+          readOnly: true
+        quantity:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Ingredient quantity
+        unit:
+          type: string
+          title: Measure unit
+        food:
+          type: integer
+      required:
+      - food
+      - food_name
+      - id
+      - quantity
+      - unit
+    RecipeList:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: List name
+        owner:
+          type: integer
+        recipes:
+          type: array
+          items:
+            type: integer
+        is_default_list:
+          type: boolean
+        recipes_data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Recipe'
+          readOnly: true
+      required:
+      - id
+      - name
+      - owner
+      - recipes_data
+    RecipeOwner:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+        image:
+          allOf:
+          - $ref: '#/components/schemas/Image'
+          readOnly: true
+      required:
+      - id
+      - image
+      - username
+    RecipeStep:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        recipe:
+          type: integer
+        number:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Step order
+        description:
+          type: string
+          nullable: true
+          title: Step text description
+        related_recipes:
+          type: array
+          items:
+            type: integer
+        related_recipes_data:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedRecipe'
+          readOnly: true
+      required:
+      - id
+      - number
+      - recipe
+      - related_recipes_data
+    RelatedRecipe:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+          title: Food name
+        image_data:
+          allOf:
+          - $ref: '#/components/schemas/Image'
+          readOnly: true
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeIngredient'
+      required:
+      - id
+      - image_data
+      - ingredients
+      - name
+    ResetPassword:
+      type: object
+      description: Validate the contact email
+      properties:
+        token:
+          type: string
+        new_password1:
+          type: string
+        new_password2:
+          type: string
+      required:
+      - new_password1
+      - new_password2
+      - token
+    RoleEnum:
+      enum:
+      - superadmin
+      - user
+      type: string
+      description: |-
+        * `superadmin` - Superadministrador
+        * `user` - User
+    Stats:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+        modified:
+          type: string
+          format: date-time
+          readOnly: true
+        user_number:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: User number in the system
+        total_recipe_number:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Total Recipes number in the system
+        public_recipe_number:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Public Recipes number in the system
+        private_recipe_number:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Private Recipes number in the system
+      required:
+      - created
+      - id
+      - modified
+      - private_recipe_number
+      - public_recipe_number
+      - total_recipe_number
+      - user_number
+    User:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        password:
+          type: string
+          maxLength: 128
+        username:
+          type: string
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: User email
+          maxLength: 254
+        first_name:
+          type: string
+          nullable: true
+          title: User first name
+          maxLength: 30
+        last_name:
+          type: string
+          nullable: true
+          title: User last name
+          maxLength: 150
+        role:
+          allOf:
+          - $ref: '#/components/schemas/RoleEnum'
+          title: User role
+        phone:
+          type: string
+          nullable: true
+          title: User phone number
+          maxLength: 16
+        is_active:
+          type: boolean
+          nullable: true
+          title: Is user active
+        deactivation_datetime:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          title: Datetime when user was deactivated
+        login_attempts:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: User login attemps
+        last_bad_login_attempt_datetime:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        has_login_blocked:
+          type: string
+          readOnly: true
+        image:
+          type: integer
+          nullable: true
+        image_data:
+          allOf:
+          - $ref: '#/components/schemas/Image'
+          readOnly: true
+      required:
+      - deactivation_datetime
+      - email
+      - has_login_blocked
+      - id
+      - image_data
+      - last_bad_login_attempt_datetime
+      - password
+      - username
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          title: User email
+          maxLength: 254
+        password:
+          type: string
+          maxLength: 128
+        token:
+          type: integer
+          readOnly: true
+        id:
+          type: integer
+          readOnly: true
+      required:
+      - email
+      - id
+      - password
+      - token
+    UserPreferences:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields" and "include" in order to
+        control which fields are displayed, and whether to replace simple values with
+        complex, nested serializations.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        use_dark_mode:
+          type: boolean
+          nullable: true
+        allergens:
+          type: array
+          items:
+            type: integer
+      required:
+      - id
+  securitySchemes:
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

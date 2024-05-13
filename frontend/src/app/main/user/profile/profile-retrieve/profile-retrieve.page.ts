@@ -34,6 +34,11 @@ export class ProfileRetrievePage implements OnInit {
       selected: true
     },
     {
+      icon: 'eye-off',
+      tab: 'hidden',
+      selected: false
+    },
+    {
       icon: 'bookmark',
       tab: 'saved',
       selected: false
@@ -62,27 +67,9 @@ export class ProfileRetrievePage implements OnInit {
     }
   ];
 
-  user: User = {
-    deactivation_datetime: null,
-    email: '',
-    first_name: null,
-    id: -1,
-    is_active: true,
-    last_bad_login_attempt_datetime: null,
-    last_name: null,
-    login_attempts: 0,
-    password: '',
-    phone: null,
-    role: RoleEnum['User'],
-    username: '',
-    has_login_blocked: 'false',
-    image_data: {
-      id: -1,
-      image: undefined
-    }
-  }
-
-  myRecipes: Recipe[]
+  user: User
+  myRecipes: Recipe[] = []
+  myHiddenRecipes: Recipe[] = []
   recipeLists: RecipeList[]
 
   isActionSheetOpen = false
@@ -168,32 +155,45 @@ export class ProfileRetrievePage implements OnInit {
     });
   }
 
-  ionViewDidLeave(){
-    this.myRecipes = []
-  }
-
   getOwnRecipes(){
     this._recipeService.recipeList$Response(
       {
         expand: '~all,creator.~all',
         owner: this.user.id,
+        is_public: true,
         limit: this.limit,
         offset: this.offset
       }
     ).subscribe(
       {
         next: (response) => {
-          if (this.myRecipes){
-            this.myRecipes = this.myRecipes.concat(response.body.results!)
-          }else{
-            this.myRecipes = response.body.results!
-          }
+          this.myRecipes = response.body.results!
           this.recipesLoaded = true
           },
         error: (e) => {},
         complete: () => {}
       }
     );
+
+    this._recipeService.recipeList$Response(
+      {
+        expand: '~all,creator.~all',
+        owner: this.user.id,
+        is_public: false,
+        limit: this.limit,
+        offset: this.offset
+      }
+    ).subscribe(
+      {
+        next: (response) => {
+          this.myHiddenRecipes = response.body.results!
+          this.recipesLoaded = true
+          },
+        error: (e) => {},
+        complete: () => {}
+      }
+    );
+
   }
 
   profileMenuResult(event: any){
@@ -271,6 +271,13 @@ export class ProfileRetrievePage implements OnInit {
     this.getOwnRecipes();
   }
 
+  handleRefresh(e: any){
+    setTimeout(() => {
+      this.getOwnRecipes();
+      e.target.complete();
+    }, 2000);
+  }
+
   isOwn(){
     return localStorage.getItem('userId') == this.user.id.toString()
   }
@@ -279,8 +286,9 @@ export class ProfileRetrievePage implements OnInit {
     this.isActionSheetOpen = isOpen;
   }
 
-  ionViewWillLeave(){
-    this.myRecipes = []
+  ionViewWillEnter(){
+    this.getOwnRecipes();
+    this.getOwnLists()
   }
 
 }

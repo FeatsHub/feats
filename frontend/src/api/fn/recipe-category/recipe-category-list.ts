@@ -31,11 +31,6 @@ export interface RecipeCategoryList$Params {
   offset?: number;
 
 /**
- * Which field to use when ordering the results.
- */
-  ordering?: string;
-
-/**
  * A search term.
  */
   search?: string;
@@ -48,7 +43,6 @@ export function recipeCategoryList(http: HttpClient, rootUrl: string, params?: R
     rb.query('fields', params.fields, {});
     rb.query('limit', params.limit, {});
     rb.query('offset', params.offset, {});
-    rb.query('ordering', params.ordering, {});
     rb.query('search', params.search, {});
   }
 

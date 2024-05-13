@@ -20,6 +20,7 @@ export interface RecipeList$Params {
  * List of nested objects
  */
   fields?: string;
+  is_public?: boolean;
 
 /**
  * Number of results to return per page.
@@ -44,6 +45,7 @@ export function recipeList(http: HttpClient, rootUrl: string, params?: RecipeLis
     rb.query('category', params.category, {"style":"form","explode":true});
     rb.query('expand', params.expand, {});
     rb.query('fields', params.fields, {});
+    rb.query('is_public', params.is_public, {});
     rb.query('limit', params.limit, {});
     rb.query('offset', params.offset, {});
     rb.query('owner', params.owner, {});
