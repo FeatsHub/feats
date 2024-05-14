@@ -26,17 +26,15 @@ ion-grid {
     border-radius: 10px;
 }
 
-.four-recipes{
-    margin: 10px;
-}
-
-.four-recipes-default{
-    position: relative;
-    top: -40px;
-}
-
 .list-name{
-    padding: 5px 20px;
+    padding-left: 10px;
+    font-size: 16px;
+    position: relative;
+    top: -10px;
+}
+
+.four-recipes{
+    margin: 0px !important;
 }
 
 .recipe-detail-big{
@@ -69,18 +67,13 @@ ion-grid {
 .saved-icon{
     border-radius: 100%;
     z-index: 1;
-    position: relative;
+    position: absolute;
     padding: 10px;
     font-size: large;
 }
 
 .saved-icon-bg{
     background-color: white;
-}
-
-.default-name{
-    position: relative;
-    top: -40px;
 }
 
 @media (prefers-color-scheme: dark) {

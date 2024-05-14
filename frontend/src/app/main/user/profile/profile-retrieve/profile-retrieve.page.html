@@ -78,8 +78,16 @@
             (didDismiss)="setResult($event)"
         ></ion-alert>
         <ion-row>
+            <ion-col>
+                <ion-item id="present-alert">
+                    Nueva lista
+                    <ion-icon name="add-outline" slot="end"></ion-icon>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
             <ion-col size="6" *ngFor="let recipeList of recipeLists">
-                <ion-card style="max-height: 197px ;" (click)="goList(recipeList.id)">
+                <div class="card-list-element" (click)="goList(recipeList.id)">
                     <ion-icon class="saved-icon saved-icon-bg" name="bookmark" *ngIf="recipeList.is_default_list"></ion-icon>
                     <ion-grid [ngClass]="{'four-recipes-default': recipeList.is_default_list}" class="four-recipes">
                         <ng-container *ngFor="let row of [0, 1]">
@@ -99,22 +107,10 @@
                             </ion-row>
                         </ng-container>
                     </ion-grid>
-                    <h5 [ngClass]="{'default-name': recipeList.is_default_list}" class="list-name">
-                        {{recipeList.name}}
+                    <h5 class="list-name">
+                        {{ recipeList.name.length > 14 ? (recipeList.name | slice:0:15) + '...' : recipeList.name }}
                     </h5>
-                </ion-card>
-            </ion-col>
-            <ion-col size="6">
-                <ion-card id="present-alert">
-                    <ion-grid class="four-recipes">
-                        <ion-row>
-                            <ion-col class="recipe-detail-big" style="font-size: 60px;">
-                                <ion-icon name="add-outline" style="margin: 20px"></ion-icon>
-                            </ion-col>
-                        </ion-row>
-                    </ion-grid>
-                    <h5 style="padding: 5px 10px;">Nueva lista</h5>
-                </ion-card>
+                </div>
             </ion-col>
         </ion-row>
     </ion-grid>
