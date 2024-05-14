@@ -121,7 +121,6 @@ export class StepFormPage implements OnInit{
       this.steps[this.selectedStep].related_recipes_data = []
     }
     this.steps[this.selectedStep].related_recipes_data!.push(event);
-    console.log(this.steps)
   }
 
   deleteRelatedRecipe(stepIndex: number, relatedRecipeId: number){

@@ -27,7 +27,6 @@ export class IngredientsFormPage implements OnInit{
     this._route.queryParams.subscribe(params => {
       if (this._router.getCurrentNavigation()!.extras.state) {
         this.isCreation = this._router.getCurrentNavigation()!.extras.state!['isCreation'];
-        console.log(this.isCreation)
       }
     });
   }
@@ -97,7 +96,6 @@ export class IngredientsFormPage implements OnInit{
   }
 
   selectFood(food: Food){
-    console.log(food)
     this.recipe.ingredients.push({
       id: -1,
       food: food.id,

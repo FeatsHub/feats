@@ -239,7 +239,6 @@ export class ProfileRetrievePage implements OnInit {
     ).subscribe({
         next: (response) => {
           this.recipeLists.push(response.body)
-          console.log(this.recipeLists)
         },
         error: (e) => {
         },

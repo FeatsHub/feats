@@ -249,7 +249,6 @@ export class RecipeDetailPage implements OnInit {
   }
 
   isChecked(list: RecipeList){
-    console.log(this.listWithRecipe)
     return this.listWithRecipe.some(objeto => {
       return objeto.id === list.id
   });

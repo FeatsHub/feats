@@ -40,7 +40,6 @@ export class FoodListComponent implements OnInit {
     this._allergenService.foodAllergenList$Response().subscribe({
       next: (response) => {
         this.allergens = response.body.results!
-        console.log(response)
       },
       error: (e) => {
       },

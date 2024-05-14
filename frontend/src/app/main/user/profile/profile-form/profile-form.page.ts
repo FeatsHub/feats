@@ -75,7 +75,6 @@ export class ProfileFormPage implements OnInit {
           image: response.body.id
         });
         this.profileImage = response.body.image!
-        console.log(this.profileImage)
       },
       error: (e) =>
       console.error(e),
