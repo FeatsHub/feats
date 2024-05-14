@@ -4,7 +4,7 @@ from django.contrib.auth.models import BaseUserManager
 class UserManager(BaseUserManager):
     def create(self, username, password, email, **extra_fields):
         from recipe.models import RecipeList
-        from user.models import UserSettings
+        from user.models import UserPreferences
 
         user = self.model(
             email=self.normalize_email(email),
@@ -22,7 +22,7 @@ class UserManager(BaseUserManager):
         })
 
         # Create user settings
-        user.settings = UserSettings.objects.create()
+        user.settings = UserPreferences.objects.create()
         user.save()
 
         return user
