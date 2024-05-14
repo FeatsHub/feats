@@ -39,7 +39,8 @@ export class RecipeDetailPage implements OnInit {
       },
       username: ''
     },
-    steps: []
+    steps: [],
+    saved: false
   }
 
   saved = false
@@ -49,7 +50,8 @@ export class RecipeDetailPage implements OnInit {
   showDescription: boolean = false;
 
   showSavedListsModal = false
-  recipeLists: RecipeList[]
+  recipeLists: RecipeList[] = []
+  listWithRecipe: RecipeList[] = []
 
   constructor(
     private _loadingCtrl: LoadingController,
@@ -78,7 +80,7 @@ export class RecipeDetailPage implements OnInit {
             this.shortDescription = `${this.recipe.description.slice(0, 75)}...`;
             let userId = localStorage.getItem('userId')
             if (userId){
-              this.saved = this.recipe.saved_by.includes(Number(userId))
+              this.saved = this.recipe.saved
             }
             if (this.recipe.image_data == null){
               this.recipe.image_data = {
@@ -127,17 +129,12 @@ export class RecipeDetailPage implements OnInit {
     await _alert.present();
   }
 
-  changeListEvent(ev: any) {
-    const { role } = ev.detail;
-    console.log(`Dismissed with role: ${role}`);
-  }
-
   saveRecipe(recipe: number, listId: string | undefined = undefined){
     this._recipeService.recipeSaveCreate$Json$Response({id: recipe, list_id: listId}).subscribe({
       next: (response) => {
         let userId = localStorage.getItem('userId')
         if (userId){
-          this.saved = response.body.saved_by.includes(Number(userId))
+          this.saved = response.body.saved
         }
       },
       error: (e) => console.error(e),
@@ -153,6 +150,7 @@ export class RecipeDetailPage implements OnInit {
   async showSaveToast(){
     if (!this.saved){
       this.saved = true;
+      this.saveRecipe(this.recipe.id);
       await this._toastCtrl.create({
         message: "Receta guardada",
         duration: 2000,
@@ -166,19 +164,16 @@ export class RecipeDetailPage implements OnInit {
       }).then(res => {
         res.present()
         res.onDidDismiss().then(() => {
-          console.log('Toast cerrado');
-          if (!this.showSavedListsModal){
-            this.saveRecipe(this.recipe.id);
-          }
         });
       });
     }else{
-      this.saveRecipe(this.recipe.id);
+      this.openSavedListsModal()
     }
   }
 
   openSavedListsModal(){
     this.getOwnLists()
+    this.getListWithRecipe()
     this.showSavedListsModal = true
   }
 
@@ -187,11 +182,28 @@ export class RecipeDetailPage implements OnInit {
       {
         expand: '~~all,recipes_data.~all',
         fields: 'id,name,is_default_list,recipes_data.image_data.image',
-        owner: localStorage.getItem('userId') as unknown as number
+        owner: localStorage.getItem('userId') as unknown as number,
       }
       ).subscribe({
       next: (response) => {
         this.recipeLists = response.body.results!
+      },
+      error: (e) => {
+      },
+      complete: () => {
+      }
+    });
+  }
+
+  getListWithRecipe(){
+    this._recipeListService.recipeListList$Response(
+      {
+        owner: localStorage.getItem('userId') as unknown as number,
+        recipes: [this.recipe.id]
+      }
+      ).subscribe({
+      next: (response) => {
+        this.listWithRecipe = response.body.results!
       },
       error: (e) => {
       },
@@ -212,7 +224,6 @@ export class RecipeDetailPage implements OnInit {
         },
         error: (e) => console.error(e),
         complete: () => {
-          console.log(this.recipe)
         }
     });
   }
@@ -227,7 +238,6 @@ export class RecipeDetailPage implements OnInit {
 
   saveOnList(list: RecipeList){
     this.saveRecipe(this.recipe.id, String(list.id))
-    this.showSavedListsModal = false
   }
 
   goCreator(){
@@ -236,6 +246,13 @@ export class RecipeDetailPage implements OnInit {
     }else{
       this._router.navigate(['/profile/', this.recipe.creator.id])
     }
+  }
+
+  isChecked(list: RecipeList){
+    console.log(this.listWithRecipe)
+    return this.listWithRecipe.some(objeto => {
+      return objeto.id === list.id
+  });
   }
 
 }

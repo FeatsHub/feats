@@ -26,6 +26,7 @@ export interface Recipe {
   is_public?: boolean;
   name: string;
   owner: number;
+  saved: boolean;
   saved_by: Array<number>;
   steps: Array<RecipeStep>;
   time: number;

@@ -31,22 +31,12 @@
           <ion-card-subtitle>
             <ion-text
               *ngFor="let category of recipe.category_data; let last = last"
-              >{{category.name}}{{ last ? '' : ', ' }}</ion-text>
+              ><!--{{category.name}}{{ last ? '' : ', ' }}--></ion-text>
           </ion-card-subtitle>
         </ion-card-header>
       
         <ion-card-content (click)="goRecipe(recipe)">
           {{ recipe.description.length > 75 ? (recipe.description | slice:0:75) + '...' : recipe.description }}
-          <br>
-          <ion-grid>
-            <ion-row>
-              <ion-col>
-                {{ recipe.allergens }}
-              </ion-col>
-              <ion-col size="auto">
-              </ion-col>
-            </ion-row>
-          </ion-grid>
         </ion-card-content>
       </ion-card>
     </ion-item>

@@ -46,13 +46,16 @@ class RecipeView(ModelViewSet):
             list = lists.filter(is_default_list=is_def_list).first()
 
         # Remove
-        if self.get_object().saved_by.filter(id=request.user.id).exists():
-            self.get_object().saved_by.remove(request.user)
+        if RecipeList.objects.filter(
+            id=list.id,
+            owner=request.user,
+            recipes=self.get_object()
+        ).exists():
             list.recipes.remove(self.get_object())
-        # Add
         else:
-            self.get_object().saved_by.add(request.user)
             list.recipes.add(self.get_object())
+
+        self.serializer_class.request = request
         return Response(self.serializer_class(self.get_object()).data)
 
 
@@ -73,6 +76,7 @@ class RecipeListView(ModelViewSet):
     serializer_class = RecipeListSerializer
     filterset_fields = (
         'owner',
+        'recipes'
     )
 
 

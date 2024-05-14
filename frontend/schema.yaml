@@ -1428,6 +1428,14 @@ paths:
         name: owner
         schema:
           type: integer
+      - in: query
+        name: recipes
+        schema:
+          type: array
+          items:
+            type: integer
+        explode: true
+        style: form
       - name: search
         required: false
         in: query
@@ -2983,6 +2991,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RecipeStep'
+        saved:
+          type: boolean
+          readOnly: true
     PatchedRecipeCategory:
       type: object
       description: |-
@@ -3207,6 +3218,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RecipeStep'
+        saved:
+          type: boolean
+          readOnly: true
       required:
       - allergens
       - category_data
@@ -3218,6 +3232,7 @@ components:
       - ingredients
       - name
       - owner
+      - saved
       - saved_by
       - steps
       - time

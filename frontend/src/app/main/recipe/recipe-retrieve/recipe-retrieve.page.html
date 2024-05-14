@@ -203,7 +203,14 @@
 >
     <ng-template>
         <ion-header [translucent]="true">
-          </ion-header>
+          <ion-toolbar>
+            <ion-buttons slot="end">
+              <ion-button (click)="closeSearch()">
+                Hecho
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
         <ion-content id="main-content" [fullscreen]="true">
           <div style="margin: 20px">
               <ion-list lines="none">
@@ -219,7 +226,7 @@
                   }"
                   >
                   </div>
-                  {{list.name}}
+                  <ion-checkbox [checked]="isChecked(list)">{{list.name}}</ion-checkbox>
                 </ion-item>
               </ion-list>
           </div>

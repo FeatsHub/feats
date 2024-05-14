@@ -4,6 +4,7 @@ from rest_framework import serializers
 from image_library.serializers import ImageSerializer
 from user.serializers import RecipeOwnerSerializer
 from drf_writable_nested.serializers import WritableNestedModelSerializer
+from drf_spectacular.utils import extend_schema_field
 
 
 class RecipeCategorySerializer(DynamicModelSerializer):
@@ -64,6 +65,7 @@ class RecipeSerializer(DynamicModelSerializer, WritableNestedModelSerializer):
     ingredients = RecipeIngredientSerializer(many=True) # Writable
     creator = RecipeOwnerSerializer(source='owner', read_only=True)
     steps = RecipeStepSerializer(many=True) # Writable
+    saved = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Recipe
@@ -84,6 +86,7 @@ class RecipeSerializer(DynamicModelSerializer, WritableNestedModelSerializer):
             'allergens',
             'creator',
             'steps',
+            'saved'
         )
         read_only_fields = (
             'id',
@@ -93,11 +96,20 @@ class RecipeSerializer(DynamicModelSerializer, WritableNestedModelSerializer):
             'saved_by',
             'allergens',
             'creator',
+            'saved'
         )
 
     def create(self, validated_data):
         validated_data['owner'] = self.context['request'].user
         return super().create(validated_data)
+
+    @extend_schema_field(field=serializers.BooleanField)
+    def get_saved(self, object):
+        request = self.request if hasattr(self, 'request') else self.context.get('request')
+        return RecipeList.objects.filter(
+            owner=request.user,
+            recipes=object
+        ).exists()
 
 
 class RecipeListSerializer(DynamicModelSerializer):

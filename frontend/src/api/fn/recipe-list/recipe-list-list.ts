@@ -35,6 +35,7 @@ export interface RecipeListList$Params {
  */
   ordering?: string;
   owner?: number;
+  recipes?: Array<number>;
 
 /**
  * A search term.
@@ -51,6 +52,7 @@ export function recipeListList(http: HttpClient, rootUrl: string, params?: Recip
     rb.query('offset', params.offset, {});
     rb.query('ordering', params.ordering, {});
     rb.query('owner', params.owner, {});
+    rb.query('recipes', params.recipes, {"style":"form","explode":true});
     rb.query('search', params.search, {});
   }
 
