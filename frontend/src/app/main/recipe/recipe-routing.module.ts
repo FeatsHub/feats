@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RecipeListPage } from './recipe-list/recipe-list.page';
-import { RecipeFormPage } from './recipe-form/recipe-form.page';
-import { RecipeDetailPage } from './recipe-retrieve/recipe-retrieve.page';
-import { IngredientsFormPage } from './ingredients-form/ingredients-form.page';
-import { StepFormPage } from './recipe-steps-form/recipe-steps-form.page';
+import { RecipeFormPage } from './recipe/recipe-form/recipe-form.page';
+import { StepFormPage } from './recipe/recipe-steps-form/recipe-steps-form.page';
+import { RecipeDetailPage } from './recipe/recipe-retrieve/recipe-retrieve.page';
+import { IngredientsFormPage } from './ingredient/ingredients-form/ingredients-form.page';
 
 const routes: Routes = [
   {

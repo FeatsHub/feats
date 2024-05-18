@@ -8,7 +8,7 @@ import { ProfileRetrievePage } from './profile/profile-retrieve/profile-retrieve
 import { ProfileFormPage } from './profile/profile-form/profile-form.page';
 import { ImagePickerModule } from 'src/app/components/image-picker/image-picker.module';
 import { SavedRecipesPage } from './profile/saved-recipes-list/saved-recipes.page';
-import { RecipeTableModule } from '../recipe/recipe-table/recipe-table.module';
+import { RecipeTableModule } from '../recipe/recipe/recipe-table/recipe-table.module';
 
 @NgModule({
   imports: [
