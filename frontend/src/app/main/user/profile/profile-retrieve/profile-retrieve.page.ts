@@ -291,10 +291,4 @@ export class ProfileRetrievePage implements OnInit {
     this.isActionSheetOpen = isOpen;
   }
 
-  ionViewWillEnter(){
-    this.getOwnRecipes()
-    this.getHiddenRecipes()
-    this.getOwnLists()
-  }
-
 }
