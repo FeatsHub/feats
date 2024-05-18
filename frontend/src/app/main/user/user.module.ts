@@ -10,6 +10,7 @@ import { ImagePickerModule } from 'src/app/components/image-picker/image-picker.
 import { SavedRecipesPage } from './profile/saved-recipes-list/saved-recipes.page';
 import { RecipeTableModule } from '../recipe/recipe/recipe-table/recipe-table.module';
 import { ProfileRecipesComponent } from './profile/profile-retrieve/components/profile-recipes-component/profile-recipes.component';
+import { ProfileRecipeListsComponent } from './profile/profile-retrieve/components/profile-recipe-lists-component/profile-recipe-lists.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { ProfileRecipesComponent } from './profile/profile-retrieve/components/p
     ProfileRetrievePage,
     ProfileFormPage,
     SavedRecipesPage,
-    ProfileRecipesComponent
+    ProfileRecipesComponent,
+    ProfileRecipeListsComponent
   ]
 })
 export class ProfileModule {}

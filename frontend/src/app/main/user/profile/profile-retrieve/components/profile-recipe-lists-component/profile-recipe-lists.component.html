@@ -1,0 +1,50 @@
+<ion-alert
+    trigger="present-alert"
+    header="Crea una lista"
+    [buttons]="alertButtons"
+    [inputs]="alertInputs"
+    (didDismiss)="setResult($event)"
+></ion-alert>
+
+
+<ion-grid style="margin-top: 0px !important;">
+
+    <ion-row style="margin-bottom: 20px;">
+        <ion-col>
+            <ion-item id="present-alert">
+                Nueva lista
+                <ion-icon name="add-outline" slot="end"></ion-icon>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+
+
+    <ion-row>
+        <ion-col size="6" *ngFor="let recipeList of lists">
+            <div class="card-list-element" (click)="goList(recipeList.id)">
+                <ion-icon class="saved-icon saved-icon-bg" name="bookmark" *ngIf="recipeList.is_default_list"></ion-icon>
+                <ion-grid [ngClass]="{'four-recipes-default': recipeList.is_default_list}" class="four-recipes">
+                    <ng-container *ngFor="let row of [0, 1]">
+                        <ion-row>
+                            <ng-container *ngFor="let col of [0, 1]">
+                                <ion-col
+                                    class="recipe-detail"
+                                    [ngStyle]="{
+                                        'border-top-left-radius': row === 0 && col === 0 ? '10px' : '0',
+                                        'border-top-right-radius': row === 0 && col === 1 ? '10px' : '0',
+                                        'border-bottom-left-radius': row === 1 && col === 0 ? '10px' : '0',
+                                        'border-bottom-right-radius': row === 1 && col === 1 ? '10px' : '0',
+                                        'background-image': 'url(' + ((recipeList.recipes_data[row * 2 + col] && recipeList.recipes_data[row * 2 + col].image_data) ? recipeList.recipes_data[row * 2 + col].image_data.image : '') + ')'
+                                    }"
+                                ></ion-col>
+                            </ng-container>
+                        </ion-row>
+                    </ng-container>
+                </ion-grid>
+                <h5 class="list-name">
+                    {{ recipeList.name.length > 14 ? (recipeList.name | slice:0:15) + '...' : recipeList.name }}
+                </h5>
+            </div>
+        </ion-col>
+    </ion-row>
+</ion-grid>

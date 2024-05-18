@@ -5,6 +5,7 @@ import { RecipeListService, RecipeService, UserService } from 'src/api/services'
 import { RecipeList } from 'src/api/models';
 import { Subscription } from 'rxjs';
 import { ProfileRecipesComponent } from './components/profile-recipes-component/profile-recipes.component';
+import { ProfileRecipeListsComponent } from './components/profile-recipe-lists-component/profile-recipe-lists.component';
 
 interface Tab {
     icon: string,
@@ -23,12 +24,12 @@ export class ProfileRetrievePage implements OnInit {
   userId: number
   user: User
 
-  recipeLists: RecipeList[]
   isActionSheetOpen = false
 
   // Tabs components
   @ViewChild('publicRecipes') publicRecipesComponent: ProfileRecipesComponent
   @ViewChild('privateRecipes') privateRecipesComponent: ProfileRecipesComponent
+  @ViewChild('recipeLists') recipeListsComponent: ProfileRecipeListsComponent
 
   tabs: Tab[] = [
     {
@@ -48,13 +49,6 @@ export class ProfileRetrievePage implements OnInit {
     },
   ] 
 
-  public alertButtons = ['Save'];
-  public alertInputs = [
-    {
-      placeholder: 'Nombre',
-    },
-  ];
-
   menuButtons = [
     {
       text: 'Ajustes',
@@ -72,9 +66,8 @@ export class ProfileRetrievePage implements OnInit {
 
   constructor (
     private _userService: UserService,
-    private _router: Router,
     private _route: ActivatedRoute,
-    private _recipeListService: RecipeListService
+    private _router: Router,
   ) {
   }
 
@@ -107,30 +100,7 @@ export class ProfileRetrievePage implements OnInit {
             })
           }
         },
-      error: (e) => {},
-      complete: () => {
-        //this.getOwnRecipes()
-        //this.getHiddenRecipes()
-        this.getOwnLists()
-      }
-    });
-  }
-
-  getOwnLists(){
-    this._recipeListService.recipeListList$Response(
-      {
-        expand: '~~all,recipes_data.~all',
-        fields: 'id,name,is_default_list,recipes_data.image_data.image',
-        owner: this.user.id
-      }
-      ).subscribe({
-      next: (response) => {
-        this.recipeLists = response.body.results!
-      },
-      error: (e) => {
-      },
-      complete: () => {
-      }
+      error: (e) => {}
     });
   }
 
@@ -156,38 +126,11 @@ export class ProfileRetrievePage implements OnInit {
       },
       complete: () => {
         localStorage.removeItem('accessToken')
-        this._router.navigate(['/recipes']);
+        this._router.navigate(['/login']);
       }
     });
   }
 
-  setResult(ev: any) {
-    const listName = ev.detail.data.values['0']
-
-    this._recipeListService.recipeListCreate$Json$Response(
-      {
-        body: {
-          id: -1,
-          name: listName,
-          owner: this.user.id,
-          recipes: [],
-          recipes_data: []
-        }
-      }
-    ).subscribe({
-        next: (response) => {
-          this.recipeLists.push(response.body)
-        },
-        error: (e) => {
-        },
-        complete: () => {
-        }
-      });
-  }
-
-  goList(id: number){
-    this._router.navigate(['/profile/recipes/' + id]);
-  }
 
   selectTab(selectedTab: Tab): void {
     this.tabs.forEach(tab => {
@@ -214,6 +157,7 @@ export class ProfileRetrievePage implements OnInit {
   handleRefresh(event: any){
     this.publicRecipesComponent?.handleRefresh(event);
     this.privateRecipesComponent?.handleRefresh(event);
+    this.recipeListsComponent?.handleRefresh(event);
   }
 
 }

@@ -52,10 +52,10 @@ export class ImagePickerComponent  implements OnInit {
   }
 
   async takePicture(e: any) {
-    if (e.detail.data.action == 'camera') {
+    if (e.detail.data?.action == 'camera') {
       this.openGallery(CameraSource.Camera)
   
-    }else if (e.detail.data.action == 'gallery') {
+    }else if (e.detail.data?.action == 'gallery') {
       this.openGallery(CameraSource.Photos)
     }
   }

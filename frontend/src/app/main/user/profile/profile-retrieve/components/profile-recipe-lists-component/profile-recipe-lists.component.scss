@@ -1,0 +1,52 @@
+.saved-icon{
+    border-radius: 100%;
+    z-index: 1;
+    position: absolute;
+    padding: 10px;
+    font-size: large;
+}
+
+.saved-icon-bg{
+    background-color: white;
+}
+
+.four-recipes{
+    margin: 0px !important;
+}
+
+.recipe-detail{
+    background-color: #f3f3f3;
+    width: 20px;
+    height: 60px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.list-name{
+    padding-left: 10px;
+    font-size: 16px;
+    position: relative;
+    top: -10px;
+}
+
+
+
+@media (prefers-color-scheme: dark) {
+    .recipe-detail{
+        background-color: #555555;
+        width: 20px;
+        height: 60px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .saved-icon-bg{
+        background-color: #1c1c1d;
+    }
+
+    .profile-tab.selected {
+        border-bottom: 2px solid white;
+    }
+}

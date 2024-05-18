@@ -48,7 +48,7 @@ export class ProfileRecipesComponent implements OnInit {
         },
         error: (e) => {},
         complete: () => {
-        event?.target.complete();
+          event?.target.complete();
 
           // Recipes already loaded
           this.loaded = true;

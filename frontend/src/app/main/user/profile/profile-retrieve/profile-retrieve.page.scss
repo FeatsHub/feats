@@ -1,7 +1,3 @@
-ion-grid {
-    margin-top: 20px;
-}
-
 .profile-image{
     margin: 0px auto;
     width: 50px;
@@ -18,41 +14,6 @@ ion-grid {
     background-repeat:no-repeat;
 }
 
-.recipe-detail-big{
-    background-color: #555555;
-    width: 40px;
-    height: 120px;
-    text-align: center;
-    border-radius: 10px;
-}
-
-.list-name{
-    padding-left: 10px;
-    font-size: 16px;
-    position: relative;
-    top: -10px;
-}
-
-.four-recipes{
-    margin: 0px !important;
-}
-
-.recipe-detail-big{
-    background-color: #f3f3f3;
-    width: 40px;
-    height: 120px;
-    text-align: center;
-    border-radius: 10px;
-}
-
-.recipe-detail{
-    background-color: #f3f3f3;
-    width: 20px;
-    height: 60px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
 
 .profile-tab {
     text-align: center;
@@ -62,43 +23,4 @@ ion-grid {
 
 .profile-tab.selected {
     border-bottom: 2px solid black;
-}
-
-.saved-icon{
-    border-radius: 100%;
-    z-index: 1;
-    position: absolute;
-    padding: 10px;
-    font-size: large;
-}
-
-.saved-icon-bg{
-    background-color: white;
-}
-
-@media (prefers-color-scheme: dark) {
-    .recipe-detail-big{
-        background-color: #555555;
-        width: 40px;
-        height: 120px;
-        text-align: center;
-        border-radius: 10px;
-    }
-    
-    .recipe-detail{
-        background-color: #555555;
-        width: 20px;
-        height: 60px;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-
-    .saved-icon-bg{
-        background-color: #1c1c1d;
-    }
-
-    .profile-tab.selected {
-        border-bottom: 2px solid white;
-    }
 }
