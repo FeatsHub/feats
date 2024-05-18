@@ -1,0 +1,17 @@
+<div style="margin: 20px">
+  <div style="text-align: center; color: gray;margin-bottom: 10px;">
+    <ion-label
+      *ngIf="showNoMoreCategoryText"
+    >Solo puedes seleccionar 3 categorias</ion-label>
+  </div>
+  <ion-chip 
+    *ngFor="let category of categories"
+    [outline]="true"
+    (click)="selectCategory(category)" 
+    [color]="hasCategory(category) ? 'primary' : ''">
+    {{category.name}}
+  </ion-chip>
+  <ion-chip [outline]="true" *ngIf="selectedCategories.length < 1" (click)="createCategory()">
+    {{searchedText}}
+  </ion-chip>
+</div>

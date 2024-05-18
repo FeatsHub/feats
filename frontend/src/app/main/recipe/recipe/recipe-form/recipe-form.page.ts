@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Food, Recipe, RecipeCategory, RecipeIngredient, RecipeStep } from 'src/api/models';
@@ -8,6 +8,7 @@ import { Image } from 'src/api/models';
 import { ImageLibraryService } from 'src/api/services';
 import { LoadingController } from '@ionic/angular';
 import { ImageGenerator } from 'src/app/utils/functions';
+import { RecipeCategoryList } from '../recipe-category-list/recipe-category-list.component';
 
 @Component({
   selector: 'app-recipe-form',
@@ -20,15 +21,15 @@ export class RecipeFormPage implements OnInit{
   recipeImageForm: FormGroup
   routeSub: Subscription
   selectedImage = ''
-  recipeCategories: RecipeCategory[]
   recipeId = -1
   searchedFoods: Food[] = []
   productName = ''
   navigationExtras: NavigationExtras
+
   showSearch = false
-  searchedText = ''
+
   currentRecipeCategories: RecipeCategory[] = []
-  showNoMoreCategoryText = false
+  @ViewChild('recipeCategoryList') recipeCategoryListComponent: RecipeCategoryList
 
   constructor(
     private _loadingCtrl: LoadingController,
@@ -41,10 +42,6 @@ export class RecipeFormPage implements OnInit{
     private _productService: FoodService
   ) {
     this.selectedImage = ImageGenerator.getRandomRecipeImage()
-  }
-
-  get ingredients(): FormArray {
-    return this.recipeForm.get('ingredients') as FormArray;
   }
 
   async ngOnInit() {
@@ -75,9 +72,6 @@ export class RecipeFormPage implements OnInit{
       const search = modal.querySelector('ion-searchbar')!;
       search.setFocus();
     });
-
-    // 🚩 Obtaining recipeCategory list
-    this.getCategories()
 
     // 🚩 Take id from url
     this.routeSub = this._route.params.subscribe(params => {
@@ -115,23 +109,6 @@ export class RecipeFormPage implements OnInit{
     loading.dismiss();
   }
 
-  getCategories(searchedText: string | undefined = undefined){
-    this._recipeCategoryService.recipeCategoryList(
-      {
-        search: searchedText
-      }
-    ).subscribe({
-      next: (recipeCategories) => {
-        if (recipeCategories.results != undefined){
-          this.recipeCategories = recipeCategories.results;
-        }
-      },
-      error: (e) => console.error(e),
-      complete: () => {
-      }
-    });
-  }
-
   imageSelected(image: any){
     this.recipeImageForm.patchValue({
       image: image
@@ -153,6 +130,7 @@ export class RecipeFormPage implements OnInit{
   }
 
   async submit(){
+    this.recipeForm.patchValue({category: this.currentRecipeCategories.map(item => item.id)})
     const recipe = this.recipeForm.value as Recipe
     if (this.recipeId != -1){
       this._recipeService.recipePartialUpdate$Json$Response({body: recipe, id:this.recipeId}).subscribe({
@@ -178,10 +156,8 @@ export class RecipeFormPage implements OnInit{
     }
   }
 
-  handleCategorySearch(e: any){
-    const query = e.target.value.toLowerCase();
-    this.getCategories(query);
-    this.searchedText = query;
+  openCatagoryModal(){
+    this.showSearch = true
   }
 
   closeSearch(){
@@ -192,55 +168,15 @@ export class RecipeFormPage implements OnInit{
 
   }
 
-  openCatagoryModal(){
-    this.getCategories();
-    this.showSearch = true
-  }
-
-  createCategory(){
-    this._recipeCategoryService.recipeCategoryCreate$Json$Response(
-      {
-        body: {
-          id: -1,
-          name: this.searchedText
-        }
-      }
-    ).subscribe({
-      next: (response) => {
-        this.selectCategory(response.body);
-      },
-      error: (e) => console.error(e),
-      complete: () => {
-        //this.showSearch = false
-      }
-    });
-  }
-
-  selectCategory(category: RecipeCategory){
-    if (!this.hasCategory(category)){
-      if (this.currentRecipeCategories.length < 3){
-        this.currentRecipeCategories.push(category)
-        this.recipeForm.patchValue({category: this.currentRecipeCategories.map(item => item.id)})
-        this.showNoMoreCategoryText = false
-      }
-      else{
-        this.showNoMoreCategoryText = true;
-      }
-    }else{
-      this.deleteCategory(category)
-      this.showNoMoreCategoryText = false
-    }
-    
-  }
-
-  hasCategory(category: RecipeCategory){
-    return this.currentRecipeCategories.find(item => JSON.stringify(item) === JSON.stringify(category)) !== undefined;
+  handleCategorySearch(e: any){
+    const query = e.target.value.toLowerCase();
+    this.recipeCategoryListComponent.handleCategorySearch(e);
   }
 
   deleteCategory(category: RecipeCategory){
     let position = this.currentRecipeCategories.indexOf(category)
     this.currentRecipeCategories.splice(position, 1)
-    this.recipeForm.patchValue({category: this.currentRecipeCategories})
+    //this.recipeForm.patchValue({category: this.currentRecipeCategories})
   }
 
 }

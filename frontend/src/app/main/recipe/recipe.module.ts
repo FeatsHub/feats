@@ -14,6 +14,7 @@ import { RecipeFormPage } from './recipe/recipe-form/recipe-form.page';
 import { RecipeListPage } from './recipe/recipe-list/recipe-list.page';
 import { StepFormPage } from './recipe/recipe-steps-form/recipe-steps-form.page';
 import { IngredientsFormPage } from './ingredient/ingredients-form/ingredients-form.page';
+import { RecipeCategoryListModule } from './recipe/recipe-category-list/recipe-category-list.module';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { IngredientsFormPage } from './ingredient/ingredients-form/ingredients-f
     ImagePickerModule,
     RecipeTableModule,
     AllergensListModule,
-    UserListModule
+    UserListModule,
+    RecipeCategoryListModule
   ],
   declarations: [
     RecipeDetailPage,

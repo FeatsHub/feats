@@ -99,7 +99,6 @@
       </ion-list>
     </div>
   </form>
-
   <ion-modal
     [isOpen]="showSearch"
     [initialBreakpoint]="1"
@@ -108,41 +107,28 @@
     [backdropBreakpoint]="0.3"
     (didDismiss)="closeSearch()"
     id="search-modal"
->
-    <ng-template>
-        <ion-header [translucent]="true">
-            <ion-toolbar>
-                <ion-searchbar
-                    class="search-bar"
-                    #searchBar
-                    show-cancel-button="always"
-                    placeholder="Búsqueda"
-                    (ionInput)="handleCategorySearch($event)"
-                    (ionFocus)="searchFocus()"
-                    (ionCancel)="closeSearch()"
-                    cancel-button-text="Cerrar"
-                ></ion-searchbar>
-            </ion-toolbar>
-          </ion-header>
-        <ion-content id="main-content" [fullscreen]="true">
-          <div style="margin: 20px">
-            <div style="text-align: center; color: gray;margin-bottom: 10px;">
-              <ion-label
-                *ngIf="showNoMoreCategoryText"
-              >Solo puedes seleccionar 3 categorias</ion-label>
-            </div>
-            <ion-chip 
-              *ngFor="let category of recipeCategories"
-              [outline]="true"
-              (click)="selectCategory(category)" 
-              [color]="hasCategory(category) ? 'primary' : ''">
-              {{category.name}}
-            </ion-chip>
-            <ion-chip [outline]="true" *ngIf="recipeCategories.length < 1" (click)="createCategory()">
-              {{searchedText}}
-            </ion-chip>
-          </div>
-        </ion-content>
-    </ng-template>
-</ion-modal>
+  >
+  <ng-template>
+    <ion-header [translucent]="true">
+      <ion-toolbar>
+          <ion-searchbar
+            class="search-bar"
+            #searchBar
+            show-cancel-button="always"
+            placeholder="Búsqueda"
+            (ionInput)="handleCategorySearch($event)"
+            (ionFocus)="searchFocus()"
+            (ionCancel)="closeSearch()"
+            cancel-button-text="Cerrar"
+          ></ion-searchbar>
+      </ion-toolbar>
+    </ion-header>
+      <ion-content id="main-content" [fullscreen]="true">
+        <app-recipe-category-list
+          #recipeCategoryList
+          [selectedCategories]="currentRecipeCategories"
+        ></app-recipe-category-list>
+      </ion-content>
+  </ng-template>
+  </ion-modal>
 </ion-content>
