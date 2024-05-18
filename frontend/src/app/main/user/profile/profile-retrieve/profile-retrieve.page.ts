@@ -26,6 +26,8 @@ export class ProfileRetrievePage implements OnInit {
   recipesListLoaded = false
   recipesHiddenLoaded = false
   limit = 5
+  refreshingRecipes = false
+  refreshingHiddenRecipes = false
 
   tabs: Tab[] = [
     {
@@ -156,44 +158,66 @@ export class ProfileRetrievePage implements OnInit {
     });
   }
 
-  getOwnRecipes(){
+  getOwnRecipes(event: any = undefined){
     this._recipeService.recipeList$Response(
       {
         expand: '~all,creator.~all',
         owner: this.user.id,
         is_public: true,
         limit: this.limit,
-        offset: this.myRecipes.length
+        offset: this.refreshingRecipes ? 0 : this.myRecipes.length
       }
     ).subscribe(
       {
         next: (response) => {
-          this.myRecipes =  [...this.myRecipes, ...response.body.results!]
-          this.recipesLoaded = true
+          if (!this.refreshingRecipes){
+            this.myRecipes =  [...this.myRecipes, ...response.body.results!]
+          }else{
+            this.myRecipes = response.body.results!
+          }
           },
         error: (e) => {},
-        complete: () => {}
+        complete: () => {
+          if (event){
+            event.target.complete();
+          }
+          this.recipesLoaded = true
+          if (this.refreshingRecipes){
+            this.refreshingRecipes = false
+          }
+        }
       }
     );
   }
 
-  getHiddenRecipes(){
+  getHiddenRecipes(event: any = undefined){
     this._recipeService.recipeList$Response(
       {
         expand: '~all,creator.~all',
         owner: this.user.id,
         is_public: false,
         limit: this.limit,
-        offset: this.myHiddenRecipes.length
+        offset: this.refreshingHiddenRecipes ? 0 : this.myHiddenRecipes.length
       }
     ).subscribe(
       {
         next: (response) => {
-          this.myHiddenRecipes =  [...this.myHiddenRecipes, ...response.body.results!]
-          this.recipesHiddenLoaded = true
-          },
+          if (!this.refreshingHiddenRecipes){
+            this.myHiddenRecipes =  [...this.myHiddenRecipes, ...response.body.results!]
+          }else{
+            this.myHiddenRecipes = response.body.results!
+          }
+        },
         error: (e) => {},
-        complete: () => {}
+        complete: () => {
+          if (event){
+            event.target.complete();
+          }
+          this.recipesHiddenLoaded = true
+          if (this.refreshingHiddenRecipes){
+            this.refreshingHiddenRecipes = false
+          }
+        }
       }
     );
   }
@@ -276,11 +300,10 @@ export class ProfileRetrievePage implements OnInit {
   }
 
   handleRefresh(e: any){
-    setTimeout(() => {
-      this.getOwnRecipes();
-      this.getHiddenRecipes()
-      e.target.complete();
-    }, 2000);
+    this.refreshingRecipes = true
+    this.refreshingHiddenRecipes = true
+    this.getOwnRecipes(e);
+    this.getHiddenRecipes(e);
   }
 
   isOwn(){
