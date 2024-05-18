@@ -24,8 +24,8 @@ export class ProfileRetrievePage implements OnInit {
   loaded = false
   recipesLoaded = false
   recipesListLoaded = false
+  recipesHiddenLoaded = false
   limit = 5
-  offset = 0
 
   tabs: Tab[] = [
     {
@@ -131,6 +131,7 @@ export class ProfileRetrievePage implements OnInit {
       },
       complete: () => {
         this.getOwnRecipes()
+        this.getHiddenRecipes()
         this.getOwnLists()
       }
     });
@@ -162,38 +163,39 @@ export class ProfileRetrievePage implements OnInit {
         owner: this.user.id,
         is_public: true,
         limit: this.limit,
-        offset: this.offset
+        offset: this.myRecipes.length
       }
     ).subscribe(
       {
         next: (response) => {
-          this.myRecipes = response.body.results!
+          this.myRecipes =  [...this.myRecipes, ...response.body.results!]
           this.recipesLoaded = true
           },
         error: (e) => {},
         complete: () => {}
       }
     );
+  }
 
+  getHiddenRecipes(){
     this._recipeService.recipeList$Response(
       {
         expand: '~all,creator.~all',
         owner: this.user.id,
         is_public: false,
         limit: this.limit,
-        offset: this.offset
+        offset: this.myHiddenRecipes.length
       }
     ).subscribe(
       {
         next: (response) => {
-          this.myHiddenRecipes = response.body.results!
-          this.recipesLoaded = true
+          this.myHiddenRecipes =  [...this.myHiddenRecipes, ...response.body.results!]
+          this.recipesHiddenLoaded = true
           },
         error: (e) => {},
         complete: () => {}
       }
     );
-
   }
 
   profileMenuResult(event: any){
@@ -265,14 +267,18 @@ export class ProfileRetrievePage implements OnInit {
     return this.tabs.find(tab => tab.tab === tabName)?.selected ?? false;
   }
 
-  handleInfiniteScroll(event: any){
-    this.offset = this.offset + 10
+  handleInfiniteRecipeScroll(event: any){
     this.getOwnRecipes();
+  }
+
+  handleInfiniteHiddenScroll(event: any){
+    this.getHiddenRecipes();
   }
 
   handleRefresh(e: any){
     setTimeout(() => {
       this.getOwnRecipes();
+      this.getHiddenRecipes()
       e.target.complete();
     }, 2000);
   }
@@ -286,7 +292,8 @@ export class ProfileRetrievePage implements OnInit {
   }
 
   ionViewWillEnter(){
-    this.getOwnRecipes();
+    this.getOwnRecipes()
+    this.getHiddenRecipes()
     this.getOwnLists()
   }
 

@@ -18,7 +18,6 @@ export class RecipeListPage implements OnInit {
   userId = Number(localStorage.getItem('userId'))
   searchedText: string | undefined = undefined
   limit = 5
-  offset = 0
   selectedAllergens = [1, 3, 4]
   showSearch = false
 
@@ -61,10 +60,18 @@ export class RecipeListPage implements OnInit {
       this.selectedCategory = undefined;
     }
 
-    this._recipeService.recipeList({expand: '~all,creator.~all', category: selectedCategory, search: search}).subscribe({
+    this._recipeService.recipeList(
+      {
+        expand: '~all,creator.~all',
+        category: selectedCategory,
+        search: search,
+        offset: this.recipes.length,
+        limit: this.limit
+      }
+    ).subscribe({
       next: (recipes) => {
         if (recipes.results != undefined){
-          this.recipes = recipes.results;
+          this.recipes =  [...this.recipes, ...recipes.results!]
         }
       },
       error: (e) => console.error(e),
@@ -120,8 +127,7 @@ export class RecipeListPage implements OnInit {
   }
 
   handleInfiniteScroll(event: any){
-    this.offset = this.offset + 10
-    //this.getOwnRecipes();
+    this.getRecipes();
   }
 
   searchFocus(){
