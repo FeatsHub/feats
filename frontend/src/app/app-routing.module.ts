@@ -4,7 +4,7 @@ import { LoginPage } from "./main/user/login/login.page";
 import { RegisterPage } from './main/user/register/register.page';
 import { SettingsPage } from './main/settings/settings.page';
 import { ProfileRetrievePage } from './main/user/profile/profile-retrieve/profile-retrieve.page';
-import { TabsComponent } from './components/tabs/tabs.component';
+import { TabsComponent } from './components/app-tabs/tabs.component';
 import { RecipeListPage } from './main/recipe/recipe/recipe-list/recipe-list.page';
 
 const routes: Routes = [

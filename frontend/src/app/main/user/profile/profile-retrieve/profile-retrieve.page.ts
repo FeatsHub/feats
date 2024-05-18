@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Recipe, RoleEnum, User } from 'src/api/models';
 import { RecipeListService, RecipeService, UserService } from 'src/api/services';
 import { RecipeList } from 'src/api/models';
-import { InfiniteScrollCustomEvent } from '@ionic/angular';
-import { Subscription, expand } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { ProfileRecipesComponent } from './components/profile-recipes-component/profile-recipes.component';
 
 interface Tab {
     icon: string,
@@ -15,19 +15,20 @@ interface Tab {
 @Component({
   selector: 'app-profile',
   templateUrl: 'profile-retrieve.page.html',
-  styleUrls: ['profile-retrieve.page.scss']
+  styleUrls: ['profile-retrieve.page.scss'],
 })
 export class ProfileRetrievePage implements OnInit {
 
-  routeSub: Subscription
-  imageUrl: string | null = null
   loaded = false
-  recipesLoaded = false
-  recipesListLoaded = false
-  recipesHiddenLoaded = false
-  limit = 5
-  refreshingRecipes = false
-  refreshingHiddenRecipes = false
+  userId: number
+  user: User
+
+  recipeLists: RecipeList[]
+  isActionSheetOpen = false
+
+  // Tabs components
+  @ViewChild('publicRecipes') publicRecipesComponent: ProfileRecipesComponent
+  @ViewChild('privateRecipes') privateRecipesComponent: ProfileRecipesComponent
 
   tabs: Tab[] = [
     {
@@ -69,71 +70,47 @@ export class ProfileRetrievePage implements OnInit {
     }
   ];
 
-  user: User
-  myRecipes: Recipe[] = []
-  myHiddenRecipes: Recipe[] = []
-  recipeLists: RecipeList[]
-
-  isActionSheetOpen = false
-
   constructor (
     private _userService: UserService,
     private _router: Router,
-    private _recipeListService: RecipeListService,
-    private _recipeService: RecipeService,
     private _route: ActivatedRoute,
+    private _recipeListService: RecipeListService
   ) {
   }
 
   ngOnInit() {
-    this.routeSub = this._route.params.subscribe(params => {
-      // 🚩 Edit Mode and take the recipe from api
-      if (params['id'] != undefined){
-        this._userService.userRetrieve$Response({
-          id: params['id'], expand: '~all'
-        }).subscribe({
-          next: (response) =>{
-            this.user = response.body
-            this.loaded = true
-            if (this.user.image_data){
-              this.imageUrl = this.user.image_data.image!
-            }
-          },
-          error: () => {
-            this._router.navigate(['/recipes']);
-          },
-          complete: () => {
-            this.getOwnRecipes()
-          }
-        });
-      }else {
-        this.getCurrentUser();
+    this._route.params.subscribe(
+      params => {
+        // If there isn't user in query param takes current user
+        this.userId = params['id'] ? params['id'] : localStorage.getItem('userId')
+        this.getUser(this.userId)
       }
-    })
+    )
   }
 
-  getCurrentUser(){
-    this._userService.userCurrentRetrieve$Response({expand: '~all'}).subscribe({
-      next: (response) => {
-        this.user = response.body
-        this.loaded = true
+  getUser(userId: number){
+    this._userService.userRetrieve(
+      {
+        expand: '~all',
+        id: this.userId
+      }
+    ).subscribe(
+      {
+        next: (user) => {
+          this.user = user
+          this.loaded = true
 
-        if (this.user.image_data){
-          this.imageUrl = this.user.image_data.image!
-        }
-
-        if (this.user.role == RoleEnum.Superadmin && this.menuButtons.find(item => item.role === 'admin') == undefined){
-          this.menuButtons.unshift({
-            text: 'Admin',
-            role: 'admin',
-          })
-        }
-      },
-      error: (e) => {
-      },
+          if (this.user.role == RoleEnum.Superadmin && this.menuButtons.find(item => item.role === 'admin') == undefined){
+            this.menuButtons.unshift({
+              text: 'Admin',
+              role: 'admin',
+            })
+          }
+        },
+      error: (e) => {},
       complete: () => {
-        this.getOwnRecipes()
-        this.getHiddenRecipes()
+        //this.getOwnRecipes()
+        //this.getHiddenRecipes()
         this.getOwnLists()
       }
     });
@@ -149,77 +126,12 @@ export class ProfileRetrievePage implements OnInit {
       ).subscribe({
       next: (response) => {
         this.recipeLists = response.body.results!
-        this.recipesListLoaded = true
       },
       error: (e) => {
       },
       complete: () => {
       }
     });
-  }
-
-  getOwnRecipes(event: any = undefined){
-    this._recipeService.recipeList$Response(
-      {
-        expand: '~all,creator.~all',
-        owner: this.user.id,
-        is_public: true,
-        limit: this.limit,
-        offset: this.refreshingRecipes ? 0 : this.myRecipes.length
-      }
-    ).subscribe(
-      {
-        next: (response) => {
-          if (!this.refreshingRecipes){
-            this.myRecipes =  [...this.myRecipes, ...response.body.results!]
-          }else{
-            this.myRecipes = response.body.results!
-          }
-          },
-        error: (e) => {},
-        complete: () => {
-          if (event){
-            event.target.complete();
-          }
-          this.recipesLoaded = true
-          if (this.refreshingRecipes){
-            this.refreshingRecipes = false
-          }
-        }
-      }
-    );
-  }
-
-  getHiddenRecipes(event: any = undefined){
-    this._recipeService.recipeList$Response(
-      {
-        expand: '~all,creator.~all',
-        owner: this.user.id,
-        is_public: false,
-        limit: this.limit,
-        offset: this.refreshingHiddenRecipes ? 0 : this.myHiddenRecipes.length
-      }
-    ).subscribe(
-      {
-        next: (response) => {
-          if (!this.refreshingHiddenRecipes){
-            this.myHiddenRecipes =  [...this.myHiddenRecipes, ...response.body.results!]
-          }else{
-            this.myHiddenRecipes = response.body.results!
-          }
-        },
-        error: (e) => {},
-        complete: () => {
-          if (event){
-            event.target.complete();
-          }
-          this.recipesHiddenLoaded = true
-          if (this.refreshingHiddenRecipes){
-            this.refreshingHiddenRecipes = false
-          }
-        }
-      }
-    );
   }
 
   profileMenuResult(event: any){
@@ -291,27 +203,17 @@ export class ProfileRetrievePage implements OnInit {
     return this.tabs.find(tab => tab.tab === tabName)?.selected ?? false;
   }
 
-  handleInfiniteRecipeScroll(event: any){
-    this.getOwnRecipes();
-  }
-
-  handleInfiniteHiddenScroll(event: any){
-    this.getHiddenRecipes();
-  }
-
-  handleRefresh(e: any){
-    this.refreshingRecipes = true
-    this.refreshingHiddenRecipes = true
-    this.getOwnRecipes(e);
-    this.getHiddenRecipes(e);
-  }
-
-  isOwn(){
-    return localStorage.getItem('userId') == this.user.id.toString()
+  itsMe(){
+    return this.userId == this.user.id
   }
 
   setOpen(isOpen: boolean) {
     this.isActionSheetOpen = isOpen;
+  }
+
+  handleRefresh(event: any){
+    this.publicRecipesComponent?.handleRefresh(event);
+    this.privateRecipesComponent?.handleRefresh(event);
   }
 
 }
