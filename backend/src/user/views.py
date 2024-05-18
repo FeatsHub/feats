@@ -242,15 +242,32 @@ class UserView(ModelViewSet):
         return user_serializers.PermissionSerializer(permissions_list, many=True).data
 
     @extend_schema(
+        request=user_serializers.UserPreferencesSerializer,
         responses={status.HTTP_200_OK: user_serializers.UserPreferencesSerializer}
     )
-    @action(detail=True, methods=['get'])
+    @action(detail=True, methods=['get', 'patch'])
     def preferences(self, request, *args, **kwargs):
-        if request.user == self.get_object():
-            preferences = self.get_object().preferences
-            preferences_data = user_serializers.UserPreferencesSerializer(
-                instance=preferences
-            ).data
-            return Response(preferences_data)
-        else:
-            return Response(status=403)
+        if self.request.method == 'GET':
+            if request.user == self.get_object():
+                preferences = self.get_object().preferences
+                preferences_data = user_serializers.UserPreferencesSerializer(
+                    instance=preferences
+                ).data
+                return Response(preferences_data)
+            else:
+                return Response(status=403)
+
+        if self.request.method == 'PATCH':
+            kwargs['partial'] = True
+            partial = kwargs.pop('partial', False)
+            instance = self.get_object().preferences
+            serializer = user_serializers.UserPreferencesSerializer(instance, data=request.data, partial=partial)
+            serializer.is_valid(raise_exception=True)
+            self.perform_update(serializer)
+
+            if getattr(instance, '_prefetched_objects_cache', None):
+                # If 'prefetch_related' has been applied to a queryset, we need to
+                # forcibly invalidate the prefetch cache on the instance.
+                instance._prefetched_objects_cache = {}
+
+            return Response(serializer.data)

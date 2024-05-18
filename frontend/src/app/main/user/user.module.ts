@@ -21,7 +21,7 @@ import { ProfileRecipeListsComponent } from './profile/profile-retrieve/componen
     ProfileRoutingModule,
     ReactiveFormsModule,
     ImagePickerModule,
-    RecipeTableModule
+    RecipeTableModule,
   ],
   declarations: [
     ProfileRetrievePage,

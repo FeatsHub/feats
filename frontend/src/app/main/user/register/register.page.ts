@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
-import { User } from 'src/api/models';
+import { RecipeCategory, User } from 'src/api/models';
 import { UserService } from 'src/api/services';
 
 @Component({
@@ -15,17 +15,20 @@ export class RegisterPage implements OnInit {
   CHECK_EMAIL_STEP = 'checkEmail'
   CHECK_USERNAME_STEP = 'checkUsername'
   PASSWORD_STEP = 'password'
+  CATEGORIES_STEP = 'categories'
 
   current_step = 'checkEmail'
 
   userForm: FormGroup
+  createdUser: User
+  selectedCategories: RecipeCategory[] = []
 
   constructor(
     private _formBuilder: FormBuilder,
     private _userService: UserService,
     private _toastController: ToastController,
     private _loadingCtrl: LoadingController,
-    private _router: Router
+    private _router: Router,
   ) {
     this.userForm = this._formBuilder.group({
       first_name: new FormControl('', Validators.required),
@@ -59,12 +62,62 @@ export class RegisterPage implements OnInit {
       duration: 4000,
     });
     loading.present();
-    this._userService.userCreate$Json$Response({body: user}).subscribe({
+    this._userService.userCreate$Json$Response({body: user})
+      .subscribe(
+      {
+        next: (user) => {
+          this.createdUser = user.body
+        },
+        error: (e) => {
+          this._toastController.create({
+            message: e.error,
+            duration: 1500,
+            position: 'bottom',
+          }).then(
+            (toast) => {
+              toast.present()
+            }
+          );
+          console.error(e)
+        },
+        complete: () => {
+          loading.dismiss();
+          this.login(false);
+        }
+      }
+    );
+  }
+
+  saveCategories(){
+    this._userService.userPreferencesPartialUpdate$Json(
+      {
+        id: this.createdUser.id,
+        body: {
+          'favorite_categories': this.selectedCategories.map(item => {
+            return item.id
+          })
+        }
+      }
+    ).subscribe(
+      {
+        complete: () => {
+          this.login(true);
+        }
+      }
+    )
+  }
+
+  login(redirect: boolean = false){
+    this._userService.userLoginCreate$Json$Response({body:
+      {
+        email: this.userForm.get('email')!.value,
+        password: this.userForm.get('password')!.value,
+        token: -1,
+        id: -1
+      }}).subscribe({
       next: (response) => {
-        
       },
       error: (e) => {
-        loading.dismiss();
         this._toastController.create({
           message: e.error,
           duration: 1500,
@@ -77,35 +130,12 @@ export class RegisterPage implements OnInit {
         console.error(e)
       },
       complete: () => {
-        // Creation successfully, now login
-        this._userService.userLoginCreate$Json$Response({body:
-          {
-            email: this.userForm.get('email')!.value,
-            password: this.userForm.get('password')!.value,
-            token: -1,
-            id: -1
-          }}).subscribe({
-          next: (response) => {
-          },
-          error: (e) => {
-            this._toastController.create({
-              message: e.error,
-              duration: 1500,
-              position: 'bottom',
-            }).then(
-              (toast) => {
-                toast.present()
-              }
-            );
-            console.error(e)
-            loading.dismiss()
-          },
-          complete: () => {
-            loading.dismiss();
-            // NAVIGATE TO THE APP
-            this._router.navigate(['/tabs/recipes']);
-          }
-        });
+        // NAVIGATE TO THE APP
+        if(redirect){
+          this._router.navigate(['/tabs/recipes']);
+        }else{
+          this.current_step = this.CATEGORIES_STEP;
+        }
       }
     });
   }

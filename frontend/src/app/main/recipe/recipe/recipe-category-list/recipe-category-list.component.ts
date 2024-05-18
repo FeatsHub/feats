@@ -10,6 +10,7 @@ import { RecipeCategoryService, RecipeService } from 'src/api/services';
 export class RecipeCategoryList implements OnInit {
 
   categories: RecipeCategory[] = []
+  @Input() categoryLimit: number = 3
   @Input() selectedCategories: RecipeCategory[] = []
   @Output() selectedCategoriesChange: EventEmitter<RecipeCategory[]> = new EventEmitter<RecipeCategory[]>();
 
@@ -60,7 +61,7 @@ export class RecipeCategoryList implements OnInit {
 
   selectCategory(category: RecipeCategory){
     if (!this.hasCategory(category)){
-      if (this.selectedCategories.length < 3){
+      if (this.selectedCategories.length < this.categoryLimit){
         this.selectedCategories.push(category)
         //
         this.showNoMoreCategoryText = false;

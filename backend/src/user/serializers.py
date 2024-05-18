@@ -142,5 +142,6 @@ class UserPreferencesSerializer(DynamicModelSerializer):
         fields = (
             'id',
             'use_dark_mode',
-            'allergens'
+            'allergens',
+            'favorite_categories',
         )

@@ -16,6 +16,8 @@ import { StepCheckUsernameComponent } from './main/user/register/components/step
 import { SettingsPage } from './main/settings/settings.page';
 import { TabsComponent } from './components/app-tabs/tabs.component';
 import { AllergensListModule } from './components/allergen-list/allergen-list.module';
+import { StepFavoriteCategoriesComponent } from './main/user/register/components/step-favorite-categories/step-favorite-categories.component';
+import { RecipeCategoryListModule } from './main/recipe/recipe/recipe-category-list/recipe-category-list.module';
 
 
 @NgModule({
@@ -26,6 +28,7 @@ import { AllergensListModule } from './components/allergen-list/allergen-list.mo
     SettingsPage,
     StepCheckEmailComponent,
     StepCheckUsernameComponent,
+    StepFavoriteCategoriesComponent,
     TabsComponent,
   ],
   imports: [
@@ -36,6 +39,7 @@ import { AllergensListModule } from './components/allergen-list/allergen-list.mo
     AppRoutingModule,
     HttpClientModule,
     AllergensListModule,
+    RecipeCategoryListModule,
     ApiModule.forRoot({ rootUrl: 'http://localhost:8000' }),
     //ApiModule.forRoot({ rootUrl: 'https://api.feats-app.com' })
   ],

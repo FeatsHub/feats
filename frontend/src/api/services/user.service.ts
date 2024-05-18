@@ -59,6 +59,12 @@ import { UserPartialUpdate$XWwwFormUrlencoded$Params } from '../fn/user/user-par
 import { userPermissionsRetrieve } from '../fn/user/user-permissions-retrieve';
 import { UserPermissionsRetrieve$Params } from '../fn/user/user-permissions-retrieve';
 import { UserPreferences } from '../models/user-preferences';
+import { userPreferencesPartialUpdate$FormData } from '../fn/user/user-preferences-partial-update-form-data';
+import { UserPreferencesPartialUpdate$FormData$Params } from '../fn/user/user-preferences-partial-update-form-data';
+import { userPreferencesPartialUpdate$Json } from '../fn/user/user-preferences-partial-update-json';
+import { UserPreferencesPartialUpdate$Json$Params } from '../fn/user/user-preferences-partial-update-json';
+import { userPreferencesPartialUpdate$XWwwFormUrlencoded } from '../fn/user/user-preferences-partial-update-x-www-form-urlencoded';
+import { UserPreferencesPartialUpdate$XWwwFormUrlencoded$Params } from '../fn/user/user-preferences-partial-update-x-www-form-urlencoded';
 import { userPreferencesRetrieve } from '../fn/user/user-preferences-retrieve';
 import { UserPreferencesRetrieve$Params } from '../fn/user/user-preferences-retrieve';
 import { userResetConfirmPasswordCreate$FormData } from '../fn/user/user-reset-confirm-password-create-form-data';
@@ -391,6 +397,75 @@ export class UserService extends BaseService {
    */
   userPreferencesRetrieve(params: UserPreferencesRetrieve$Params, context?: HttpContext): Observable<UserPreferences> {
     return this.userPreferencesRetrieve$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserPreferences>): UserPreferences => r.body)
+    );
+  }
+
+  /** Path part for operation `userPreferencesPartialUpdate()` */
+  static readonly UserPreferencesPartialUpdatePath = '/api/user/{id}/preferences/';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `userPreferencesPartialUpdate$Json()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  userPreferencesPartialUpdate$Json$Response(params: UserPreferencesPartialUpdate$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<UserPreferences>> {
+    return userPreferencesPartialUpdate$Json(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `userPreferencesPartialUpdate$Json$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  userPreferencesPartialUpdate$Json(params: UserPreferencesPartialUpdate$Json$Params, context?: HttpContext): Observable<UserPreferences> {
+    return this.userPreferencesPartialUpdate$Json$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserPreferences>): UserPreferences => r.body)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `userPreferencesPartialUpdate$XWwwFormUrlencoded()` instead.
+   *
+   * This method sends `application/x-www-form-urlencoded` and handles request body of type `application/x-www-form-urlencoded`.
+   */
+  userPreferencesPartialUpdate$XWwwFormUrlencoded$Response(params: UserPreferencesPartialUpdate$XWwwFormUrlencoded$Params, context?: HttpContext): Observable<StrictHttpResponse<UserPreferences>> {
+    return userPreferencesPartialUpdate$XWwwFormUrlencoded(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `userPreferencesPartialUpdate$XWwwFormUrlencoded$Response()` instead.
+   *
+   * This method sends `application/x-www-form-urlencoded` and handles request body of type `application/x-www-form-urlencoded`.
+   */
+  userPreferencesPartialUpdate$XWwwFormUrlencoded(params: UserPreferencesPartialUpdate$XWwwFormUrlencoded$Params, context?: HttpContext): Observable<UserPreferences> {
+    return this.userPreferencesPartialUpdate$XWwwFormUrlencoded$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserPreferences>): UserPreferences => r.body)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `userPreferencesPartialUpdate$FormData()` instead.
+   *
+   * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
+   */
+  userPreferencesPartialUpdate$FormData$Response(params: UserPreferencesPartialUpdate$FormData$Params, context?: HttpContext): Observable<StrictHttpResponse<UserPreferences>> {
+    return userPreferencesPartialUpdate$FormData(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `userPreferencesPartialUpdate$FormData$Response()` instead.
+   *
+   * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
+   */
+  userPreferencesPartialUpdate$FormData(params: UserPreferencesPartialUpdate$FormData$Params, context?: HttpContext): Observable<UserPreferences> {
+    return this.userPreferencesPartialUpdate$FormData$Response(params, context).pipe(
       map((r: StrictHttpResponse<UserPreferences>): UserPreferences => r.body)
     );
   }

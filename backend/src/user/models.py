@@ -169,3 +169,8 @@ class UserPreferences(models.Model):
         to='recipe.FoodAllergen',
         blank=True
     )
+
+    favorite_categories = models.ManyToManyField(
+        to='recipe.RecipeCategory',
+        blank=True
+    )

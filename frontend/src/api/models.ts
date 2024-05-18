@@ -25,6 +25,7 @@ export { PatchedRecipeCategory } from './models/patched-recipe-category';
 export { PatchedRecipeIngredient } from './models/patched-recipe-ingredient';
 export { PatchedRecipeList } from './models/patched-recipe-list';
 export { PatchedUser } from './models/patched-user';
+export { PatchedUserPreferences } from './models/patched-user-preferences';
 export { Permission } from './models/permission';
 export { Recipe } from './models/recipe';
 export { RecipeCategory } from './models/recipe-category';
