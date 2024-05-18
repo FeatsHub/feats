@@ -22,8 +22,8 @@
     <div class="categories">
       <ion-chip 
         *ngFor="let category of recipeCategories"
-        (click)="getRecipes([category.id])"
-        [outline]="selectedCategory != category.id">
+        (click)="selectCategory(category.id)"
+        [outline]="!selectedCategory.includes(category.id)">
         {{category.name}}
       </ion-chip>
       <!-- Skeleton Categories chip -->

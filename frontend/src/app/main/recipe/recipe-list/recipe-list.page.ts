@@ -9,22 +9,33 @@ import { RecipeCategoryService, RecipeService } from 'src/api/services';
 })
 export class RecipeListPage implements OnInit {
 
-  recipeCategories: RecipeCategory[] = []
-  recipes: Recipe[] = []
-  selectedCategory: number | undefined = undefined
-  search: string | undefined = undefined
-  loaded = false
-  categoriesLoaded = false
   userId = Number(localStorage.getItem('userId'))
-  searchedText: string | undefined = undefined
+
+  recipeCategories: RecipeCategory[] = []
+  categoriesLoaded = false
+
+  recipes: Recipe[] = []
+  loaded = false
+
+  selectedCategory: number[] = []
+  searchedText: string | undefined
+
   limit = 5
-  selectedAllergens = [1, 3, 4]
   showSearch = false
 
   constructor(
     private _recipeCategoryService: RecipeCategoryService,
     private _recipeService: RecipeService
   ) {}
+
+  async ngOnInit(){
+    // Set focus on searchbar when modal searcg present
+    const modal = document.querySelector('ion-modal')!;
+    modal.addEventListener('didPresent', () => {
+      const search = modal.querySelector('ion-searchbar')!;
+      search.setFocus();
+    });
+  }
 
   async ionViewWillEnter() {
     // 🚩 Obtaining recipeCategory list
@@ -42,79 +53,26 @@ export class RecipeListPage implements OnInit {
     this.getRecipes();
   }
 
-  async ngOnInit(){
-    // Set focus on searchbar
-    const modal = document.querySelector('ion-modal')!;
-    modal.addEventListener('didPresent', () => {
-      const search = modal.querySelector('ion-searchbar')!;
-      search.setFocus();
-    });
-  }
-
-  async getRecipes(
-    selectedCategory: number[] | undefined = undefined,
-    search: string | undefined = undefined
-    ){
-    if (selectedCategory == this.selectedCategory){
-      selectedCategory = undefined;
-      this.selectedCategory = undefined;
-    }
-
+  async getRecipes(){
     this._recipeService.recipeList(
       {
         expand: '~all,creator.~all',
-        category: selectedCategory,
-        search: search,
+        category: this.selectedCategory,
+        search: this.searchedText,
         offset: this.recipes.length,
         limit: this.limit
       }
-    ).subscribe({
-      next: (recipes) => {
-        if (selectedCategory || search){
-          this.recipes = recipes.results!
-        }else{
+    ).subscribe(
+      {
+        next: (recipes) => {
           this.recipes =  [...this.recipes, ...recipes.results!]
+        },
+        error: (e) => console.error(e),
+        complete: () => {
+          this.loaded = true;
         }
-      },
-      error: (e) => console.error(e),
-      complete: () => {
-        this.loaded = true;
       }
-    });
-
-    // Selection category
-    if (selectedCategory != undefined){
-      if (selectedCategory![0] == this.selectedCategory){
-        this.selectedCategory = undefined;
-      }else{
-        this.selectedCategory = selectedCategory![0];
-      }
-    }
-
-  }
-
-  handleSearch(event: any){
-    this.searchedText = event.target.value.toLowerCase();
-    if (this.selectedCategory == undefined){
-      this.getRecipes(undefined, this.searchedText);
-    }else{
-      this.getRecipes([this.selectedCategory], this.searchedText);
-    }
-  }
-
-  saveRecipe(recipeId: number){
-    this._recipeService.recipeSaveCreate$Json$Response({id: recipeId, expand: '~all'}).subscribe({
-      next: (response) => {
-        //Update selected recipe saved_by list
-        const updated_recipe = response.body
-        this.recipes = this.recipes.map((recipe) =>
-          recipe.id === recipeId ? { ...recipe, saved_by: updated_recipe.saved_by } : recipe
-        ) as Recipe[];
-      },
-      error: (e) => console.error(e),
-      complete: () => {
-      }
-    });
+    );
   }
 
   refresh(e: any){
@@ -132,6 +90,11 @@ export class RecipeListPage implements OnInit {
     this.getRecipes();
   }
 
+  // 🔎 SEARCH
+  handleSearch(event: any){
+    this.searchedText = event.target.value.toLowerCase();
+  }
+
   searchFocus(){
     this.showSearch = true
   }
@@ -143,6 +106,21 @@ export class RecipeListPage implements OnInit {
   forceCloseSearch(){
     this.showSearch = false
     document.getElementById('search-modal')?.remove()
+  }
+
+  // ✨ CATEGORIES
+  selectCategory(categoryId: number){
+    // If element exists remove it from list, else add it
+    if (this.selectedCategory.includes(categoryId)){
+      const position = this.selectedCategory.indexOf(categoryId);
+      this.selectedCategory.splice(position, 1);
+    }else{
+      this.selectedCategory.push(categoryId);
+    }
+
+    // Get filtered recipes
+    this.recipes = [];
+    this.getRecipes();
   }
 
 }
