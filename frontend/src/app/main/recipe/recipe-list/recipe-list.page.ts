@@ -70,7 +70,9 @@ export class RecipeListPage implements OnInit {
       }
     ).subscribe({
       next: (recipes) => {
-        if (recipes.results != undefined){
+        if (selectedCategory || search){
+          this.recipes = recipes.results!
+        }else{
           this.recipes =  [...this.recipes, ...recipes.results!]
         }
       },
