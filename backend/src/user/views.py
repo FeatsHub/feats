@@ -258,16 +258,19 @@ class UserView(ModelViewSet):
                 return Response(status=403)
 
         if self.request.method == 'PATCH':
-            kwargs['partial'] = True
-            partial = kwargs.pop('partial', False)
-            instance = self.get_object().preferences
-            serializer = user_serializers.UserPreferencesSerializer(instance, data=request.data, partial=partial)
-            serializer.is_valid(raise_exception=True)
-            self.perform_update(serializer)
+            if request.user == self.get_object():
+                kwargs['partial'] = True
+                partial = kwargs.pop('partial', False)
+                instance = self.get_object().preferences
+                serializer = user_serializers.UserPreferencesSerializer(instance, data=request.data, partial=partial)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
 
-            if getattr(instance, '_prefetched_objects_cache', None):
-                # If 'prefetch_related' has been applied to a queryset, we need to
-                # forcibly invalidate the prefetch cache on the instance.
-                instance._prefetched_objects_cache = {}
+                if getattr(instance, '_prefetched_objects_cache', None):
+                    # If 'prefetch_related' has been applied to a queryset, we need to
+                    # forcibly invalidate the prefetch cache on the instance.
+                    instance._prefetched_objects_cache = {}
 
-            return Response(serializer.data)
+                return Response(serializer.data)
+            else:
+                return Response(status=403)

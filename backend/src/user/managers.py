@@ -22,7 +22,7 @@ class UserManager(BaseUserManager):
         })
 
         # Create user settings
-        user.settings = UserPreferences.objects.create()
+        user.preferences = UserPreferences.objects.create()
         user.save()
 
         return user
