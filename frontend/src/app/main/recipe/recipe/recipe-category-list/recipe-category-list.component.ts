@@ -29,7 +29,8 @@ export class RecipeCategoryList implements OnInit {
   getCategories(searchedText: string | undefined = undefined){
     this._recipeCategoryService.recipeCategoryList(
       {
-        search: searchedText
+        search: searchedText,
+        limit: 50
       }
     ).subscribe({
       next: (recipeCategories) => {

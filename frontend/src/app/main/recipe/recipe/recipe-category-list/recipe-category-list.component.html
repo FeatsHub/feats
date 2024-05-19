@@ -1,10 +1,11 @@
-<div style="margin: 20px">
-  <div style="text-align: center; color: gray;margin-bottom: 10px;">
+<div class="category-container">
+  <div style="text-align: center; color: gray;margin-bottom: 10px;margin-top: 20px;">
     <ion-label
       *ngIf="showNoMoreCategoryText"
     >Solo puedes seleccionar {{ categoryLimit }} categorias</ion-label>
   </div>
-  <ion-chip 
+  <ion-chip
+    class="category-chip"
     *ngFor="let category of categories"
     [outline]="true"
     (click)="selectCategory(category)" 
