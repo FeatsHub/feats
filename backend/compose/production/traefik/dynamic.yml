@@ -10,6 +10,14 @@ http:
       middlewares:
         - corsHeader
 
+    media-router:
+      rule: "Host(`api.feats-app.com`) && PathPrefix(`/media`)"
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+      service: media-service
+
     dashboard-router:
       rule: Host(`dashboard.feats-app.com`)
       entryPoints:

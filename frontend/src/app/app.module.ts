@@ -40,8 +40,8 @@ import { RecipeCategoryListModule } from './main/recipe/recipe/recipe-category-l
     HttpClientModule,
     AllergensListModule,
     RecipeCategoryListModule,
-    ApiModule.forRoot({ rootUrl: 'http://localhost:8000' }),
-    //ApiModule.forRoot({ rootUrl: 'https://api.feats-app.com' })
+    //ApiModule.forRoot({ rootUrl: 'http://localhost:8000' }),
+    ApiModule.forRoot({ rootUrl: 'https://api.feats-app.com' })
   ],
   providers: [
     Router,
